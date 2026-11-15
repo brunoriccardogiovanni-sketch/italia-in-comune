@@ -1,0 +1,28 @@
+[
+  {
+    "comune": "Recco", "prov": "GE",
+    "titolo": "La focaccia che si può fare solo qui",
+    "fonte_breve": "Fonte: Commissione UE, Consorzio",
+    "slide": [
+      {"testo": "La Focaccia di Recco col formaggio non è la focaccia alta coi buchi: è una sfoglia sottilissima, senza lievito, ripiena di formaggio fresco."},
+      {"numero": "IGP", "testo": "Dal 2015 è Indicazione geografica protetta dall'Unione europea."},
+      {"testo": "Il disciplinare è severissimo: per chiamarsi così deve essere prodotta nel territorio di Recco. Altrove è solo «focaccia al formaggio»."},
+      {"testo": "Ogni anno, a maggio, la Festa della Focaccia distribuisce gratis migliaia di porzioni preparate dai forni del paese."}
+    ],
+    "fonti": ["Commissione europea, registro IGP", "Consorzio Focaccia di Recco col formaggio", "Gambero Rosso"],
+    "didascalia": "Recco (GE) e la sua focaccia col formaggio 🧀 Dal 2015 è IGP: per chiamarsi così deve nascere a Recco."
+  },
+  {
+    "comune": "Teglio", "prov": "SO",
+    "titolo": "Il paese che custodisce i pizzoccheri",
+    "fonte_breve": "Fonte: Accademia del Pizzocchero",
+    "slide": [
+      {"testo": "I pizzoccheri sono tagliatelle di grano saraceno, condite con burro, formaggio Valtellina Casera, patate e verze."},
+      {"numero": "2002", "testo": "A Teglio nasce l'Accademia del Pizzocchero, che custodisce e certifica la ricetta originale."},
+      {"testo": "Il grano saraceno, quasi scomparso altrove, in Valtellina è rimasto proprio per fare i pizzoccheri. Teglio ha ancora un mulino che lo macina."},
+      {"testo": "Ogni anno il paese li festeggia due volte: con la Sagra dei Pizzoccheri d'estate e il «Pizzocchero d'oro» a settembre."}
+    ],
+    "fonti": ["Accademia del Pizzocchero di Teglio", "In Lombardia", "Si Viaggia"],
+    "didascalia": "Teglio (SO), la casa dei pizzoccheri 🧈 Qui un'Accademia custodisce la ricetta originale dal 2002."
+  }
+]
