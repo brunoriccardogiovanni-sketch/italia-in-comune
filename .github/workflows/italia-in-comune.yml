@@ -10,7 +10,7 @@ on:
       azione:
         description: Cosa fare
         type: choice
-        options: [verifica, anteprima, calendario, lancio, intro, carosello, reel, commenti]
+        options: [verifica, anteprima, calendario, lancio, intro, extra, carosello, reel, commenti]
         default: verifica
 
 permissions:
