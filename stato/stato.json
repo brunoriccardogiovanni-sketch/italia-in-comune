@@ -15,6 +15,14 @@
    "formato": "reel_sfida",
    "param": "area:069035-058034",
    "media_id": "18015913787764619"
+  },
+  {
+   "giorno": 2,
+   "slot": "carosello",
+   "data": "2026-11-15",
+   "formato": "carosello_provincia",
+   "param": "TO",
+   "media_id": "18072240815788648"
   }
  ],
  "commenti_gestiti": [],
