@@ -7,6 +7,14 @@
    "formato": "carosello_storia",
    "param": "Morterone",
    "media_id": "18089154584311503"
+  },
+  {
+   "giorno": 1,
+   "slot": "reel",
+   "data": "2026-11-15",
+   "formato": "reel_sfida",
+   "param": "area:069035-058034",
+   "media_id": "18015913787764619"
   }
  ],
  "commenti_gestiti": [],
