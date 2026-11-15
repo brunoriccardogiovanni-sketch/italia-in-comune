@@ -7,7 +7,7 @@ from PIL import Image, ImageDraw
 from .base import *
 from .base import extra, reg_geom, prov_geom, draw_area
 from .city import city
-from . import foto
+from . import foto, musica
 
 W, H = 1080, 1350            # post 4:5
 VW, VH, FPS = 1080, 1920, 30  # reel 9:16
@@ -37,16 +37,21 @@ def footer(img, T, n=None, tot=None, fonte="Fonte: ISTAT, openpolis"):
     if n: txt(img, (img.width - 60, 60), f"{n}/{tot}", font("b", 28), T["muted"], "ra", "pagina")
 def save(img, out, name):
     verifica(name); p = os.path.join(out, name + ".png"); img.convert("RGB").save(p); return p
-def encode(path, frames):
+def encode(path, frames, umore="pop"):
+    """Codifica i fotogrammi (controllando le sovrapposizioni di ognuno) e aggiunge una musica originale."""
+    muto, wav = path + ".muto.mp4", path + ".wav"
     p = subprocess.Popen(["ffmpeg", "-y", "-loglevel", "error", "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", f"{VW}x{VH}", "-r", str(FPS), "-i", "-",
-                          "-f", "lavfi", "-i", "anullsrc=r=44100:cl=stereo", "-shortest",
-                          "-c:v", "libx264", "-preset", "veryfast", "-crf", "20", "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "96k",
-                          "-movflags", "+faststart", path], stdin=subprocess.PIPE)
+                          "-c:v", "libx264", "-preset", "veryfast", "-crf", "20", "-pix_fmt", "yuv420p", "-movflags", "+faststart", muto], stdin=subprocess.PIPE)
+    n = 0
     try:
         for i, f in enumerate(frames):
-            verifica(f"{os.path.basename(os.path.dirname(path))} fotogramma {i}"); p.stdin.write(f.convert("RGB").tobytes())
+            verifica(f"{os.path.basename(os.path.dirname(path))} fotogramma {i}"); p.stdin.write(f.convert("RGB").tobytes()); n += 1
     finally:
         p.stdin.close(); p.wait()
+    musica.genera(n / FPS, path, umore, wav)
+    subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", muto, "-i", wav, "-map", "0:v", "-map", "1:a", "-c:v", "copy",
+                    "-c:a", "aac", "-b:a", "128k", "-shortest", "-movflags", "+faststart", path], check=True)
+    os.remove(muto); os.remove(wav)
     return path
 def vhandle(img, T): pill(img, HANDLE, (60, 150), font("b", 32), T["ink"], T["bg"], tag="firma")
 def label(c): return f"{c['prov']} · {c['reg'].split('/')[0]}"
@@ -174,7 +179,7 @@ def reel_countdown(metrica, out):
             if t > .3: pill(img, "Scrivilo nei commenti", (70, y + 60), font("k", 52), T["acc"], T["acc2"])
             if t > .6: txt(img, (70, y + 190), "ti mandiamo la sua scheda in DM", font("b", 40), T["ink"])
             yield img
-    path = encode(os.path.join(out, "reel.mp4"), frames())
+    path = encode(os.path.join(out, "reel.mp4"), frames(), "tensione")
     n1 = order[-1]
     cap = (f"{attacco(metrica, list(reversed(order)))}\n\nDal decimo al primo posto: il numero 1 arriva alla fine.\n\n"
            f"Mandatelo a chi pensa di sapere tutto dell'Italia. E il vostro comune? Scrivetelo nei commenti.\n{SEGUI}\n\n{M['fonte']}\n\n{hashtags('#classifiche')}")
@@ -227,7 +232,7 @@ def reel_mappa(chiave, out):
             reg((mx, my, mx + full.width, my + full.height), "mappa")
             txt(img, (VW - 70, my + full.height + 40), M["fonte"], font("m", 28), T["muted"], "ra", "fonte")
             yield img
-    path = encode(os.path.join(out, "reel.mp4"), frames())
+    path = encode(os.path.join(out, "reel.mp4"), frames(), "pop")
     tot = len(comuni); ogni = max(2, round(tot / max(1, len(sel))))
     cap = (f"{fmt(len(sel))} {M['testo']}: più o meno uno ogni {ogni} in tutta Italia.\n\nGuardate la mappa fino alla fine, si accende da nord a sud. "
            f"{M['cta']} Scrivetelo nei commenti.\n{SEGUI}\n\n{M['fonte']}\n\n{hashtags('#mappe')}")
@@ -276,7 +281,7 @@ def reel_comune(c, out):
                 rise = ease(t / .9); box = Image.new("RGBA", (1080, ci_h), (0, 0, 0, 0))
                 box.paste(ci, (0, int(ci_h * (1 - rise))), ci); paste(img, box, (0, ci_top), "città")
             yield img
-    path = encode(os.path.join(out, "reel.mp4"), frames())
+    path = encode(os.path.join(out, "reel.mp4"), frames(), random.Random(c["nome"]).choice(["pop", "chill"]))
     v = dict((k, x) for x, k in rows)
     cap = (f"Oggi tocca a {nome(c)}, in provincia di {c['prov_nome']} ({c['reg'].split('/')[0]}).\n\n"
            f"{rows[1][0]} di territorio e {rows[0][0]} abitanti al censimento 2011. Per estensione è {rows[3][0]} della sua regione.\n\n"
@@ -319,7 +324,7 @@ def reel_sfida(a, b, out, tipo="area"):
             if 2.2 < t < 5.2: txt(img, (VW // 2, 1560), str(3 - int(t - 2.2)), font("k", 130), T["acc"], "ma")
             elif t <= 2.2: txt(img, (VW // 2, 1580), "Rispondi nei commenti prima del via!", font("b", 32), T["ink"], "ma")
             yield img
-    path = encode(os.path.join(out, "reel.mp4"), frames())
+    path = encode(os.path.join(out, "reel.mp4"), frames(), "tensione")
     q = "è più grande" if tipo == "area" else "sta più a nord"
     cap = (f"Senza cercare su Google: {q} {nome(a)} o {nome(b)}?\n\nScrivete la risposta nei commenti, poi guardate fino alla fine: la soluzione arriva dopo il conto alla rovescia. "
            f"Mandatelo a un amico e vedete se ci prende.\n{SEGUI}\n\n{S['fonte']}\n\n{hashtags('#quiz', tag(a['nome']), tag(b['nome']))}")
@@ -404,7 +409,7 @@ def reel_regioni(item, out):
                     f2 = fine.copy(); f2.thumbnail((VW - 140, VH - 220 - top)); place(img, f2, VW // 2, top, VW - 140, VH - 220 - top)
                 txt(img, (VW - 70, VH - 160), item["fonte_finale"], font("m", 26), T["muted"], "ra", "fonte")
             yield img
-    path = encode(os.path.join(out, "reel.mp4"), frames())
+    path = encode(os.path.join(out, "reel.mp4"), frames(), "tensione")
     cap = f"{item['didascalia_reel']}\n\nFonti: {'; '.join(item.get('fonti', []))}\n\n{hashtags(*item.get('hashtag', []))}"
     return dict(tipo="reel", file=[path], didascalia=cap)
 
@@ -567,7 +572,7 @@ def reel_derby(dz, out):
                 pill(img, "Vota nei commenti: scrivi 1 o 2", (70, top + 940), fit_font(img, "Vota nei commenti: scrivi 1 o 2", "k", VW - 200, 1, 44), T["ink"], T["bg"])
                 text_block(img, "Aggiungi il tuo comune: faremo la mappa dei voti!", (70, top + 1040), font("b", 34), T["ink"], VW - 140)
             yield img
-    path = encode(os.path.join(out, "reel.mp4"), frames())
+    path = encode(os.path.join(out, "reel.mp4"), frames(), "pop")
     cap = (f"{dz['domanda']}\n\nScrivete 1 per {dz['a']} o 2 per {dz['b']}. Se aggiungete il vostro comune, nei risultati facciamo la mappa d'Italia dei voti, regione per regione.\n\n"
            f"Un voto a testa, risultati tra tre giorni. Che vinca il migliore (cioè il vostro).\n\n{hashtags('#cucinaitaliana', tag(dz['a']), tag(dz['b']))}")
     return dict(tipo="reel", file=[path], didascalia=cap)
