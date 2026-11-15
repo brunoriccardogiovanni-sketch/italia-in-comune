@@ -1,0 +1,111 @@
+[
+  {
+    "comune": "Morterone",
+    "prov": "LC",
+    "titolo": "Il comune con meno abitanti d'Italia",
+    "fonte_breve": "Fonte: ISTAT 2025, Geopop",
+    "slide": [
+      {
+        "numero": "31",
+        "testo": "abitanti. Tanti ne contava Morterone al 1° gennaio 2025: è il comune meno popoloso d'Italia."
+      },
+      {
+        "testo": "Si trova in provincia di Lecco, in Valsassina, alle pendici del Monte Resegone, a oltre mille metri di quota."
+      },
+      {
+        "testo": "Ci si arriva soprattutto in auto o a piedi, lungo i sentieri amati dagli escursionisti."
+      },
+      {
+        "testo": "Eppure ha un sindaco, un consiglio comunale e le sue elezioni. E guai a parlare di accorpamenti: «Morterone esiste e resiste»."
+      }
+    ],
+    "fonti": [
+      "ISTAT, popolazione residente al 1/1/2025",
+      "Geopop",
+      "Il Giorno"
+    ],
+    "didascalia": "31 abitanti: Morterone (LC) è il comune meno popoloso d'Italia 🏔️ Si trova in Valsassina, sotto il Resegone, e ha comunque sindaco, consiglio comunale ed elezioni."
+  },
+  {
+    "comune": "Campione d'Italia",
+    "prov": "CO",
+    "titolo": "Il comune italiano che sta in Svizzera",
+    "fonte_breve": "Fonte: Geopop, Idealista, Swissinfo",
+    "slide": [
+      {
+        "testo": "Campione d'Italia è in provincia di Como, ma è completamente circondato dal territorio svizzero, sulla riva del Lago di Lugano."
+      },
+      {
+        "testo": "È l'unica enclave italiana: un pezzo d'Italia chiuso dentro un altro Stato."
+      },
+      {
+        "testo": "In paese circolano sia l'euro sia il franco svizzero, e molti servizi (dai rifiuti alle telecomunicazioni) arrivano dalla Svizzera."
+      },
+      {
+        "numero": "2020",
+        "testo": "Dal 1° gennaio 2020 Campione è entrato nel territorio doganale dell'Unione europea."
+      }
+    ],
+    "fonti": [
+      "Geopop",
+      "Idealista",
+      "Swissinfo",
+      "Posta Svizzera"
+    ],
+    "didascalia": "Un comune italiano completamente circondato dalla Svizzera 🇮🇹🇨🇭 Campione d'Italia (CO) è l'unica enclave italiana: qui si paga in euro e in franchi."
+  },
+  {
+    "comune": "Craco",
+    "prov": "MT",
+    "titolo": "Il paese fantasma più famoso d'Italia",
+    "fonte_breve": "Fonte: Il Post, italia.it",
+    "slide": [
+      {
+        "numero": "1963",
+        "testo": "Una frana costringe gli abitanti del centro storico di Craco, in Basilicata, a lasciare le loro case."
+      },
+      {
+        "testo": "Lo spopolamento dura anni. Nel 1980, dopo il terremoto dell'Irpinia, arrivano le ultime ordinanze di sgombero."
+      },
+      {
+        "testo": "Il paese si sposta a valle, nella frazione di Craco Peschiera. Il borgo antico resta intatto e silenzioso sulla collina."
+      },
+      {
+        "testo": "Oggi è un set amatissimo dal cinema: qui sono state girate scene di «Cristo si è fermato a Eboli» e «La Passione di Cristo»."
+      }
+    ],
+    "fonti": [
+      "Il Post",
+      "italia.it",
+      "Museo Emozionale di Craco"
+    ],
+    "didascalia": "Craco (MT), il paese fantasma più famoso d'Italia 👻 Una frana nel 1963, poi lo spopolamento, poi il cinema: qui hanno girato anche «La Passione di Cristo»."
+  },
+  {
+    "comune": "Bagnoregio",
+    "prov": "VT",
+    "titolo": "La città che muore",
+    "fonte_breve": "Fonte: Il Post, Idealista",
+    "slide": [
+      {
+        "testo": "Civita è una frazione di Bagnoregio, nel Viterbese, arroccata su una rupe di tufo che l'erosione consuma da secoli."
+      },
+      {
+        "testo": "Per questo lo scrittore Bonaventura Tecchi, che era nato lì, la chiamò «la città che muore»."
+      },
+      {
+        "numero": "13",
+        "testo": "abitanti circa. Ma ogni giorno arrivano migliaia di visitatori, solo a piedi, lungo un ponte pedonale."
+      },
+      {
+        "testo": "Per entrare si paga un biglietto: un modo per gestire un afflusso enorme in un borgo così piccolo e fragile."
+      }
+    ],
+    "fonti": [
+      "Il Post (2024)",
+      "Idealista",
+      "FAI"
+    ],
+    "didascalia": "Civita di Bagnoregio (VT), «la città che muore» 🌉 Una rupe che si sgretola, poco più di dieci abitanti e migliaia di turisti ogni giorno."
+  }
+]

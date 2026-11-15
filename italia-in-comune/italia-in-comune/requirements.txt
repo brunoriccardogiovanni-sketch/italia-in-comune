@@ -1,0 +1,6 @@
+numpy
+matplotlib
+shapely>=2
+pyproj
+pillow
+requests
