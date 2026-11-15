@@ -45,6 +45,8 @@ jobs:
         run: |
           git config user.name "italia-in-comune-bot"
           git config user.email "italia-in-comune-bot@users.noreply.github.com"
+          mkdir -p media
+          touch media/.gitkeep
           AZIONE="${{ github.event.inputs.azione }}"
           if [ -z "$AZIONE" ]; then
             if [ "${{ github.event.schedule }}" = "23 17 * * *" ]; then AZIONE=pubblica; else AZIONE=commenti; fi
