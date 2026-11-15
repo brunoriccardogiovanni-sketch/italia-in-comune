@@ -2,14 +2,15 @@ name: Italia in comune
 
 on:
   schedule:
-    - cron: '23 17 * * *'   # pubblicazione: ogni giorno alle 18:23 ora italiana (19:23 con l'ora legale)
-    - cron: '7,37 * * * *'  # risposte ai commenti: ogni mezz'ora
+    - cron: '23 11 * * *'   # carosello: ogni giorno alle 12:23 ora italiana (13:23 con l'ora legale)
+    - cron: '23 17 * * *'   # reel: ogni giorno alle 18:23 ora italiana (19:23 con l'ora legale)
+    - cron: '7,37 * * * *'  # commenti e voti: ogni mezz'ora
   workflow_dispatch:
     inputs:
       azione:
         description: Cosa fare
         type: choice
-        options: [verifica, anteprima, lancio, pubblica, commenti]
+        options: [verifica, anteprima, calendario, lancio, intro, carosello, reel, commenti]
         default: verifica
 
 permissions:
@@ -22,7 +23,7 @@ concurrency:
 jobs:
   esegui:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -31,7 +32,7 @@ jobs:
       - uses: actions/cache@v4
         with:
           path: .cache
-          key: dati-v1
+          key: dati-v2
       - name: Installa strumenti
         run: |
           sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
@@ -45,13 +46,19 @@ jobs:
         run: |
           git config user.name "italia-in-comune-bot"
           git config user.email "italia-in-comune-bot@users.noreply.github.com"
-          mkdir -p media
-          touch media/.gitkeep
+          mkdir -p media && touch media/.gitkeep
           AZIONE="${{ github.event.inputs.azione }}"
           if [ -z "$AZIONE" ]; then
-            if [ "${{ github.event.schedule }}" = "23 17 * * *" ]; then AZIONE=pubblica; else AZIONE=commenti; fi
+            case "${{ github.event.schedule }}" in
+              "23 11 * * *") AZIONE=carosello ;;
+              "23 17 * * *") AZIONE=reel ;;
+              *) AZIONE=commenti ;;
+            esac
           fi
-          python -m bot.main "$AZIONE"
+          case "$AZIONE" in
+            carosello|reel) python -m bot.main pubblica "$AZIONE" ;;
+            *) python -m bot.main "$AZIONE" ;;
+          esac
       - name: Salva l'anteprima
         if: github.event.inputs.azione == 'anteprima'
         uses: actions/upload-artifact@v4
