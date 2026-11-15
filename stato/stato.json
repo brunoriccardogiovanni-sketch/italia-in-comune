@@ -31,6 +31,14 @@
    "formato": "reel_mappa",
    "param": "sotto1000",
    "media_id": "17934983367410143"
+  },
+  {
+   "giorno": 3,
+   "slot": "carosello",
+   "data": "2026-11-15",
+   "formato": "carosello_cibo",
+   "param": "Recco",
+   "media_id": "18109306904271112"
   }
  ],
  "commenti_gestiti": [],
