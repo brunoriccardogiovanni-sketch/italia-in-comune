@@ -39,6 +39,14 @@
    "formato": "carosello_cibo",
    "param": "Recco",
    "media_id": "18109306904271112"
+  },
+  {
+   "giorno": 3,
+   "slot": "reel",
+   "data": "2026-11-15",
+   "formato": "reel_derby",
+   "param": "arancina",
+   "media_id": "18123650164939821"
   }
  ],
  "commenti_gestiti": [],
