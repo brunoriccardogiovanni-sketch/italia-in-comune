@@ -16,6 +16,7 @@ class IG:
         r = requests.request(method, f"{self.base}/{path.lstrip('/')}", params=params, **kw)
         try: j = r.json()
         except Exception: j = {"raw": r.text[:300]}
+        if not isinstance(j, dict): j = {"data": j}
         if r.status_code >= 400 or "error" in j:
             err = j.get("error", j); raise APIError(f"{method} {path}: {err.get('message', err)} (code {err.get('code')})")
         return j
@@ -71,8 +72,10 @@ def rileva(token, forced_host=None, forced_id=None):
         def g(path, **p):
             p["access_token"] = token
             r = requests.get(f"{base}/{path}", params=p, timeout=60)
-            try: return r.status_code, r.json()
-            except Exception: return r.status_code, {"raw": r.text[:200]}
+            try: j = r.json()
+            except Exception: j = r.text[:300]
+            if not isinstance(j, dict): j = {"error": {"message": "risposta inattesa: " + str(j)[:300]}}
+            return r.status_code, j
         if forced_id:
             s, j = g(forced_id, fields="id,username")
             log.append(f"{host} /{forced_id}: {s} {j}")
@@ -94,6 +97,7 @@ def rileva(token, forced_host=None, forced_id=None):
                 if s != 200: continue
                 items = j.get("data", [j])
                 for it in items:
+                    if not isinstance(it, dict): continue
                     for key in ("instagram_business_account", "instagram_business_accounts", "owned_instagram_accounts"):
                         v = it.get(key)
                         if isinstance(v, dict) and "data" in v: v = v["data"][0] if v["data"] else None
