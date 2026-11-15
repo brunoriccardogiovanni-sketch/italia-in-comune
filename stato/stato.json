@@ -1,5 +1,14 @@
 {
- "pubblicati": [],
+ "pubblicati": [
+  {
+   "giorno": 1,
+   "slot": "carosello",
+   "data": "2026-11-15",
+   "formato": "carosello_storia",
+   "param": "Morterone",
+   "media_id": "18089154584311503"
+  }
+ ],
  "commenti_gestiti": [],
  "usati": {},
  "host": "graph.facebook.com",
