@@ -1,0 +1,58 @@
+name: Italia in comune
+
+on:
+  schedule:
+    - cron: '23 17 * * *'   # pubblicazione: ogni giorno alle 18:23 ora italiana (19:23 con l'ora legale)
+    - cron: '7,37 * * * *'  # risposte ai commenti: ogni mezz'ora
+  workflow_dispatch:
+    inputs:
+      azione:
+        description: Cosa fare
+        type: choice
+        options: [verifica, anteprima, lancio, pubblica, commenti]
+        default: verifica
+
+permissions:
+  contents: write
+
+concurrency:
+  group: italia-in-comune
+  cancel-in-progress: false
+
+jobs:
+  esegui:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/cache@v4
+        with:
+          path: .cache
+          key: dati-v1
+      - name: Installa strumenti
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+          pip install -q -r requirements.txt
+      - name: Esegui
+        env:
+          IG_TOKEN: ${{ secrets.IG_TOKEN }}
+          IG_USER_ID: ${{ secrets.IG_USER_ID }}
+          GRAPH_HOST: ${{ secrets.GRAPH_HOST }}
+          TZ: Europe/Rome
+        run: |
+          git config user.name "italia-in-comune-bot"
+          git config user.email "italia-in-comune-bot@users.noreply.github.com"
+          AZIONE="${{ github.event.inputs.azione }}"
+          if [ -z "$AZIONE" ]; then
+            if [ "${{ github.event.schedule }}" = "23 17 * * *" ]; then AZIONE=pubblica; else AZIONE=commenti; fi
+          fi
+          python -m bot.main "$AZIONE"
+      - name: Salva l'anteprima
+        if: github.event.inputs.azione == 'anteprima'
+        uses: actions/upload-artifact@v4
+        with:
+          name: anteprima
+          path: anteprima/
