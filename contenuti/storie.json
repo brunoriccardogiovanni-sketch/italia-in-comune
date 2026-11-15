@@ -1,111 +1,327 @@
 [
-  {
-    "comune": "Morterone",
-    "prov": "LC",
-    "titolo": "Il comune con meno abitanti d'Italia",
-    "fonte_breve": "Fonte: ISTAT 2025, Geopop",
-    "slide": [
-      {
-        "numero": "31",
-        "testo": "abitanti. Tanti ne contava Morterone al 1° gennaio 2025: è il comune meno popoloso d'Italia."
-      },
-      {
-        "testo": "Si trova in provincia di Lecco, in Valsassina, alle pendici del Monte Resegone, a oltre mille metri di quota."
-      },
-      {
-        "testo": "Ci si arriva soprattutto in auto o a piedi, lungo i sentieri amati dagli escursionisti."
-      },
-      {
-        "testo": "Eppure ha un sindaco, un consiglio comunale e le sue elezioni. E guai a parlare di accorpamenti: «Morterone esiste e resiste»."
-      }
-    ],
-    "fonti": [
-      "ISTAT, popolazione residente al 1/1/2025",
-      "Geopop",
-      "Il Giorno"
-    ],
-    "didascalia": "31 abitanti: Morterone (LC) è il comune meno popoloso d'Italia 🏔️ Si trova in Valsassina, sotto il Resegone, e ha comunque sindaco, consiglio comunale ed elezioni."
-  },
-  {
-    "comune": "Campione d'Italia",
-    "prov": "CO",
-    "titolo": "Il comune italiano che sta in Svizzera",
-    "fonte_breve": "Fonte: Geopop, Idealista, Swissinfo",
-    "slide": [
-      {
-        "testo": "Campione d'Italia è in provincia di Como, ma è completamente circondato dal territorio svizzero, sulla riva del Lago di Lugano."
-      },
-      {
-        "testo": "È l'unica enclave italiana: un pezzo d'Italia chiuso dentro un altro Stato."
-      },
-      {
-        "testo": "In paese circolano sia l'euro sia il franco svizzero, e molti servizi (dai rifiuti alle telecomunicazioni) arrivano dalla Svizzera."
-      },
-      {
-        "numero": "2020",
-        "testo": "Dal 1° gennaio 2020 Campione è entrato nel territorio doganale dell'Unione europea."
-      }
-    ],
-    "fonti": [
-      "Geopop",
-      "Idealista",
-      "Swissinfo",
-      "Posta Svizzera"
-    ],
-    "didascalia": "Un comune italiano completamente circondato dalla Svizzera 🇮🇹🇨🇭 Campione d'Italia (CO) è l'unica enclave italiana: qui si paga in euro e in franchi."
-  },
-  {
-    "comune": "Craco",
-    "prov": "MT",
-    "titolo": "Il paese fantasma più famoso d'Italia",
-    "fonte_breve": "Fonte: Il Post, italia.it",
-    "slide": [
-      {
-        "numero": "1963",
-        "testo": "Una frana costringe gli abitanti del centro storico di Craco, in Basilicata, a lasciare le loro case."
-      },
-      {
-        "testo": "Lo spopolamento dura anni. Nel 1980, dopo il terremoto dell'Irpinia, arrivano le ultime ordinanze di sgombero."
-      },
-      {
-        "testo": "Il paese si sposta a valle, nella frazione di Craco Peschiera. Il borgo antico resta intatto e silenzioso sulla collina."
-      },
-      {
-        "testo": "Oggi è un set amatissimo dal cinema: qui sono state girate scene di «Cristo si è fermato a Eboli» e «La Passione di Cristo»."
-      }
-    ],
-    "fonti": [
-      "Il Post",
-      "italia.it",
-      "Museo Emozionale di Craco"
-    ],
-    "didascalia": "Craco (MT), il paese fantasma più famoso d'Italia 👻 Una frana nel 1963, poi lo spopolamento, poi il cinema: qui hanno girato anche «La Passione di Cristo»."
-  },
-  {
-    "comune": "Bagnoregio",
-    "prov": "VT",
-    "titolo": "La città che muore",
-    "fonte_breve": "Fonte: Il Post, Idealista",
-    "slide": [
-      {
-        "testo": "Civita è una frazione di Bagnoregio, nel Viterbese, arroccata su una rupe di tufo che l'erosione consuma da secoli."
-      },
-      {
-        "testo": "Per questo lo scrittore Bonaventura Tecchi, che era nato lì, la chiamò «la città che muore»."
-      },
-      {
-        "numero": "13",
-        "testo": "abitanti circa. Ma ogni giorno arrivano migliaia di visitatori, solo a piedi, lungo un ponte pedonale."
-      },
-      {
-        "testo": "Per entrare si paga un biglietto: un modo per gestire un afflusso enorme in un borgo così piccolo e fragile."
-      }
-    ],
-    "fonti": [
-      "Il Post (2024)",
-      "Idealista",
-      "FAI"
-    ],
-    "didascalia": "Civita di Bagnoregio (VT), «la città che muore» 🌉 Una rupe che si sgretola, poco più di dieci abitanti e migliaia di turisti ogni giorno."
-  }
+ {
+  "comune": "Morterone",
+  "prov": "LC",
+  "titolo": "Il comune con meno abitanti d'Italia",
+  "fonte_breve": "Fonte: ISTAT 2025, Geopop",
+  "slide": [
+   {
+    "numero": "31",
+    "testo": "abitanti. Tanti ne contava Morterone al 1° gennaio 2025: è il comune meno popoloso d'Italia."
+   },
+   {
+    "testo": "Si trova in provincia di Lecco, in Valsassina, alle pendici del Monte Resegone, a oltre mille metri di quota."
+   },
+   {
+    "testo": "Ci si arriva soprattutto in auto o a piedi, lungo i sentieri amati dagli escursionisti."
+   },
+   {
+    "testo": "Eppure ha un sindaco, un consiglio comunale e le sue elezioni. E guai a parlare di accorpamenti: «Morterone esiste e resiste»."
+   }
+  ],
+  "fonti": [
+   "ISTAT, popolazione residente al 1/1/2025",
+   "Geopop",
+   "Il Giorno"
+  ],
+  "didascalia": "31 abitanti: Morterone (LC) è il comune meno popoloso d'Italia 🏔️ Si trova in Valsassina, sotto il Resegone, e ha comunque sindaco, consiglio comunale ed elezioni."
+ },
+ {
+  "comune": "Campione d'Italia",
+  "prov": "CO",
+  "titolo": "Il comune italiano che sta in Svizzera",
+  "fonte_breve": "Fonte: Geopop, Idealista, Swissinfo",
+  "slide": [
+   {
+    "testo": "Campione d'Italia è in provincia di Como, ma è completamente circondato dal territorio svizzero, sulla riva del Lago di Lugano."
+   },
+   {
+    "testo": "È l'unica enclave italiana: un pezzo d'Italia chiuso dentro un altro Stato."
+   },
+   {
+    "testo": "In paese circolano sia l'euro sia il franco svizzero, e molti servizi (dai rifiuti alle telecomunicazioni) arrivano dalla Svizzera."
+   },
+   {
+    "numero": "2020",
+    "testo": "Dal 1° gennaio 2020 Campione è entrato nel territorio doganale dell'Unione europea."
+   }
+  ],
+  "fonti": [
+   "Geopop",
+   "Idealista",
+   "Swissinfo",
+   "Posta Svizzera"
+  ],
+  "didascalia": "Un comune italiano completamente circondato dalla Svizzera 🇮🇹🇨🇭 Campione d'Italia (CO) è l'unica enclave italiana: qui si paga in euro e in franchi."
+ },
+ {
+  "comune": "Craco",
+  "prov": "MT",
+  "titolo": "Il paese fantasma più famoso d'Italia",
+  "fonte_breve": "Fonte: Il Post, italia.it",
+  "slide": [
+   {
+    "numero": "1963",
+    "testo": "Una frana costringe gli abitanti del centro storico di Craco, in Basilicata, a lasciare le loro case."
+   },
+   {
+    "testo": "Lo spopolamento dura anni. Nel 1980, dopo il terremoto dell'Irpinia, arrivano le ultime ordinanze di sgombero."
+   },
+   {
+    "testo": "Il paese si sposta a valle, nella frazione di Craco Peschiera. Il borgo antico resta intatto e silenzioso sulla collina."
+   },
+   {
+    "testo": "Oggi è un set amatissimo dal cinema: qui sono state girate scene di «Cristo si è fermato a Eboli» e «La Passione di Cristo»."
+   }
+  ],
+  "fonti": [
+   "Il Post",
+   "italia.it",
+   "Museo Emozionale di Craco"
+  ],
+  "didascalia": "Craco (MT), il paese fantasma più famoso d'Italia 👻 Una frana nel 1963, poi lo spopolamento, poi il cinema: qui hanno girato anche «La Passione di Cristo»."
+ },
+ {
+  "comune": "Bagnoregio",
+  "prov": "VT",
+  "titolo": "La città che muore",
+  "fonte_breve": "Fonte: Il Post, Idealista",
+  "slide": [
+   {
+    "testo": "Civita è una frazione di Bagnoregio, nel Viterbese, arroccata su una rupe di tufo che l'erosione consuma da secoli."
+   },
+   {
+    "testo": "Per questo lo scrittore Bonaventura Tecchi, che era nato lì, la chiamò «la città che muore»."
+   },
+   {
+    "numero": "13",
+    "testo": "abitanti circa. Ma ogni giorno arrivano migliaia di visitatori, solo a piedi, lungo un ponte pedonale."
+   },
+   {
+    "testo": "Per entrare si paga un biglietto: un modo per gestire un afflusso enorme in un borgo così piccolo e fragile."
+   }
+  ],
+  "fonti": [
+   "Il Post (2024)",
+   "Idealista",
+   "FAI"
+  ],
+  "didascalia": "Civita di Bagnoregio (VT), «la città che muore» 🌉 Una rupe che si sgretola, poco più di dieci abitanti e migliaia di turisti ogni giorno."
+ },
+ {
+  "comune": "Curon Venosta",
+  "prov": "BZ",
+  "titolo": "Il campanile che spunta dal lago",
+  "fonte_breve": "Fonte: Il Post, Montagna.tv",
+  "slide": [
+   {
+    "numero": "1950",
+    "testo": "La diga di Resia allaga il vecchio paese di Curon, in Val Venosta, per produrre energia elettrica."
+   },
+   {
+    "testo": "Gli abitanti devono lasciare case e campi. Il nuovo Curon viene ricostruito più in alto."
+   },
+   {
+    "testo": "Del vecchio paese resta solo il campanile del Trecento, che da allora spunta dall'acqua del lago."
+   },
+   {
+    "testo": "Oggi è il simbolo della Val Venosta. D'inverno, con il lago ghiacciato, ci si arriva a piedi."
+   }
+  ],
+  "fonti": [
+   "Il Post",
+   "Montagna.tv",
+   "alto-adige.com"
+  ],
+  "didascalia": "Curon Venosta (BZ) e il campanile nel lago di Resia ⛪️💧 Nel 1950 una diga sommerse il vecchio paese: è rimasto solo lui."
+ },
+ {
+  "comune": "Vagli Sotto",
+  "prov": "LU",
+  "titolo": "Il paese sommerso che riappare",
+  "fonte_breve": "Fonte: Il Post, Idealista",
+  "slide": [
+   {
+    "testo": "Sotto il lago di Vagli, in Garfagnana, c'è un paese intero: Fabbriche di Careggine."
+   },
+   {
+    "testo": "Era un borgo di fabbri ferrai, con una trentina di case in pietra, una chiesa e un mulino."
+   },
+   {
+    "numero": "146",
+    "testo": "abitanti dovettero trasferirsi quando la diga riempì il lago, a metà Novecento."
+   },
+   {
+    "testo": "Il lago è stato svuotato solo quattro volte: 1958, 1974, 1983 e 1994. Ogni volta il paese è riemerso."
+   }
+  ],
+  "fonti": [
+   "Il Post (2023)",
+   "Idealista",
+   "Focus Junior"
+  ],
+  "didascalia": "Vagli Sotto (LU) custodisce un paese intero sotto il suo lago 🌊 Fabbriche di Careggine riemerge solo quando il bacino viene svuotato."
+ },
+ {
+  "comune": "Seborga",
+  "prov": "IM",
+  "titolo": "Il paese che si sente un principato",
+  "fonte_breve": "Fonte: Il Post, Linkiesta",
+  "slide": [
+   {
+    "testo": "Seborga è un piccolo comune in provincia di Imperia, sulle colline sopra la Riviera."
+   },
+   {
+    "numero": "1963",
+    "testo": "Gli abitanti eleggono il loro primo «principe», Giorgio Carbone, convinti di un'antica indipendenza."
+   },
+   {
+    "testo": "Il «Principato» ha bandiera, guardie e una moneta locale, il luigino. Nessuno Stato lo ha mai riconosciuto."
+   },
+   {
+    "testo": "Per lo Stato è un comune italiano a tutti gli effetti. Ma la sua storia attira visitatori da tutto il mondo."
+   }
+  ],
+  "fonti": [
+   "Il Post (2025)",
+   "Linkiesta",
+   "Wikipedia"
+  ],
+  "didascalia": "Seborga (IM), il comune che si proclama principato 👑 Bandiera, guardie e moneta propria, ma per lo Stato è Italia a tutti gli effetti."
+ },
+ {
+  "comune": "Olginate",
+  "prov": "LC",
+  "titolo": "La Las Vegas della Brianza",
+  "fonte_breve": "Fonte: Il Post, SiViaggia",
+  "slide": [
+   {
+    "testo": "Consonno è una frazione di Olginate, in provincia di Lecco, su un colle della Brianza."
+   },
+   {
+    "numero": "1962",
+    "testo": "Il conte Mario Bagno lo compra e vuole farne una città dei divertimenti: la «Las Vegas della Brianza»."
+   },
+   {
+    "testo": "Arrivano un minareto, sale da ballo e un grande albergo. Per qualche anno ci vengono migliaia di persone."
+   },
+   {
+    "numero": "1976",
+    "testo": "Una frana distrugge l'unica strada di accesso. Il sogno finisce e Consonno diventa un paese fantasma."
+   }
+  ],
+  "fonti": [
+   "Il Post (2023)",
+   "SiViaggia",
+   "Il Giorno"
+  ],
+  "didascalia": "Olginate (LC) e Consonno, la «Las Vegas della Brianza» 🎰 Un conte, un minareto e una frana che nel 1976 chiuse tutto."
+ },
+ {
+  "comune": "Melito di Porto Salvo",
+  "prov": "RC",
+  "titolo": "Il borgo nella mano di pietra",
+  "fonte_breve": "Fonte: FAI, VisitItaly",
+  "slide": [
+   {
+    "testo": "Pentedattilo è una frazione di Melito di Porto Salvo, aggrappata a una rupe a forma di mano."
+   },
+   {
+    "testo": "Il nome viene dal greco: «cinque dita». Sorge a circa 250 metri sul mare, nell'area grecanica."
+   },
+   {
+    "numero": "1686",
+    "testo": "La notte di Pasqua avviene la «strage degli Alberti», una faida tra famiglie nobili nata da un amore negato."
+   },
+   {
+    "testo": "Dopo il terremoto del 1783 la gente scende verso la costa. Oggi il borgo rivive con un festival del cinema."
+   }
+  ],
+  "fonti": [
+   "FAI",
+   "VisitItaly",
+   "Pentedattilo Film Festival"
+  ],
+  "didascalia": "Melito di Porto Salvo (RC) e Pentedattilo, il borgo nella «mano del diavolo» ✋ Cinque dita di roccia e una leggenda del 1686."
+ },
+ {
+  "comune": "Sauris",
+  "prov": "UD",
+  "titolo": "Il paese dove si parla tedesco antico",
+  "fonte_breve": "Fonte: Wikivoyage, Gambero Rosso",
+  "slide": [
+   {
+    "testo": "Sauris, in Carnia, è un'isola linguistica: qui si parla un antico dialetto tedesco, il saurano."
+   },
+   {
+    "testo": "Si è conservato grazie a secoli di isolamento. I bambini lo studiano anche a scuola."
+   },
+   {
+    "testo": "È uno dei comuni più alti del Friuli-Venezia Giulia, a oltre 1.200 metri di quota."
+   },
+   {
+    "testo": "È famoso anche per il prosciutto affumicato con legno di faggio, Indicazione geografica protetta."
+   }
+  ],
+  "fonti": [
+   "Wikivoyage",
+   "Gambero Rosso",
+   "Università di Udine"
+  ],
+  "didascalia": "Sauris (UD), dove si parla un tedesco antico 🏔️ Un'isola linguistica in Carnia, famosa anche per il suo prosciutto affumicato."
+ },
+ {
+  "comune": "Roscigno",
+  "prov": "SA",
+  "titolo": "La Pompei del Novecento",
+  "fonte_breve": "Fonte: AGI, FAI",
+  "slide": [
+   {
+    "testo": "Roscigno Vecchia è il vecchio centro di Roscigno, nel Cilento, abbandonato per le frane."
+   },
+   {
+    "numero": "1902",
+    "testo": "Due ordinanze del Genio civile impongono agli abitanti di trasferirsi nel paese nuovo."
+   },
+   {
+    "testo": "Case, piazza e chiesa sono rimaste intatte: per questo la chiamano «la Pompei del Novecento»."
+   },
+   {
+    "testo": "Per decenni l'ha custodita il suo unico abitante, Giuseppe Spagnuolo, scomparso nel 2024."
+   }
+  ],
+  "fonti": [
+   "AGI (2024)",
+   "FAI",
+   "Idealista"
+  ],
+  "didascalia": "Roscigno (SA) e la sua «Pompei del Novecento» 🏚️ Un borgo intatto, abbandonato per le frane e custodito per decenni da un solo abitante."
+ },
+ {
+  "comune": "Sanremo",
+  "prov": "IM",
+  "titolo": "Il borgo rinato grazie agli artisti",
+  "fonte_breve": "Fonte: Avvenire, italia.it",
+  "slide": [
+   {
+    "testo": "Bussana Vecchia è una frazione di Sanremo, sulle colline alle spalle della città dei fiori."
+   },
+   {
+    "numero": "1887",
+    "testo": "Il 23 febbraio un terremoto devasta il paese. Gli abitanti lo abbandonano e ne costruiscono uno nuovo."
+   },
+   {
+    "testo": "Per decenni resta un borgo fantasma, con la chiesa senza tetto."
+   },
+   {
+    "testo": "Dalla fine degli anni Cinquanta arrivano artisti da tutta Europa e lo trasformano in un villaggio di atelier."
+   }
+  ],
+  "fonti": [
+   "Avvenire (2026)",
+   "italia.it",
+   "FAI"
+  ],
+  "didascalia": "Sanremo (IM) e Bussana Vecchia, il borgo rinato grazie agli artisti 🎨 Distrutto dal terremoto del 1887, oggi è un villaggio di atelier."
+ }
 ]

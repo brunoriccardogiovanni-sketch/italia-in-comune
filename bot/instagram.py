@@ -89,6 +89,12 @@ def rileva(token, forced_host=None, forced_id=None):
             s, j = g("me", fields="id,name")
             log.append(f"{host} /me: {s} {j.get('name') or j.get('error', {}).get('message')}")
             if s != 200: continue
+            s, j = g("debug_token", input_token=token, fields="granular_scopes")
+            for sc in (j.get("data") or {}).get("granular_scopes", []):
+                if sc.get("scope", "").startswith("instagram") and sc.get("target_ids"):
+                    tid = sc["target_ids"][0]; s2, j2 = g(tid, fields="id,username")
+                    log.append(f"{host} debug_token -> {tid}: {s2}")
+                    if s2 == 200: return host, tid, j2.get("username"), log
             tries = [("me/accounts", dict(fields="instagram_business_account{id,username}")),
                      ("me", dict(fields="instagram_business_account{id,username}")),
                      ("me/businesses", dict(fields="id,name,instagram_business_accounts{id,username},owned_instagram_accounts{id,username}"))]

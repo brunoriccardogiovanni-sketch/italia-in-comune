@@ -1,0 +1,139 @@
+[
+ {
+  "id": "arancina",
+  "a": "Arancina",
+  "b": "Arancino",
+  "reg_a": "Sicilia",
+  "reg_b": "Sicilia",
+  "domanda": "Si dice arancina o arancino?",
+  "chiavi_a": [
+   "arancina"
+  ],
+  "chiavi_b": [
+   "arancino"
+  ]
+ },
+ {
+  "id": "pizza",
+  "a": "Pizza napoletana",
+  "b": "Pizza romana",
+  "reg_a": "Campania",
+  "reg_b": "Lazio",
+  "domanda": "Alta e morbida o bassa e croccante?",
+  "chiavi_a": [
+   "napoletana",
+   "napoli"
+  ],
+  "chiavi_b": [
+   "romana",
+   "roma",
+   "scrocchiarella"
+  ]
+ },
+ {
+  "id": "panettone",
+  "a": "Panettone",
+  "b": "Pandoro",
+  "reg_a": "Lombardia",
+  "reg_b": "Veneto",
+  "domanda": "A Natale da che parte stai?",
+  "chiavi_a": [
+   "panettone"
+  ],
+  "chiavi_b": [
+   "pandoro"
+  ]
+ },
+ {
+  "id": "carbonara",
+  "a": "Carbonara",
+  "b": "Amatriciana",
+  "reg_a": "Lazio",
+  "reg_b": "Lazio",
+  "domanda": "La regina della pasta romana è…",
+  "chiavi_a": [
+   "carbonara"
+  ],
+  "chiavi_b": [
+   "amatriciana",
+   "matriciana"
+  ]
+ },
+ {
+  "id": "cannolo",
+  "a": "Cannolo",
+  "b": "Sfogliatella",
+  "reg_a": "Sicilia",
+  "reg_b": "Campania",
+  "domanda": "Il dolce del Sud più buono è…",
+  "chiavi_a": [
+   "cannolo",
+   "cannoli"
+  ],
+  "chiavi_b": [
+   "sfogliatella",
+   "sfogliatelle"
+  ]
+ },
+ {
+  "id": "focaccia",
+  "a": "Focaccia genovese",
+  "b": "Focaccia barese",
+  "reg_a": "Liguria",
+  "reg_b": "Puglia",
+  "domanda": "Con l'olio o con i pomodorini?",
+  "chiavi_a": [
+   "genovese",
+   "genova"
+  ],
+  "chiavi_b": [
+   "barese",
+   "bari"
+  ]
+ },
+ {
+  "id": "tortellini",
+  "a": "Tortellini",
+  "b": "Cappelletti",
+  "reg_a": "Emilia-Romagna",
+  "reg_b": "Emilia-Romagna",
+  "domanda": "In brodo, ma quale?",
+  "chiavi_a": [
+   "tortellini",
+   "tortellino"
+  ],
+  "chiavi_b": [
+   "cappelletti",
+   "cappelletto"
+  ]
+ },
+ {
+  "id": "lasagna",
+  "a": "Lasagna",
+  "b": "Parmigiana",
+  "reg_a": "Emilia-Romagna",
+  "reg_b": "Campania",
+  "domanda": "Il pranzo della domenica è…",
+  "chiavi_a": [
+   "lasagna",
+   "lasagne"
+  ],
+  "chiavi_b": [
+   "parmigiana"
+  ]
+ },
+ {
+  "id": "polenta",
+  "a": "Polenta",
+  "b": "Risotto",
+  "reg_a": "Veneto",
+  "reg_b": "Lombardia",
+  "domanda": "Il piatto del Nord per eccellenza è…",
+  "chiavi_a": [
+   "polenta"
+  ],
+  "chiavi_b": [
+   "risotto"
+  ]
+ }
+]

@@ -60,12 +60,53 @@ def load():
     comuni = []
     for f in json.load(open(fetch("municipalities.geojson")))["features"]:
         p = f["properties"]; g0 = shape(f["geometry"]); g = proj(g0); c = pop.get(p["com_istat_code"])
-        comuni.append(dict(nome=p["name"], prov=p["prov_acr"], reg=p["reg_name"], geom=g, ll=g0.representative_point(),
+        comuni.append(dict(nome=p["name"], prov=p["prov_acr"], prov_nome=p["prov_name"], prov_tipo=p["prov_tipo_uts"], reg=p["reg_name"], geom=g, ll=g0.representative_point(),
                            area=g.area / 1e6, pop=c["popolazione"] if c else None, istat=p["com_istat_code"]))
     regioni = [proj(shape(f["geometry"])) for f in json.load(open(fetch("regions.geojson")))["features"]]
     from .city import tag_comuni
     tag_comuni(comuni, regioni)
     _data = (comuni, regioni); return _data
+
+def extra():
+    """Confinanti e numero di parti separate per ogni comune (calcolati una volta e salvati)."""
+    comuni, _ = load(); p = CACHE / "extra.json"
+    if p.exists():
+        e = json.loads(p.read_text())
+    else:
+        from shapely.strtree import STRtree
+        geoms = [c["geom"] for c in comuni]; tree = STRtree(geoms); e = {}
+        for i, c in enumerate(comuni):
+            near = tree.query(c["geom"].buffer(30), predicate="intersects")
+            e[c["istat"]] = [int(len(near) - 1), len(c["geom"].geoms) if c["geom"].geom_type == "MultiPolygon" else 1]
+        p.write_text(json.dumps(e))
+    for c in comuni: c["confinanti"], c["pezzi"] = e[c["istat"]]
+    return comuni
+
+_reg = {}
+def reg_geom(nome):
+    if nome not in _reg:
+        comuni, _ = load(); _reg[nome] = shapely.union_all([c["geom"] for c in comuni if c["reg"] == nome]).buffer(0)
+    return _reg[nome]
+_prov = {}
+def prov_geom(sigla):
+    if sigla not in _prov:
+        comuni, _ = load(); _prov[sigla] = shapely.union_all([c["geom"] for c in comuni if c["prov"] == sigla]).buffer(0)
+    return _prov[sigla]
+
+def draw_area(T, subset, color_fn=None, px=900):
+    """Mappa ingrandita di un gruppo di comuni (es. una provincia), con i confini comunali."""
+    g = shapely.union_all([c["geom"] for c in subset]); x0, y0, x1, y1 = g.bounds
+    m = (x1 - x0) * .03; x0, y0, x1, y1 = x0 - m, y0 - m, x1 + m, y1 + m
+    wi = px / 100; fig = plt.figure(figsize=(wi, wi * (y1 - y0) / (x1 - x0)), dpi=100)
+    ax = fig.add_axes([0, 0, 1, 1]); ax.set_axis_off(); fig.patch.set_alpha(0)
+    pp, cc = [], []
+    for c in subset:
+        col = (color_fn(c) if color_fn else None) or T["land"]
+        for p in _polys(c["geom"]): pp.append(p); cc.append(col)
+    ax.add_collection(PatchCollection(pp, facecolor=cc, edgecolor=T["bg"], linewidth=1.2))
+    ax.set_xlim(x0, x1); ax.set_ylim(y0, y1)
+    tmp = CACHE / "_area.png"; fig.savefig(tmp, transparent=True); plt.close(fig)
+    return Image.open(tmp).convert("RGBA")
 
 def find(nome, prov=None):
     comuni, _ = load(); n = norm(nome)
@@ -99,6 +140,19 @@ def map_bounds():
     _, regioni = load(); b = [r.bounds for r in regioni]
     return min(v[0] for v in b), min(v[1] for v in b), max(v[2] for v in b), max(v[3] for v in b)
 
+# ---------------------------------------------------------------- impaginazione con controllo sovrapposizioni
+BOXES = []
+def reset(): BOXES.clear()
+def reg(box, tag):
+    if box and box[2] > box[0] and box[3] > box[1]: BOXES.append((tuple(int(v) for v in box), tag))
+def overlaps(pad=4):
+    out = []
+    for i in range(len(BOXES)):
+        for j in range(i + 1, len(BOXES)):
+            (a, ta), (b, tb) = BOXES[i], BOXES[j]
+            if a[0] < b[2] - pad and b[0] < a[2] - pad and a[1] < b[3] - pad and b[1] < a[3] - pad: out.append((ta, tb))
+    return out
+
 def wrap(d, text, f, maxw):
     out, line = [], ""
     for w in text.split():
@@ -107,22 +161,33 @@ def wrap(d, text, f, maxw):
         else: out.append(line); line = w
     return out + [line]
 
-def text_block(img, text, xy, f, fill, maxw, lh=1.1):
-    d = ImageDraw.Draw(img); x, y = xy
-    for l in wrap(d, text, f, maxw):
-        d.text((x, y), l, font=f, fill=fill); y += int(f.size * lh)
-    return y
+def txt(img, xy, s, f, fill, anchor="la", tag="testo"):
+    d = ImageDraw.Draw(img); d.text(xy, s, font=f, fill=fill, anchor=anchor)
+    reg(d.textbbox(xy, s, font=f, anchor=anchor), tag)
 
-def fit_font(img, text, w, maxw, maxlines, start, minsize=30):
+def text_block(img, text, xy, f, fill, maxw, lh=1.1, tag="testo"):
+    d = ImageDraw.Draw(img); x, y = xy; x0, y0, x1, y1 = 10**6, 10**6, 0, 0
+    for l in wrap(d, text, f, maxw):
+        d.text((x, y), l, font=f, fill=fill); bb = d.textbbox((x, y), l, font=f)
+        x0, y0, x1, y1 = min(x0, bb[0]), min(y0, bb[1]), max(x1, bb[2]), max(y1, bb[3]); y += int(f.size * lh)
+    reg((x0, y0, x1, y1), tag)
+    return max(y, y1)
+
+def fit_font(img, text, w, maxw, maxlines, start, minsize=28):
     d = ImageDraw.Draw(img); s = start
-    while s > minsize and len(wrap(d, text, font(w, s), maxw)) > maxlines: s -= 4
+    while s > minsize and (len(wrap(d, text, font(w, s), maxw)) > maxlines or max(d.textlength(t, font=font(w, s)) for t in text.split()) > maxw): s -= 4
     return font(w, s)
 
-def pill(img, text, xy, f, bg, fg, pad=(26, 14)):
+def pill(img, text, xy, f, bg, fg, pad=(26, 14), tag="etichetta"):
     d = ImageDraw.Draw(img); w = d.textlength(text, font=f)
-    x, y = xy; d.rounded_rectangle((x, y, x + w + 2 * pad[0], y + f.size + 2 * pad[1]), 40, fill=bg)
-    d.text((x + pad[0], y + pad[1] - f.size * 0.08), text, font=f, fill=fg)
-    return x + w + 2 * pad[0]
+    x, y = xy; box = (x, y, x + w + 2 * pad[0], y + f.size + 2 * pad[1])
+    d.rounded_rectangle(box, 40, fill=bg); d.text((x + pad[0], y + pad[1] - f.size * 0.08), text, font=f, fill=fg)
+    reg(box, tag); return box[2]
 
-def place(img, m, cx, top, maxw, maxh):
-    m = m.copy(); m.thumbnail((maxw, maxh)); img.paste(m, (int(cx - m.width // 2), int(top)), m); return top + m.height
+def paste(img, im, xy, tag="immagine"):
+    img.paste(im, (int(xy[0]), int(xy[1])), im)
+    bb = im.getchannel("A").getbbox() if im.mode == "RGBA" else (0, 0, im.width, im.height)
+    if bb: reg((xy[0] + bb[0], xy[1] + bb[1], xy[0] + bb[2], xy[1] + bb[3]), tag)
+
+def place(img, m, cx, top, maxw, maxh, tag="mappa"):
+    m = m.copy(); m.thumbnail((int(maxw), int(maxh))); paste(img, m, (int(cx - m.width // 2), int(top)), tag); return top + m.height

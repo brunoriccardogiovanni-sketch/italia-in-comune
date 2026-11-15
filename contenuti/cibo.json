@@ -1,28 +1,273 @@
 [
-  {
-    "comune": "Recco", "prov": "GE",
-    "titolo": "La focaccia che si può fare solo qui",
-    "fonte_breve": "Fonte: Commissione UE, Consorzio",
-    "slide": [
-      {"testo": "La Focaccia di Recco col formaggio non è la focaccia alta coi buchi: è una sfoglia sottilissima, senza lievito, ripiena di formaggio fresco."},
-      {"numero": "IGP", "testo": "Dal 2015 è Indicazione geografica protetta dall'Unione europea."},
-      {"testo": "Il disciplinare è severissimo: per chiamarsi così deve essere prodotta nel territorio di Recco. Altrove è solo «focaccia al formaggio»."},
-      {"testo": "Ogni anno, a maggio, la Festa della Focaccia distribuisce gratis migliaia di porzioni preparate dai forni del paese."}
-    ],
-    "fonti": ["Commissione europea, registro IGP", "Consorzio Focaccia di Recco col formaggio", "Gambero Rosso"],
-    "didascalia": "Recco (GE) e la sua focaccia col formaggio 🧀 Dal 2015 è IGP: per chiamarsi così deve nascere a Recco."
-  },
-  {
-    "comune": "Teglio", "prov": "SO",
-    "titolo": "Il paese che custodisce i pizzoccheri",
-    "fonte_breve": "Fonte: Accademia del Pizzocchero",
-    "slide": [
-      {"testo": "I pizzoccheri sono tagliatelle di grano saraceno, condite con burro, formaggio Valtellina Casera, patate e verze."},
-      {"numero": "2002", "testo": "A Teglio nasce l'Accademia del Pizzocchero, che custodisce e certifica la ricetta originale."},
-      {"testo": "Il grano saraceno, quasi scomparso altrove, in Valtellina è rimasto proprio per fare i pizzoccheri. Teglio ha ancora un mulino che lo macina."},
-      {"testo": "Ogni anno il paese li festeggia due volte: con la Sagra dei Pizzoccheri d'estate e il «Pizzocchero d'oro» a settembre."}
-    ],
-    "fonti": ["Accademia del Pizzocchero di Teglio", "In Lombardia", "Si Viaggia"],
-    "didascalia": "Teglio (SO), la casa dei pizzoccheri 🧈 Qui un'Accademia custodisce la ricetta originale dal 2002."
-  }
+ {
+  "comune": "Recco",
+  "prov": "GE",
+  "titolo": "La focaccia che si può fare solo qui",
+  "fonte_breve": "Fonte: Commissione UE, Consorzio",
+  "slide": [
+   {
+    "testo": "La Focaccia di Recco col formaggio non è la focaccia alta coi buchi: è una sfoglia sottilissima, senza lievito, ripiena di formaggio fresco."
+   },
+   {
+    "numero": "IGP",
+    "testo": "Dal 2015 è Indicazione geografica protetta dall'Unione europea."
+   },
+   {
+    "testo": "Il disciplinare è severissimo: per chiamarsi così deve essere prodotta nel territorio di Recco. Altrove è solo «focaccia al formaggio»."
+   },
+   {
+    "testo": "Ogni anno, a maggio, la Festa della Focaccia distribuisce gratis migliaia di porzioni preparate dai forni del paese."
+   }
+  ],
+  "fonti": [
+   "Commissione europea, registro IGP",
+   "Consorzio Focaccia di Recco col formaggio",
+   "Gambero Rosso"
+  ],
+  "didascalia": "Recco (GE) e la sua focaccia col formaggio 🧀 Dal 2015 è IGP: per chiamarsi così deve nascere a Recco."
+ },
+ {
+  "comune": "Teglio",
+  "prov": "SO",
+  "titolo": "Il paese che custodisce i pizzoccheri",
+  "fonte_breve": "Fonte: Accademia del Pizzocchero",
+  "slide": [
+   {
+    "testo": "I pizzoccheri sono tagliatelle di grano saraceno, condite con burro, formaggio Valtellina Casera, patate e verze."
+   },
+   {
+    "numero": "2002",
+    "testo": "A Teglio nasce l'Accademia del Pizzocchero, che custodisce e certifica la ricetta originale."
+   },
+   {
+    "testo": "Il grano saraceno, quasi scomparso altrove, in Valtellina è rimasto proprio per fare i pizzoccheri. Teglio ha ancora un mulino che lo macina."
+   },
+   {
+    "testo": "Ogni anno il paese li festeggia due volte: con la Sagra dei Pizzoccheri d'estate e il «Pizzocchero d'oro» a settembre."
+   }
+  ],
+  "fonti": [
+   "Accademia del Pizzocchero di Teglio",
+   "In Lombardia",
+   "Si Viaggia"
+  ],
+  "didascalia": "Teglio (SO), la casa dei pizzoccheri 🧈 Qui un'Accademia custodisce la ricetta originale dal 2002."
+ },
+ {
+  "comune": "Altamura",
+  "prov": "BA",
+  "titolo": "Il primo pane d'Europa con la DOP",
+  "fonte_breve": "Fonte: Reg. CE 1291/2003, Gambero Rosso",
+  "slide": [
+   {
+    "testo": "Il pane di Altamura si fa con semola rimacinata di grano duro della Murgia, lievito madre, sale e acqua."
+   },
+   {
+    "numero": "2003",
+    "testo": "Diventa il primo pane in Europa a ottenere la Denominazione di origine protetta."
+   },
+   {
+    "testo": "La forma tipica, alta e ripiegata, in dialetto si chiama «cappello del prete»."
+   },
+   {
+    "testo": "In città c'è anche un museo del pane, ricavato in un antico forno medievale."
+   }
+  ],
+  "fonti": [
+   "Regolamento CE 1291/2003",
+   "Gambero Rosso",
+   "Wikipedia"
+  ],
+  "didascalia": "Altamura (BA), la città del pane 🍞 Nel 2003 il suo pane è stato il primo in Europa a ottenere la DOP."
+ },
+ {
+  "comune": "Carrara",
+  "prov": "MS",
+  "titolo": "Il lardo che stagiona nel marmo",
+  "fonte_breve": "Fonte: Visit Tuscany, Guida Michelin",
+  "slide": [
+   {
+    "testo": "Colonnata è un borgo del comune di Carrara, in mezzo alle cave di marmo delle Apuane."
+   },
+   {
+    "testo": "Qui il lardo stagiona per mesi in vasche di marmo, le «conche», con sale, erbe e spezie."
+   },
+   {
+    "testo": "Era il cibo dei cavatori, che lavoravano tutto il giorno nelle cave."
+   },
+   {
+    "numero": "IGP",
+    "testo": "Dal 2004 il Lardo di Colonnata è Indicazione geografica protetta."
+   }
+  ],
+  "fonti": [
+   "Visit Tuscany",
+   "Guida Michelin",
+   "italia.it"
+  ],
+  "didascalia": "Carrara (MS) e il Lardo di Colonnata 🤍 Stagiona nelle conche di marmo ed era il pasto dei cavatori."
+ },
+ {
+  "comune": "Bronte",
+  "prov": "CT",
+  "titolo": "L'oro verde dell'Etna",
+  "fonte_breve": "Fonte: Il Post, Consorzio",
+  "slide": [
+   {
+    "testo": "Il Pistacchio verde di Bronte cresce sui terreni vulcanici alle pendici dell'Etna."
+   },
+   {
+    "numero": "2 anni",
+    "testo": "tra un raccolto e l'altro: si raccoglie a mano, ogni due anni, per far riposare le piante."
+   },
+   {
+    "testo": "Lo chiamano «oro verde» per il colore e per il valore."
+   },
+   {
+    "numero": "DOP",
+    "testo": "È Denominazione di origine protetta dal 2009."
+   }
+  ],
+  "fonti": [
+   "Il Post (2024)",
+   "Consorzio Pistacchio Verde di Bronte DOP",
+   "LiveSicilia"
+  ],
+  "didascalia": "Bronte (CT), la capitale del pistacchio 💚 L'«oro verde» dell'Etna si raccoglie a mano, solo ogni due anni."
+ },
+ {
+  "comune": "Camogli",
+  "prov": "GE",
+  "titolo": "La padella più famosa d'Italia",
+  "fonte_breve": "Fonte: Mentelocale, Pro Loco",
+  "slide": [
+   {
+    "numero": "1952",
+    "testo": "Per la festa di San Fortunato, patrono dei pescatori, un gruppo di pescatori offre pesce fritto a tutti."
+   },
+   {
+    "testo": "L'anno dopo fanno costruire una padella gigante, che diventa subito l'attrazione della festa."
+   },
+   {
+    "testo": "Da allora, la seconda domenica di maggio, il padellone frigge pesce per migliaia di persone."
+   },
+   {
+    "testo": "La sera prima ci sono i fuochi d'artificio e i falò dei quartieri sulla spiaggia."
+   }
+  ],
+  "fonti": [
+   "Mentelocale",
+   "EventieSagre",
+   "Pro Loco Camogli"
+  ],
+  "didascalia": "Camogli (GE) e la Sagra del Pesce 🐟 Dal 1952 una padella gigante frigge pesce per tutti, la seconda domenica di maggio."
+ },
+ {
+  "comune": "Gragnano",
+  "prov": "NA",
+  "titolo": "La città costruita per la pasta",
+  "fonte_breve": "Fonte: Reg. UE 969/2013, AGI",
+  "slide": [
+   {
+    "testo": "A Gragnano strade e palazzi furono progettati per far passare il vento e asciugare la pasta all'aperto."
+   },
+   {
+    "testo": "Acqua di sorgente, trafile in bronzo ed essiccazione lenta: sono le regole della pasta di Gragnano."
+   },
+   {
+    "numero": "2013",
+    "testo": "Ottiene l'Indicazione geografica protetta: la prima pasta in Europa."
+   },
+   {
+    "testo": "Ogni settembre la città festeggia con «Gragnano Città della Pasta»."
+   }
+  ],
+  "fonti": [
+   "Regolamento UE 969/2013",
+   "AGI",
+   "L'Espresso (2026)"
+  ],
+  "didascalia": "Gragnano (NA), la città costruita per la pasta 🍝 Strade pensate per il vento e, dal 2013, la prima pasta IGP d'Europa."
+ },
+ {
+  "comune": "Spilinga",
+  "prov": "VV",
+  "titolo": "La patria della 'nduja",
+  "fonte_breve": "Fonte: Gambero Rosso, Britannica",
+  "slide": [
+   {
+    "testo": "La 'nduja è un salume morbido e piccante da spalmare, fatto con carne di maiale e tanto peperoncino."
+   },
+   {
+    "testo": "È nata a Spilinga, un piccolo paese sull'altopiano del Poro, vicino a Tropea."
+   },
+   {
+    "numero": "1975",
+    "testo": "Nasce la Sagra della 'nduja, la più antica dedicata a questo salume. Si tiene ogni anno a partire dall'8 agosto."
+   },
+   {
+    "testo": "Spalmata sul pane è la versione più semplice. Ma sta bene anche nella pasta e sulla pizza."
+   }
+  ],
+  "fonti": [
+   "Gambero Rosso",
+   "Britannica",
+   "Calabria the Other Italy"
+  ],
+  "didascalia": "Spilinga (VV), la patria della 'nduja 🌶️ Dal 1975 il paese la festeggia ogni anno l'8 agosto."
+ },
+ {
+  "comune": "Tropea",
+  "prov": "VV",
+  "titolo": "La cipolla dolce di Calabria",
+  "fonte_breve": "Fonte: Reg. CE 284/2008",
+  "slide": [
+   {
+    "testo": "La Cipolla rossa di Tropea è famosa per il colore viola e il sapore dolce, tanto da mangiarla anche cruda."
+   },
+   {
+    "testo": "Cresce lungo la costa tirrenica della Calabria, dove il mare rende gli inverni miti."
+   },
+   {
+    "numero": "2008",
+    "testo": "Diventa Indicazione geografica protetta dell'Unione europea."
+   },
+   {
+    "testo": "A Tropea la si trova ovunque: nelle trecce appese, nelle marmellate, nella pasta."
+   }
+  ],
+  "fonti": [
+   "Regolamento CE 284/2008",
+   "Consorzio Cipolla Rossa di Tropea",
+   "VisitItaly"
+  ],
+  "didascalia": "Tropea (VV) e la sua cipolla rossa 🧅 Dolce, viola e IGP dal 2008."
+ },
+ {
+  "comune": "Norcia",
+  "prov": "PG",
+  "titolo": "La città che ha dato il nome ai salumi",
+  "fonte_breve": "Fonte: Umbria Tourism",
+  "slide": [
+   {
+    "testo": "In molte parti d'Italia la bottega dei salumi si chiama «norcineria». Il nome viene da Norcia."
+   },
+   {
+    "testo": "I norcini erano maestri nella lavorazione del maiale e giravano l'Italia per lavorare su commissione."
+   },
+   {
+    "testo": "Nel Medioevo alcuni norcini facevano perfino piccoli interventi chirurgici."
+   },
+   {
+    "numero": "IGP",
+    "testo": "Il Prosciutto di Norcia è Indicazione geografica protetta dal 1997."
+   }
+  ],
+  "fonti": [
+   "Umbria Tourism",
+   "Gazzetta del Gusto",
+   "Wikipedia"
+  ],
+  "didascalia": "Norcia (PG), la città che ha dato il nome alla norcineria 🐖 I suoi norcini giravano tutta l'Italia."
+ }
 ]

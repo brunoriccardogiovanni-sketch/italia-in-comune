@@ -1,0 +1,33 @@
+[
+ {
+  "data": "2026-11-19",
+  "slot": "carosello",
+  "tipo": "carosello",
+  "etichetta": "SPECIALE",
+  "titolo": "In quale provincia si fa più l'amore?",
+  "sotto": "Abbiamo cercato i dati. La risposta è meno ovvia di quanto pensiate.",
+  "evidenzia": ["BZ", "MI", "TO"],
+  "slide": [
+   {"titolo": "Prima, la verità",
+    "testo": "Nessuno misura quanto si fa l'amore provincia per provincia. L'indagine più seria è nazionale: il Censis nel 2025 ha intervistato 1.000 persone tra 18 e 60 anni.",
+    "numeri": [["5,3%", "lo fa tutti i giorni"], ["29,9%", "due o tre volte a settimana"], ["8,5%", "per niente"]],
+    "fonte": "Fonte: Censis, Il piacere degli italiani (2026)"},
+   {"titolo": "Primo indizio: le culle",
+    "evidenzia": ["BZ"],
+    "testo": "Nel 2025 la provincia con più figli per donna è Bolzano. Ed è una delle due sole zone d'Italia in cui il numero è salito.",
+    "numeri": [["1,54", "figli per donna in provincia di Bolzano"], ["1,14", "la media italiana, mai così bassa"]],
+    "fonte": "Fonte: ISTAT, Natalità e fecondità 2025"},
+   {"titolo": "Secondo indizio: il carrello",
+    "evidenzia": ["MI", "TO"],
+    "testo": "Everli ha guardato dove si spende di più in preservativi, lubrificanti e sex toy con la spesa online. In testa Milano e Torino. Nella top 10 nessuna provincia del Sud: la più a sud è Roma. Attenzione però: conta anche dove la spesa online è più diffusa.",
+    "fonte": "Fonte: Everli, acquisti 2021"},
+   {"titolo": "Il verdetto",
+    "testo": "Bolzano fa più figli, Milano e Torino comprano più preservativi. Forse è la stessa passione, vissuta in due modi diversi. Una classifica ufficiale non esiste: a questo punto la facciamo noi."}
+  ],
+  "domanda": "Qual è la provincia più passionale d'Italia?",
+  "extra": "La provincia più citata nei commenti vince il titolo (non ufficiale).",
+  "fonti": ["Censis, Il piacere degli italiani (marzo 2026)", "ISTAT, Natalità e fecondità della popolazione residente, anno 2025", "Everli, analisi degli acquisti 2021"],
+  "didascalia": "Qual è la provincia dove si fa più l'amore? Ce lo siamo chiesti e abbiamo cercato i numeri.\n\nSpoiler: una classifica vera non esiste, nessuno lo misura provincia per provincia. Però gli indizi ci sono. Bolzano è la provincia dove nascono più bambini (1,54 figli per donna, contro una media italiana di 1,14). Milano e Torino sono quelle dove si spende di più in preservativi con la spesa online.\n\nA questo punto decidete voi: scrivete la vostra provincia nei commenti. La più citata vince il titolo, rigorosamente non ufficiale.",
+  "hashtag": ["#amore", "#statistiche", "#province"]
+ }
+]
