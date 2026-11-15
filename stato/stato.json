@@ -23,6 +23,14 @@
    "formato": "carosello_provincia",
    "param": "TO",
    "media_id": "18072240815788648"
+  },
+  {
+   "giorno": 2,
+   "slot": "reel",
+   "data": "2026-11-15",
+   "formato": "reel_mappa",
+   "param": "sotto1000",
+   "media_id": "17934983367410143"
   }
  ],
  "commenti_gestiti": [],
