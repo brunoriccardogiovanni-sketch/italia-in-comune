@@ -7,6 +7,7 @@ from PIL import Image, ImageDraw
 from .base import *
 from .base import extra, reg_geom, prov_geom, draw_area
 from .city import city
+from . import foto
 
 W, H = 1080, 1350            # post 4:5
 VW, VH, FPS = 1080, 1920, 30  # reel 9:16
@@ -50,10 +51,24 @@ def encode(path, frames):
 def vhandle(img, T): pill(img, HANDLE, (60, 150), font("b", 32), T["ink"], T["bg"], tag="firma")
 def label(c): return f"{c['prov']} · {c['reg'].split('/')[0]}"
 def nome(c): return c["nome"].split("/")[0]
-def city_in(img, c, T, top, bottom, maxh, seed=""):
-    """Illustrazione a tutta larghezza nello spazio libero tra top e bottom."""
+def scena(c, T, w, h, margine=60, fs=20):
+    """Foto del comune (Wikimedia Commons) in un riquadro arrotondato, con il credito sotto. None se non c'è."""
+    r = foto.prendi(c)
+    if not r: return None
+    im, cr = r; strip = fs + 18; pw, ph = w - 2 * margine, h - strip
+    if ph < 200 or pw < 200: return None
+    out = Image.new("RGBA", (w, h), (0, 0, 0, 0)); q = foto.riquadro(im, pw, ph); out.paste(q, (margine, 0), q)
+    d = ImageDraw.Draw(out); f = font("m", fs); t = foto.credito_breve(cr)
+    while d.textlength(t, font=f) > pw and len(t) > 10: t = t[:-2].rstrip() + "…" if not t.endswith("…") else t[:-3].rstrip() + "…"
+    d.text((margine, ph + 9), t, font=f, fill=T["muted"]); foto.CREDITI.append(cr)
+    return out
+def city_in(img, c, T, top, bottom, maxh, seed="", con_foto=False):
+    """Illustrazione (o foto, se con_foto) a tutta larghezza nello spazio libero tra top e bottom."""
     h = int(min(maxh, bottom - top))
     if h < 220: return
+    if con_foto:
+        s = scena(c, T, img.width, h)
+        if s: paste(img, s, (0, bottom - h), "foto"); return
     ci = city(dict(c, nome=c["nome"] + seed), T, img.width, h); paste(img, ci, (0, bottom - h), "città")
 
 # ---------------------------------------------------------------- classifiche
@@ -118,7 +133,7 @@ def carosello_classifica(metrica, out):
         y = text_block(img, nome(c), (60, 390), fit_font(img, nome(c), "k", W - 120, 2, 84), T["ink"], W - 120, 1.0)
         txt(img, (60, y + 14), label(c), font("b", 30), T["muted"])
         pill(img, M["val"](c), (60, y + 70), font("k", 48), T["ink"], T["bg"])
-        city_in(img, c, T, y + 70 + 48 + 28 + 30, BOTTOM, 520)
+        city_in(img, c, T, y + 70 + 48 + 28 + 30, BOTTOM, 520, con_foto=True)
         footer(img, T, i + 2, TOT, M["fonte"]); files.append(save(img, out, f"{i + 2:02d}"))
     img = cta_slide(THEMES["rosa"], "E il tuo comune in che posizione è?", TOT, TOT, "ti mandiamo la sua scheda in DM")
     files.append(save(img, out, "12"))
@@ -130,7 +145,7 @@ def carosello_classifica(metrica, out):
 def reel_countdown(metrica, out):
     M = METRICHE[metrica]; order = list(reversed(top10(metrica)))
     maps = [draw_map(THEMES[CYCLE[(i + 1) % 3]], highlight=c["geom"], point=c["geom"].centroid, px=320) for i, c in enumerate(order)]
-    cities = [city(c, THEMES[CYCLE[(i + 1) % 3]], 1080, 600) for i, c in enumerate(order)]
+    cities = [scena(c, THEMES[CYCLE[(i + 1) % 3]], 1080, 600, fs=24) or city(c, THEMES[CYCLE[(i + 1) % 3]], 1080, 600) for i, c in enumerate(order)]
     def frames():
         T = THEMES["indaco"]
         for f in range(int(1.4 * FPS)):
@@ -247,7 +262,7 @@ def reel_comune(c, out):
     y_name = layout(canvas(T, VW, VH), 1)
     ystats = max(y_name + 40, 320 + m.height + 40)
     ci_top = ystats + 4 * 140 + 10; ci_h = min(480, VH - 60 - ci_top)
-    ci = city(c, T, 1080, ci_h) if ci_h >= 220 else None
+    ci = (scena(c, T, 1080, ci_h, fs=24) or city(c, T, 1080, ci_h)) if ci_h >= 220 else None
     def frames():
         for f in range(int(8 * FPS)):
             t = f / FPS; img = canvas(T, VW, VH); vhandle(img, T)
@@ -285,7 +300,8 @@ SFIDE = {"area": dict(domanda="Chi è più grande?", val=_area, vince=lambda a, 
                       fonte="Elaborazione su confini openpolis")}
 def reel_sfida(a, b, out, tipo="area"):
     S = SFIDE[tipo]; T = THEMES["giallo"]; TA, TB = THEMES["rosa"], THEMES["indaco"]
-    ca, cb = city(a, TA, 540, 340), city(b, TB, 540, 340); win = S["vince"](a, b)
+    ca = scena(a, TA, 540, 340, margine=30, fs=16) or city(a, TA, 540, 340)
+    cb = scena(b, TB, 540, 340, margine=30, fs=16) or city(b, TB, 540, 340); win = S["vince"](a, b)
     tmp = canvas(T, VW, VH); fa, fb = (fit_font(tmp, nome(x), "k", 460, 3, 60) for x in (a, b))
     def frames():
         for f in range(int(8 * FPS)):
@@ -314,17 +330,31 @@ def _mappa_sigle(T, sigle):
     from .base import prov_geom
     sig = set(sigle); pt = prov_geom(sigle[0]).centroid if len(sigle) == 1 else None
     return draw_map(T, color_fn=lambda c: T["ink"] if c["prov"] in sig else None, point=pt, px=700)
+def mappa_regioni(T, item, fino=None, px=820):
+    """Mappa d'Italia con le regioni colorate per gruppo (es. coalizione). fino = solo le prime n regioni da nord."""
+    G, R = item["gruppi"], item["regioni"]; ordine = list(R)[:fino] if fino is not None else list(R)
+    col = {r: G[g]["colore"] for r, g in R.items() if r in ordine}
+    return draw_map(T, color_fn=lambda c: col.get(c["reg"].split("/")[0]), px=px)
+def legenda(img, T, item, y, conta=None):
+    """Pillole colorate una accanto all'altra (vanno a capo se serve). Restituisce la y sotto l'ultima riga."""
+    x = 60; f = font("k", 30); d = ImageDraw.Draw(img)
+    for k, g in item["gruppi"].items():
+        t = f"{g['nome']} {conta[k]}" if conta else g["nome"]; w = d.textlength(t, font=f) + 52
+        if x + w > W - 60: x, y = 60, y + 76
+        pill(img, t, (x, y), f, g["colore"], "#1A1446", tag=f"legenda {k}"); x += w + 16
+    return y + 30 + 28 + 18
 def carosello_speciale(item, out):
     """Carosello libero per i temi del momento: copertina, slide di testo con numeri e mappa, chiusura con domanda."""
     os.makedirs(out, exist_ok=True); files = []; slides = item["slide"]; TOT = len(slides) + 2
-    giro = [THEMES[k] for k in CYCLE]
-    T = THEMES["rosa"]; img = canvas(T)
+    giro = [THEMES[item["tema"]]] if item.get("tema") else [THEMES[k] for k in CYCLE]
+    T = THEMES[item.get("tema", "rosa")]; img = canvas(T)
     pill(img, item.get("etichetta", "SPECIALE"), (60, 80), font("k", 30), T["ink"], T["bg"])
     txt(img, (W - 60, 92), "scorri  →", font("k", 34), T["ink"], "ra")
     top = 190
     if item.get("evidenzia"): place(img, _mappa_sigle(T, item["evidenzia"]), W - 230, BOTTOM - 520, 340, 480); 
     y = text_block(img, item["titolo"], (60, top), fit_font(img, item["titolo"], "k", W - 120, 5, 104), T["ink"], W - 120, 1.02)
-    if item.get("sotto"): text_block(img, item["sotto"], (60, y + 40), font("b", 40), T["ink"], 560 if item.get("evidenzia") else W - 120, 1.25)
+    if item.get("sotto"): y = text_block(img, item["sotto"], (60, y + 40), font("b", 40), T["acc"] if item.get("tema") else T["ink"], 560 if item.get("evidenzia") else W - 120, 1.25)
+    if item.get("regioni"): place(img, mappa_regioni(T, item), W // 2, y + 50, 700, BOTTOM - y - 70)
     footer(img, T, None, None, ""); files.append(save(img, out, "01"))
     for i, sl in enumerate(slides):
         T = giro[i % len(giro)]; img = canvas(T); y = 150; tw = W - 120
@@ -333,13 +363,50 @@ def carosello_speciale(item, out):
         if sl.get("evidenzia"): y = max(y, 470)
         y = text_block(img, sl["testo"], (60, y + 36), font("m", 36), T["ink"], W - 120, 1.32)
         for v, k in sl.get("numeri", []):
-            yy = text_block(img, v, (60, y + 44), font("k", 92), T["acc"], W - 120, 1.0)
+            colore = item["gruppi"][v[1]]["colore"] if isinstance(v, list) else T["acc"]; v = v[0] if isinstance(v, list) else v
+            yy = text_block(img, v, (60, y + 44), font("k", 92), colore, W - 120, 1.0)
             y = text_block(img, k, (60, yy + 8), font("b", 34), T["ink"], W - 120, 1.2)
+        if sl.get("mappa_regioni"):
+            y = legenda(img, T, item, y + 40, sl.get("conta"))
+            place(img, mappa_regioni(T, item), W // 2, y + 10, 760, BOTTOM - y - 30)
         footer(img, T, i + 2, TOT, sl.get("fonte", "")); files.append(save(img, out, f"{i + 2:02d}"))
-    img = cta_slide(THEMES["giallo"], item["domanda"], TOT, TOT, item.get("extra"), item.get("fonti"))
+    img = cta_slide(THEMES["indaco" if item.get("tema") == "indaco" else "giallo"], item["domanda"], TOT, TOT, item.get("extra"), item.get("fonti"))
     files.append(save(img, out, f"{TOT:02d}"))
     cap = f"{item['didascalia']}\n\nFonti: {'; '.join(item.get('fonti', []))}\n\n{hashtags(*item.get('hashtag', []))}"
     return dict(tipo="carosello", file=files, didascalia=cap)
+
+def reel_regioni(item, out):
+    """Reel: le regioni si colorano una alla volta da nord a sud, con il conteggio che sale; poi il finale."""
+    T = THEMES["indaco"]; R = item["regioni"]; n = len(R)
+    maps = [mappa_regioni(T, item, fino=k, px=760) for k in range(n + 1)]
+    for m in maps: m.thumbnail((760, 900))
+    mx, my = (VW - maps[0].width) // 2, 660; piccola = maps[-1]
+    passo, attesa, finale = .32, .9, 3.6
+    def frames():
+        tot = attesa + n * passo + finale
+        for f in range(int(tot * FPS)):
+            t = f / FPS; img = canvas(T, VW, VH); vhandle(img, T)
+            k = max(0, min(n, int((t - attesa) / passo) + 1)) if t >= attesa else 0
+            y = text_block(img, item["titolo_reel"], (70, 250), fit_font(img, item["titolo_reel"], "k", VW - 140, 2, 92), T["ink"], VW - 140, 1.0)
+            conta = {g: sum(1 for r in list(R)[:k] if R[r] == g) for g in item["gruppi"]}
+            if t < attesa + n * passo + .4:
+                legenda(img, T, item, y + 40, conta)
+                m = maps[k]; img.paste(m, (mx, my), m); reg((mx, my, mx + m.width, my + m.height), "mappa")
+                txt(img, (VW - 70, my + m.height + 30), item["fonte_reel"], font("m", 26), T["muted"], "ra", "fonte")
+            else:
+                yy = legenda(img, T, item, y + 40, conta) + 60
+                for riga, colore in item["finale"]:
+                    yy = text_block(img, riga, (70, yy), fit_font(img, riga, "k", VW - 140, 3, 64), item["gruppi"][colore]["colore"] if colore else T["ink"], VW - 140, 1.1) + 34
+                yy += 10
+                pill(img, item["cta_reel"], (70, yy), fit_font(img, item["cta_reel"], "k", VW - 200, 1, 44), T["acc2"], "#FFFFFF")
+                fine = piccola; top = yy + 44 + 28 + 50
+                if VH - 220 - top > 300:
+                    f2 = fine.copy(); f2.thumbnail((VW - 140, VH - 220 - top)); place(img, f2, VW // 2, top, VW - 140, VH - 220 - top)
+                txt(img, (VW - 70, VH - 160), item["fonte_finale"], font("m", 26), T["muted"], "ra", "fonte")
+            yield img
+    path = encode(os.path.join(out, "reel.mp4"), frames())
+    cap = f"{item['didascalia_reel']}\n\nFonti: {'; '.join(item.get('fonti', []))}\n\n{hashtags(*item.get('hashtag', []))}"
+    return dict(tipo="reel", file=[path], didascalia=cap)
 
 # ---------------------------------------------------------------- post di presentazione
 APP = dict(nome="Lethame", url="https://play.google.com/store/apps/details?id=com.lethame.drone")
@@ -404,7 +471,7 @@ def carosello_racconto(item, out, etichetta, cta, extra_tag=""):
     txt(img, (W - 60, 88), "scorri  →", font("k", 30), T["acc"], "ra")
     y = text_block(img, item["titolo"], (60, 180), fit_font(img, item["titolo"], "k", W - 120, 4, 84), T["ink"], W - 120, 1.04)
     txt(img, (60, y + 20), f"{nome(c)} · {label(c)}", fit_font(img, f"{nome(c)} · {label(c)}", "b", W - 120, 1, 34), T["acc"])
-    city_in(img, c, T, y + 90, BOTTOM, 560)
+    city_in(img, c, T, y + 90, BOTTOM, 560, con_foto=True)
     footer(img, T, None, None, fb); files.append(save(img, out, "01"))
     for i, s in enumerate(slides):
         T = THEMES[CYCLE[(i + 1) % 3]]; img = canvas(T)
@@ -437,7 +504,7 @@ def slide_comune(T, etichetta, c, valore, n, tot, fonte):
     y = max(y, 430)
     txt(img, (60, y + 14), label(c), font("b", 30), T["muted"])
     pill(img, valore, (60, y + 70), fit_font(img, valore, "k", 900, 1, 48), T["ink"], T["bg"])
-    city_in(img, c, T, y + 70 + 48 + 28 + 30, BOTTOM, 520)
+    city_in(img, c, T, y + 70 + 48 + 28 + 30, BOTTOM, 520, con_foto=True)
     footer(img, T, n, tot, fonte); return img
 
 ENTE = {"Città metropolitana": "Città metropolitana di {}", "Provincia autonoma": "Provincia autonoma di {}",

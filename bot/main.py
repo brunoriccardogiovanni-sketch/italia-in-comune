@@ -81,9 +81,12 @@ def piano(giorno):
     return out
 
 # ------------------------------------------------------------ speciali a data fissa (contenuti/speciali.json)
-def speciali():
+def tutti_speciali():
     p = ROOT / "contenuti" / "speciali.json"
     return json.loads(p.read_text()) if p.exists() else []
+def speciali():
+    """Speciali che prendono il posto del contenuto del giorno (gli "extra" invece si aggiungono)."""
+    return [x for x in tutti_speciali() if not x.get("in_piu")]
 def data_di(s, giorno): return datetime.date.fromisoformat(s["inizio"]) + datetime.timedelta(days=giorno - 1)
 def speciale(s, giorno, slot):
     d = data_di(s, giorno).isoformat()
@@ -93,18 +96,38 @@ def giorno_piano(s, giorno, slot):
     ini, d = s["inizio"], data_di(s, giorno).isoformat()
     return giorno - sum(1 for x in speciali() if x.get("slot", "carosello") == slot and ini <= x["data"] < d)
 
+def con_crediti(res):
+    """Aggiunge alla didascalia, prima degli hashtag, autore e licenza di ogni foto usata."""
+    visti, righe = set(), []
+    for cr in F.foto.CREDITI:
+        if cr["file"] in visti: continue
+        visti.add(cr["file"]); righe.append(f"{cr['comune']}: {cr['autore']}, {cr['licenza']} (Wikimedia Commons, {cr['file']})")
+    if righe:
+        testo, tags = res["didascalia"].rsplit("\n\n", 1)
+        for forma in (righe, [r.split(" (Wikimedia")[0] for r in righe]):      # Instagram accetta al massimo 2.200 caratteri
+            cap = f"{testo}\n\nFoto da Wikimedia Commons. " + "; ".join(forma) + f"\n\n{tags}"
+            if len(cap) <= 2150: break
+        res["didascalia"] = cap if len(cap) <= 2150 else f"{testo}\n\nFoto: Wikimedia Commons, autori e licenze nelle slide.\n\n{tags}"
+    return res
+
 def genera(giorno, slot, s, out):
+    F.foto.CREDITI.clear(); return con_crediti(_genera(giorno, slot, s, out))
+
+def genera_speciale(sp, out):
+    os.makedirs(out, exist_ok=True); tipo = sp.get("tipo", "carosello")
+    if tipo == "carosello": res = F.carosello_speciale(sp, out)
+    elif tipo == "regioni": res = F.reel_regioni(sp, out)
+    elif tipo in ("storia", "cibo"): res = getattr(F, f"carosello_{tipo}")(sp, out)
+    elif tipo == "sfida": a, b = F.find(sp["a"]), F.find(sp["b"]); res = F.reel_sfida(a, b, out, sp.get("domanda", "area"))
+    elif tipo == "mappa": res = F.reel_mappa(sp["mappa"], out)
+    else: raise ValueError(f"Tipo di speciale sconosciuto: {tipo}")
+    res["formato"], res["param"] = f"speciale_{tipo}", sp["data"]
+    return res
+
+def _genera(giorno, slot, s, out):
     os.makedirs(out, exist_ok=True); comuni, _ = load()
     sp = speciale(s, giorno, slot)
-    if sp:
-        tipo = sp.get("tipo", "carosello")
-        if tipo == "carosello": res = F.carosello_speciale(sp, out)
-        elif tipo in ("storia", "cibo"): res = getattr(F, f"carosello_{tipo}")(sp, out)
-        elif tipo == "sfida": a, b = F.find(sp["a"]), F.find(sp["b"]); res = F.reel_sfida(a, b, out, sp.get("domanda", "area"))
-        elif tipo == "mappa": res = F.reel_mappa(sp["mappa"], out)
-        else: raise ValueError(f"Tipo di speciale sconosciuto: {tipo}")
-        res["formato"], res["param"] = f"speciale_{tipo}", sp["data"]
-        return res
+    if sp: return genera_speciale(sp, out)
     formato, par = piano(giorno_piano(s, giorno, slot))[slot]
     if formato == "reel_comune":
         fatti = {p.get("param") for p in s["pubblicati"]}
@@ -168,6 +191,9 @@ def cmd_calendario():
 def cmd_anteprima():
     s = stato(); s.setdefault("inizio", OGGI.isoformat()); out = ROOT / "anteprima"; shutil.rmtree(out, ignore_errors=True)
     g0 = giorno_di(s); d = out / "00_presentazione"; res = F.carosello_intro(str(d)); (d / "didascalia.txt").write_text(res["didascalia"])
+    for i, sp in enumerate(x for x in tutti_speciali() if x.get("in_piu") and x["data"] >= OGGI.isoformat()):
+        d = out / f"00_extra_{sp['data']}_{sp.get('slot', 'carosello')}"; F.foto.CREDITI.clear()
+        res = con_crediti(genera_speciale(sp, str(d))); (d / "didascalia.txt").write_text(res["didascalia"])
     for k in range(int(os.environ.get("GIORNI", "7"))):
         for slot in ("carosello", "reel"):
             g = g0 + k; d = out / f"giorno{g:02d}_{slot}"
@@ -188,11 +214,37 @@ def pubblica(s, ig, giorno, slot):
     s["pubblicati"].append(dict(giorno=giorno, slot=slot, data=OGGI.isoformat(), formato=res["formato"], param=str(res["param"]), media_id=mid))
     salva(s); git_push(f"pubblicato giorno {giorno} {slot} {res['formato']}"); print("✅ pubblicato", giorno, slot, res["formato"], mid)
 
+def invia(s, ig, res, msg):
+    if res["tipo"] == "reel":
+        mid = ig.reel(res["file"][0], res["didascalia"])
+        for f in res["file"]: os.remove(f)
+    else:
+        git_push(msg); urls = list(map(url_pubblico, res["file"]))
+        for u in urls: attendi_url(u)
+        mid = ig.carosello(urls, res["didascalia"]) if len(urls) > 1 else ig.immagine(urls[0], res["didascalia"])
+    return mid
+
+def pubblica_extra(s, ig, slot=None):
+    """Contenuti extra (in più rispetto al calendario) con data di oggi o passata, non ancora usciti."""
+    fatti = set(s.setdefault("extra_fatti", []))
+    for sp in tutti_speciali():
+        chiave = f"{sp['data']}:{sp.get('slot', 'carosello')}:{sp.get('titolo', sp.get('tipo'))}"
+        if not sp.get("in_piu") or chiave in fatti or sp["data"] > OGGI.isoformat(): continue
+        if slot and sp.get("slot", "carosello") != slot: continue
+        F.foto.CREDITI.clear(); res = con_crediti(genera_speciale(sp, str(ROOT / "media" / f"extra_{sp['data']}_{sp.get('slot', 'carosello')}")))
+        mid = invia(s, ig, res, f"media extra {sp['data']}")
+        s["extra_fatti"].append(chiave); s["pubblicati"].append(dict(extra=chiave, data=OGGI.isoformat(), formato=res["formato"], media_id=mid))
+        salva(s); git_push(f"pubblicato extra {chiave}"); print("✅ extra pubblicato", chiave, mid)
+
+def cmd_extra():
+    if senza_token(): return
+    s = stato(); pubblica_extra(s, client(s), "carosello")
+
 def cmd_pubblica(slot):
     if senza_token(): return
     s = stato()
     if not s.get("inizio"): s["inizio"] = OGGI.isoformat(); salva(s)
-    pubblica(s, client(s), giorno_di(s), slot)
+    ig = client(s); pubblica(s, ig, giorno_di(s), slot); pubblica_extra(s, ig, slot)
 
 def cmd_lancio():
     """Primo avvio: i giorni 1, 2 e 3 escono subito (6 contenuti); da domani si prosegue col giorno 4."""
@@ -287,4 +339,4 @@ def cmd_commenti():
 if __name__ == "__main__":
     a = sys.argv[1]
     if a == "pubblica": cmd_pubblica(sys.argv[2] if len(sys.argv) > 2 else os.environ.get("SLOT", "reel"))
-    else: {"lancio": cmd_lancio, "verifica": cmd_verifica, "anteprima": cmd_anteprima, "calendario": cmd_calendario, "commenti": cmd_commenti, "intro": cmd_intro}[a]()
+    else: {"lancio": cmd_lancio, "verifica": cmd_verifica, "anteprima": cmd_anteprima, "calendario": cmd_calendario, "commenti": cmd_commenti, "intro": cmd_intro, "extra": cmd_extra}[a]()

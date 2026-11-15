@@ -1,33 +1,278 @@
 [
  {
+  "data": "2026-11-15",
+  "slot": "carosello",
+  "extra": "Scrivetelo nei commenti: proviamo a fare la mappa. Con educazione, per favore.",
+  "tipo": "carosello",
+  "tema": "indaco",
+  "etichetta": "SPECIALE POLITICA",
+  "titolo": "L'Italia è di destra o di sinistra?",
+  "sotto": "Dipende da dove guardi. Ecco i numeri, senza tifo.",
+  "gruppi": {
+   "cdx": {
+    "nome": "Centrodestra",
+    "colore": "#4DA3FF"
+   },
+   "csx": {
+    "nome": "Centrosinistra",
+    "colore": "#FF3E7F"
+   },
+   "aut": {
+    "nome": "Autonomisti",
+    "colore": "#FFD23F"
+   }
+  },
+  "regioni": {
+   "Trentino-Alto Adige": "cdx",
+   "Veneto": "cdx",
+   "Friuli-Venezia Giulia": "cdx",
+   "Lombardia": "cdx",
+   "Piemonte": "cdx",
+   "Valle d'Aosta": "aut",
+   "Emilia-Romagna": "csx",
+   "Liguria": "cdx",
+   "Toscana": "csx",
+   "Marche": "cdx",
+   "Umbria": "csx",
+   "Abruzzo": "cdx",
+   "Lazio": "cdx",
+   "Puglia": "csx",
+   "Molise": "cdx",
+   "Campania": "csx",
+   "Sardegna": "csx",
+   "Basilicata": "cdx",
+   "Calabria": "cdx",
+   "Sicilia": "cdx"
+  },
+  "slide": [
+   {
+    "titolo": "Le Regioni: 13 a 6",
+    "testo": "Dopo le regionali del 2025 il centrodestra governa 13 regioni, il centrosinistra 6. La Valle d'Aosta va per conto suo: la guidano gli autonomisti dell'Union Valdôtaine.",
+    "mappa_regioni": true,
+    "conta": {
+     "cdx": 13,
+     "csx": 6,
+     "aut": 1
+    },
+    "fonte": "Fonte: AGI, Sky TG24"
+   },
+   {
+    "titolo": "Le città: 10 a 6",
+    "testo": "Tra maggio e giugno 2026 si è votato in 18 capoluoghi di provincia. Il conteggio di Youtrend dopo i ballottaggi:",
+    "numeri": [
+     [
+      [
+       "10",
+       "csx"
+      ],
+      "sindaci di centrosinistra (prima erano 8)"
+     ],
+     [
+      [
+       "6",
+       "cdx"
+      ],
+      "sindaci di centrodestra (prima erano 5)"
+     ],
+     [
+      "2",
+      "sindaci civici"
+     ]
+    ],
+    "fonte": "Fonte: Youtrend"
+   },
+   {
+    "titolo": "Chi ha cambiato colore",
+    "testo": "Passano al centrodestra Reggio Calabria e Lecco, che erano di centrosinistra, e Crotone, che era civica. Passano al centrosinistra Agrigento e Pistoia, che erano di centrodestra, e Avellino ed Enna, che erano civiche. Venezia resta al centrodestra.",
+    "fonte": "Fonte: AGI, Youtrend"
+   },
+   {
+    "titolo": "E nei comuni più grandi?",
+    "testo": "Nei 118 comuni sopra i 15.000 abitanti al voto nel 2026 il centrosinistra resta davanti, ma perde terreno. Gli unici a crescere sono i sindaci civici, senza simboli di partito.",
+    "numeri": [
+     [
+      [
+       "50",
+       "csx"
+      ],
+      "sindaci di centrosinistra"
+     ],
+     [
+      [
+       "40",
+       "cdx"
+      ],
+      "sindaci di centrodestra"
+     ],
+     [
+      "28",
+      "sindaci civici"
+     ]
+    ],
+    "fonte": "Fonte: Youtrend, via Pagella Politica"
+   },
+   {
+    "titolo": "Quindi?",
+    "testo": "Le Regioni pendono a destra, le città che hanno votato quest'anno a sinistra. E chi conta i risultati li legge sempre a modo suo: dopo i ballottaggi entrambe le coalizioni hanno detto di aver vinto."
+   }
+  ],
+  "domanda": "E il vostro comune di che colore è?",
+  "fonti": [
+   "AGI, Regionali 2025: la geografia politica (25/11/2025)",
+   "Sky TG24, la mappa di chi governa le Regioni",
+   "Youtrend, elaborazioni sulle comunali 2026 (via Pagella Politica e AGI, 8/6/2026)"
+  ],
+  "didascalia": "L'Italia è di destra o di sinistra? Dipende da dove guardi.\n\nLe Regioni sono 13 al centrodestra e 6 al centrosinistra, più la Valle d'Aosta agli autonomisti. Ma nei 18 capoluoghi che hanno votato nel 2026 è finita 10 a 6 per il centrosinistra, con 2 sindaci civici. Nei comuni sopra i 15.000 abitanti: 50 al centrosinistra, 40 al centrodestra, 28 ai civici, che sono gli unici a crescere.\n\nNessun tifo qui, solo numeri. Il vostro comune di che colore è? Scrivetelo nei commenti, con educazione.",
+  "hashtag": [
+   "#politica",
+   "#elezioni",
+   "#comunali"
+  ],
+  "in_piu": true
+ },
+ {
+  "data": "2026-11-15",
+  "slot": "reel",
+  "tipo": "regioni",
+  "gruppi": {
+   "cdx": {
+    "nome": "Centrodestra",
+    "colore": "#4DA3FF"
+   },
+   "csx": {
+    "nome": "Centrosinistra",
+    "colore": "#FF3E7F"
+   },
+   "aut": {
+    "nome": "Autonomisti",
+    "colore": "#FFD23F"
+   }
+  },
+  "regioni": {
+   "Trentino-Alto Adige": "cdx",
+   "Veneto": "cdx",
+   "Friuli-Venezia Giulia": "cdx",
+   "Lombardia": "cdx",
+   "Piemonte": "cdx",
+   "Valle d'Aosta": "aut",
+   "Emilia-Romagna": "csx",
+   "Liguria": "cdx",
+   "Toscana": "csx",
+   "Marche": "cdx",
+   "Umbria": "csx",
+   "Abruzzo": "cdx",
+   "Lazio": "cdx",
+   "Puglia": "csx",
+   "Molise": "cdx",
+   "Campania": "csx",
+   "Sardegna": "csx",
+   "Basilicata": "cdx",
+   "Calabria": "cdx",
+   "Sicilia": "cdx"
+  },
+  "titolo_reel": "Destra o sinistra? Regione per regione",
+  "fonte_reel": "Fonte: AGI, Sky TG24 (regionali 2025)",
+  "finale": [
+   [
+    "13 regioni al centrodestra, 6 al centrosinistra.",
+    ""
+   ],
+   [
+    "Ma nei 18 capoluoghi al voto nel 2026 è finita 10 a 6 per il centrosinistra.",
+    "csx"
+   ]
+  ],
+  "cta_reel": "E il tuo comune? Scrivilo nei commenti",
+  "fonte_finale": "Fonte: Youtrend, comunali 2026",
+  "fonti": [
+   "AGI, Regionali 2025: la geografia politica (25/11/2025)",
+   "Sky TG24, la mappa di chi governa le Regioni",
+   "Youtrend, elaborazioni sulle comunali 2026 (via Pagella Politica e AGI, 8/6/2026)"
+  ],
+  "didascalia_reel": "13 a 6 per il centrodestra nelle Regioni. 10 a 6 per il centrosinistra nei capoluoghi che hanno votato quest'anno. Allora l'Italia da che parte sta?\n\nGuardate le regioni accendersi una a una da nord a sud. Poi diteci nei commenti di che colore è il vostro comune: con i vostri commenti proviamo a fare la mappa. Con educazione, per favore.\nOgni giorno un comune diverso: seguite @italia_incomune.",
+  "hashtag": [
+   "#politica",
+   "#elezioni",
+   "#regioni"
+  ],
+  "in_piu": true
+ },
+ {
   "data": "2026-11-19",
   "slot": "carosello",
   "tipo": "carosello",
   "etichetta": "SPECIALE",
   "titolo": "In quale provincia si fa più l'amore?",
   "sotto": "Abbiamo cercato i dati. La risposta è meno ovvia di quanto pensiate.",
-  "evidenzia": ["BZ", "MI", "TO"],
+  "evidenzia": [
+   "BZ",
+   "MI",
+   "TO"
+  ],
   "slide": [
-   {"titolo": "Prima, la verità",
+   {
+    "titolo": "Prima, la verità",
     "testo": "Nessuno misura quanto si fa l'amore provincia per provincia. L'indagine più seria è nazionale: il Censis nel 2025 ha intervistato 1.000 persone tra 18 e 60 anni.",
-    "numeri": [["5,3%", "lo fa tutti i giorni"], ["29,9%", "due o tre volte a settimana"], ["8,5%", "per niente"]],
-    "fonte": "Fonte: Censis, Il piacere degli italiani (2026)"},
-   {"titolo": "Primo indizio: le culle",
-    "evidenzia": ["BZ"],
+    "numeri": [
+     [
+      "5,3%",
+      "lo fa tutti i giorni"
+     ],
+     [
+      "29,9%",
+      "due o tre volte a settimana"
+     ],
+     [
+      "8,5%",
+      "per niente"
+     ]
+    ],
+    "fonte": "Fonte: Censis, Il piacere degli italiani (2026)"
+   },
+   {
+    "titolo": "Primo indizio: le culle",
+    "evidenzia": [
+     "BZ"
+    ],
     "testo": "Nel 2025 la provincia con più figli per donna è Bolzano. Ed è una delle due sole zone d'Italia in cui il numero è salito.",
-    "numeri": [["1,54", "figli per donna in provincia di Bolzano"], ["1,14", "la media italiana, mai così bassa"]],
-    "fonte": "Fonte: ISTAT, Natalità e fecondità 2025"},
-   {"titolo": "Secondo indizio: il carrello",
-    "evidenzia": ["MI", "TO"],
+    "numeri": [
+     [
+      "1,54",
+      "figli per donna in provincia di Bolzano"
+     ],
+     [
+      "1,14",
+      "la media italiana, mai così bassa"
+     ]
+    ],
+    "fonte": "Fonte: ISTAT, Natalità e fecondità 2025"
+   },
+   {
+    "titolo": "Secondo indizio: il carrello",
+    "evidenzia": [
+     "MI",
+     "TO"
+    ],
     "testo": "Everli ha guardato dove si spende di più in preservativi, lubrificanti e sex toy con la spesa online. In testa Milano e Torino. Nella top 10 nessuna provincia del Sud: la più a sud è Roma. Attenzione però: conta anche dove la spesa online è più diffusa.",
-    "fonte": "Fonte: Everli, acquisti 2021"},
-   {"titolo": "Il verdetto",
-    "testo": "Bolzano fa più figli, Milano e Torino comprano più preservativi. Forse è la stessa passione, vissuta in due modi diversi. Una classifica ufficiale non esiste: a questo punto la facciamo noi."}
+    "fonte": "Fonte: Everli, acquisti 2021"
+   },
+   {
+    "titolo": "Il verdetto",
+    "testo": "Bolzano fa più figli, Milano e Torino comprano più preservativi. Forse è la stessa passione, vissuta in due modi diversi. Una classifica ufficiale non esiste: a questo punto la facciamo noi."
+   }
   ],
   "domanda": "Qual è la provincia più passionale d'Italia?",
   "extra": "La provincia più citata nei commenti vince il titolo (non ufficiale).",
-  "fonti": ["Censis, Il piacere degli italiani (marzo 2026)", "ISTAT, Natalità e fecondità della popolazione residente, anno 2025", "Everli, analisi degli acquisti 2021"],
+  "fonti": [
+   "Censis, Il piacere degli italiani (marzo 2026)",
+   "ISTAT, Natalità e fecondità della popolazione residente, anno 2025",
+   "Everli, analisi degli acquisti 2021"
+  ],
   "didascalia": "Qual è la provincia dove si fa più l'amore? Ce lo siamo chiesti e abbiamo cercato i numeri.\n\nSpoiler: una classifica vera non esiste, nessuno lo misura provincia per provincia. Però gli indizi ci sono. Bolzano è la provincia dove nascono più bambini (1,54 figli per donna, contro una media italiana di 1,14). Milano e Torino sono quelle dove si spende di più in preservativi con la spesa online.\n\nA questo punto decidete voi: scrivete la vostra provincia nei commenti. La più citata vince il titolo, rigorosamente non ufficiale.",
-  "hashtag": ["#amore", "#statistiche", "#province"]
+  "hashtag": [
+   "#amore",
+   "#statistiche",
+   "#province"
+  ]
  }
 ]
