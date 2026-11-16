@@ -67,6 +67,14 @@
    "data": "2026-11-16",
    "formato": "speciale_regioni",
    "media_id": "18649116778044872"
+  },
+  {
+   "giorno": 4,
+   "slot": "carosello",
+   "data": "2026-11-16",
+   "formato": "carosello_classifica",
+   "param": "dens_max",
+   "media_id": "18127057795721490"
   }
  ],
  "commenti_gestiti": [],
