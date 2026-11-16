@@ -83,6 +83,14 @@
    "formato": "reel_comune",
    "param": "001022",
    "media_id": "18110639555524132"
+  },
+  {
+   "giorno": 4,
+   "slot": "sera",
+   "data": "2026-11-16",
+   "formato": "reel_storia",
+   "param": "Castelmezzano",
+   "media_id": "18654920269008086"
   }
  ],
  "commenti_gestiti": [],
