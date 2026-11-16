@@ -61,6 +61,12 @@
    "formato": "reel_forma",
    "param": "015146",
    "media_id": "18133603399697522"
+  },
+  {
+   "extra": "2026-11-15:reel:regioni",
+   "data": "2026-11-16",
+   "formato": "speciale_regioni",
+   "media_id": "18649116778044872"
   }
  ],
  "commenti_gestiti": [],
@@ -72,6 +78,7 @@
  "inizio": "2026-11-13",
  "intro": "18110344078958059",
  "extra_fatti": [
-  "2026-11-15:carosello:L'Italia è di destra o di sinistra?"
+  "2026-11-15:carosello:L'Italia è di destra o di sinistra?",
+  "2026-11-15:reel:regioni"
  ]
 }
