@@ -4,7 +4,8 @@ python -m bot.main anteprima           -> genera in anteprima/ i contenuti dei p
 python -m bot.main calendario          -> stampa il piano dei prossimi 60 giorni
 python -m bot.main lancio              -> primo avvio: pubblica i primi 3 giorni (6 contenuti)
 python -m bot.main pubblica carosello  -> pubblica il carosello di oggi (12:23)
-python -m bot.main pubblica reel       -> pubblica il Reel di oggi (18:23)
+python -m bot.main pubblica reel       -> pubblica il Reel di oggi (18:23); anche "mattina" (08:23) e "sera" (21:23)
+python -m bot.main recupero            -> pubblica subito ciò che oggi doveva già uscire e gli extra in sospeso
 python -m bot.main commenti            -> schede in DM a chi scrive un comune, conteggio voti dei derby
 """
 import os, sys, json, datetime, subprocess, shutil, time, difflib, re, random
@@ -26,6 +27,17 @@ def stato():
     return s
 def salva(s): STATO.write_text(json.dumps(s, ensure_ascii=False, indent=1))
 
+# Commenti e voti hanno un file a parte: così i run dei commenti e quelli di pubblicazione,
+# che possono partire quasi insieme, non modificano mai lo stesso file.
+STATO_C = ROOT / "stato" / "commenti.json"
+def stato_commenti():
+    if STATO_C.exists(): c = json.loads(STATO_C.read_text() or "{}")
+    else:
+        vecchio = json.loads(STATO.read_text() or "{}") if STATO.exists() else {}
+        c = dict(commenti_gestiti=vecchio.get("commenti_gestiti", []), voti=vecchio.get("voti", {}))
+    c.setdefault("commenti_gestiti", []); c.setdefault("voti", {}); return c
+def salva_commenti(c): STATO_C.write_text(json.dumps(c, ensure_ascii=False, indent=1))
+
 def git_push(msg):
     if not REPO: return
     subprocess.run(["git", "add", "-A", "media", "stato"], cwd=ROOT, check=True)
@@ -33,7 +45,7 @@ def git_push(msg):
     subprocess.run(["git", "commit", "-m", msg], cwd=ROOT, check=True)
     for _ in range(3):
         if subprocess.run(["git", "push"], cwd=ROOT).returncode == 0: return
-        subprocess.run(["git", "pull", "--rebase"], cwd=ROOT)
+        subprocess.run(["git", "pull", "--rebase", "--autostash"], cwd=ROOT)
     raise RuntimeError("git push non riuscito")
 
 def url_pubblico(path):
@@ -50,6 +62,10 @@ def attendi_url(url):
 # ------------------------------------------------------------ calendario (giorno 1 = primo giorno di pubblicazione)
 REEL_SETT = ["sfida", "mappa", "derby", "comune", "countdown", "sfida", "mappa"]
 CAR_SETT = ["storia", "provincia", "cibo", "classifica", "provincia", "risultati", "alterna"]
+REEL_MATTINA = ["dove", "forma", "dove", "forma", "dove", "forma", "dove"]          # 08:23, quiz veloci
+REEL_SERA = ["storia", "cibo", "forma", "storia", "cibo", "dove", "storia"]          # 21:23, racconti
+SLOT_ORE = [("mattina", (8, 23)), ("carosello", (12, 23)), ("reel", (18, 23)), ("sera", (21, 23))]
+SLOT = [s for s, _ in SLOT_ORE]
 ORD_COUNTDOWN = ["area_max", "confinanti", "area_min", "nome_corto", "pezzi", "dens_max", "nome_lungo"]
 ORD_CLASSIFICA = ["dens_max", "nome_lungo", "pezzi", "area_max", "nome_corto", "area_min", "confinanti"]
 
@@ -58,7 +74,8 @@ def piano(giorno):
     storie, cibo, derby, mappe = J("storie.json"), J("cibo.json"), J("derby.json"), list(F.MAPPE)
     prov = F.province(); random.Random(7).shuffle(prov)
     if "TO" in prov: prov.remove("TO"); prov.insert(0, "TO")        # la Città metropolitana di Torino apre la serie
-    n = dict(storia=0, cibo=0, provincia=0, classifica=0, countdown=0, mappa=0, derby=0)
+    n = dict(storia=0, cibo=0, provincia=0, classifica=0, countdown=0, mappa=0, derby=0, rstoria=0, rcibo=0)
+    storie_r, cibo_r = storie[::-1], cibo[::-1]             # nei Reel le storie partono dal fondo: mai la stessa del carosello
     out = None
     for g in range(1, giorno + 1):
         k = (g - 1) % 7; sett = (g - 1) // 7
@@ -77,7 +94,13 @@ def piano(giorno):
         elif tipo == "classifica" and n["classifica"] < len(ORD_CLASSIFICA): c = ("carosello_classifica", ORD_CLASSIFICA[n["classifica"]]); n["classifica"] += 1
         elif tipo == "risultati" and sett < len(derby): c = ("carosello_risultati", derby[sett]["id"])
         else: c = ("carosello_provincia", prov[n["provincia"] % len(prov)]); n["provincia"] += 1
-        out = {"carosello": c, "reel": r}
+        # Reel del mattino e della sera
+        tipo = REEL_MATTINA[k]; mt = (f"reel_{tipo}", f"m{g}")
+        tipo = REEL_SERA[k]
+        if tipo == "storia": se = ("reel_storia", storie_r[n["rstoria"] % len(storie_r)]["comune"]); n["rstoria"] += 1
+        elif tipo == "cibo": se = ("reel_cibo", cibo_r[n["rcibo"] % len(cibo_r)]["comune"]); n["rcibo"] += 1
+        else: se = (f"reel_{tipo}", f"s{g}")
+        out = {"carosello": c, "reel": r, "mattina": mt, "sera": se}
     return out
 
 # ------------------------------------------------------------ speciali a data fissa (contenuti/speciali.json)
@@ -135,13 +158,15 @@ def _genera(giorno, slot, s, out):
         c = random.Random(par).choice(cand); res = F.reel_comune(c, out); par = c["istat"]
     elif formato == "reel_sfida":
         tipo, seme = par.split(":"); a, b = F.coppia(seme, tipo); res = F.reel_sfida(a, b, out, tipo); par = f"{tipo}:{a['istat']}-{b['istat']}"
-    elif formato in ("carosello_storia", "carosello_cibo"):
-        item = next(x for x in J("storie.json" if formato == "carosello_storia" else "cibo.json") if x["comune"] == par)
+    elif formato in ("carosello_storia", "carosello_cibo", "reel_storia", "reel_cibo"):
+        item = next(x for x in J("storie.json" if formato.endswith("storia") else "cibo.json") if x["comune"] == par)
         res = getattr(F, formato)(item, out)
+    elif formato in ("reel_forma", "reel_dove"):
+        res = getattr(F, formato)(par, out); par = res.get("param", par)
     elif formato == "reel_derby":
         res = F.reel_derby(next(d for d in J("derby.json") if d["id"] == par), out)
     elif formato == "carosello_risultati":
-        voti = s["voti"].get(par, {})
+        voti = stato_commenti()["voti"].get(par, {})
         if len(voti) < MIN_VOTI:            # troppo pochi voti: al loro posto una provincia (diversa dal piano)
             prov = F.province(); random.Random(99).shuffle(prov)
             formato, par = "carosello_provincia", prov[giorno % len(prov)]; res = F.carosello_provincia(par, out)
@@ -182,7 +207,7 @@ def cmd_calendario():
     s = stato(); s.setdefault("inizio", OGGI.isoformat())
     for g in range(1, int(os.environ.get("GIORNI", "60")) + 1):
         riga = [f"giorno {g:2d} ({data_di(s, g):%d/%m})"]
-        for slot in ("carosello", "reel"):
+        for slot in SLOT:
             sp = speciale(s, g, slot)
             f, p = (f"SPECIALE {sp.get('tipo', 'carosello')}", sp.get("titolo", "")[:30]) if sp else piano(giorno_piano(s, g, slot))[slot]
             riga.append(f"{slot}: {f} {p}")
@@ -195,7 +220,7 @@ def cmd_anteprima():
         d = out / f"00_extra_{sp['data']}_{sp.get('slot', 'carosello')}"; F.foto.CREDITI.clear()
         res = con_crediti(genera_speciale(sp, str(d))); (d / "didascalia.txt").write_text(res["didascalia"])
     for k in range(int(os.environ.get("GIORNI", "7"))):
-        for slot in ("carosello", "reel"):
+        for slot in SLOT:
             g = g0 + k; d = out / f"giorno{g:02d}_{slot}"
             res = genera(g, slot, s, str(d)); (d / "didascalia.txt").write_text(res["didascalia"])
             s["pubblicati"].append(dict(giorno=g, slot=slot, formato=res["formato"], param=str(res["param"])))
@@ -240,11 +265,34 @@ def cmd_extra():
     if senza_token(): return
     s = stato(); pubblica_extra(s, client(s), "carosello")
 
+def scaduti(adesso=None):
+    """Gli slot di oggi il cui orario è già passato (gli orari sono in ora italiana)."""
+    adesso = adesso or datetime.datetime.now()
+    return [s for s, (h, mi) in SLOT_ORE if (adesso.hour, adesso.minute) >= (h, mi)]
+
+def recupera(s, ig, slots):
+    """Pubblica tutto ciò che è dovuto e non è ancora uscito. Un errore su un contenuto non blocca gli altri."""
+    g, errori = giorno_di(s), []
+    for slot in slots:
+        try: pubblica(s, ig, g, slot)
+        except Exception as e: errori.append(f"{slot}: {e}"); registra_errore(f"pubblica {slot}")
+    for slot in SLOT:
+        try: pubblica_extra(s, ig, slot)
+        except Exception as e: errori.append(f"extra {slot}: {e}"); registra_errore(f"extra {slot}")
+    if errori: raise RuntimeError("Alcuni contenuti non sono usciti: " + " | ".join(errori))
+
 def cmd_pubblica(slot):
+    """Run programmato: pubblica lo slot richiesto e recupera quelli di oggi rimasti indietro."""
     if senza_token(): return
     s = stato()
     if not s.get("inizio"): s["inizio"] = OGGI.isoformat(); salva(s)
-    ig = client(s); pubblica(s, ig, giorno_di(s), slot); pubblica_extra(s, ig, slot)
+    da_fare = [x for x in SLOT if x in scaduti() or x == slot]
+    recupera(s, client(s), da_fare)
+
+def cmd_recupero():
+    """A mano: fa uscire subito tutto quello che oggi doveva già essere uscito, più gli extra in sospeso."""
+    if senza_token(): return
+    s = stato(); recupera(s, client(s), scaduti())
 
 def cmd_lancio():
     """Primo avvio: i giorni 1, 2 e 3 escono subito (6 contenuti); da domani si prosegue col giorno 4."""
@@ -303,40 +351,61 @@ def cmd_commenti():
     if senza_token(): return
     s = stato()
     if not s["pubblicati"]: return print("Nessun post pubblicato ancora.")
-    ig = client(s); gestiti = set(s["commenti_gestiti"]); fatti = 0
+    ig = client(s); cs = stato_commenti(); gestiti = set(cs["commenti_gestiti"]); fatti = 0
     derby_di = {p["media_id"]: p["param"] for p in s["pubblicati"] if p.get("formato") == "reel_derby" and p.get("media_id")}
     derby = {d["id"]: d for d in J("derby.json")}
     limite = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(days=6)
-    for m in ig.media_recenti(15):
+    try: recenti = ig.media_recenti(15)
+    except Exception as e: return print("Non riesco a leggere i post recenti:", e)
+    for m in recenti:
         dz = derby.get(derby_di.get(m["id"]))
-        for cm in ig.commenti(m["id"]):
+        try: commenti = ig.commenti(m["id"])
+        except Exception as e:
+            print(f"Commenti del post {m['id']} non leggibili:", e); continue
+        for cm in commenti:
             if cm["id"] in gestiti or fatti >= 25: continue
             gestiti.add(cm["id"]); user = (cm.get("username") or (cm.get("from") or {}).get("username") or cm["id"])
             if user.lower() == (s.get("username") or "").lower(): continue
-            if datetime.datetime.fromisoformat(cm["timestamp"].replace("+0000", "+00:00")) < limite: continue
+            try:
+                if datetime.datetime.fromisoformat(cm["timestamp"].replace("+0000", "+00:00")) < limite: continue
+            except Exception: pass
             testo = cm.get("text", ""); c = trova_comune(testo); msg = None
             if dz:
                 v = voto(testo, dz)
                 if v:
-                    s["voti"].setdefault(dz["id"], {})[user] = dict(v=v, reg=c["reg"] if c else None)
+                    cs["voti"].setdefault(dz["id"], {})[user] = dict(v=v, reg=c["reg"] if c else None)
                     continue                     # il voto si conta in silenzio, senza rispondere
-            if c and not msg:
+            if not c: continue
+            try:
                 path = ROOT / "media" / "schede" / f"{c['istat']}.png"
                 if not path.exists():
                     path.parent.mkdir(parents=True, exist_ok=True); F.scheda(c, str(path)); git_push(f"scheda {c['nome']}")
                 url = url_pubblico(str(path)); attendi_url(url)
                 righe = "\n".join(f"• {v} {k}" for v, k in F.stats(c))
                 msg = f"Ciao! Ecco la scheda di {F.nome(c)} ({c['prov']}) 📍\n{righe}\n\nLa scheda illustrata: {url}\n\nGrazie per aver commentato 🇮🇹"
-            if not msg: continue
+            except Exception as e:
+                print(f"Scheda di {c['nome']} non pronta:", e); continue
             try: ig.risposta_privata(cm["id"], msg)
-            except APIError as e:
+            except Exception as e:
                 print("DM non riuscito, rispondo nel post:", e)
                 try: ig.risposta_pubblica(cm["id"], msg.split("\n")[0])
-                except APIError as e2: print("Anche la risposta pubblica non è riuscita:", e2)
+                except Exception as e2: print("Anche la risposta pubblica non è riuscita:", e2)
             fatti += 1
-    s["commenti_gestiti"] = list(gestiti)[-5000:]; salva(s); git_push("commenti e voti"); print("risposte inviate:", fatti)
+    cs["commenti_gestiti"] = list(gestiti)[-5000:]; salva_commenti(cs); git_push("commenti e voti"); print("risposte inviate:", fatti)
+
+def registra_errore(azione):
+    """Scrive l'ultimo errore in stato/, così si può leggere dal repository senza aprire i log di GitHub."""
+    import traceback
+    gruppo = "commenti" if azione == "commenti" else "pubblicazione"
+    (ROOT / "stato" / f"errore_{gruppo}.txt").write_text(
+        f"{datetime.datetime.now():%Y-%m-%d %H:%M} · azione: {azione}\n\n{traceback.format_exc()}")
+    try: git_push(f"errore durante {azione}")
+    except Exception: pass
 
 if __name__ == "__main__":
     a = sys.argv[1]
-    if a == "pubblica": cmd_pubblica(sys.argv[2] if len(sys.argv) > 2 else os.environ.get("SLOT", "reel"))
-    else: {"lancio": cmd_lancio, "verifica": cmd_verifica, "anteprima": cmd_anteprima, "calendario": cmd_calendario, "commenti": cmd_commenti, "intro": cmd_intro, "extra": cmd_extra}[a]()
+    try:
+        if a == "pubblica": cmd_pubblica(sys.argv[2] if len(sys.argv) > 2 else os.environ.get("SLOT", "reel"))
+        else: {"lancio": cmd_lancio, "verifica": cmd_verifica, "anteprima": cmd_anteprima, "calendario": cmd_calendario, "commenti": cmd_commenti, "intro": cmd_intro, "extra": cmd_extra, "recupero": cmd_recupero}[a]()
+    except Exception:
+        registra_errore(" ".join(sys.argv[1:])); raise

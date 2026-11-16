@@ -7,7 +7,7 @@ from PIL import Image, ImageDraw
 from .base import *
 from .base import extra, reg_geom, prov_geom, draw_area
 from .city import city
-from . import foto, musica
+from . import foto, musica, motivi
 
 W, H = 1080, 1350            # post 4:5
 VW, VH, FPS = 1080, 1920, 30  # reel 9:16
@@ -36,10 +36,10 @@ def footer(img, T, n=None, tot=None, fonte="Fonte: ISTAT, openpolis"):
     if fonte: txt(img, (img.width - 60, img.height - 84), fonte, font("m", 22), T["muted"], "ra", "fonte")
     if n: txt(img, (img.width - 60, 60), f"{n}/{tot}", font("b", 28), T["muted"], "ra", "pagina")
 def save(img, out, name):
-    verifica(name); p = os.path.join(out, name + ".png"); img.convert("RGB").save(p); return p
+    verifica(name); os.makedirs(out, exist_ok=True); p = os.path.join(out, name + ".png"); img.convert("RGB").save(p); return p
 def encode(path, frames, umore="pop"):
     """Codifica i fotogrammi (controllando le sovrapposizioni di ognuno) e aggiunge una musica originale."""
-    muto, wav = path + ".muto.mp4", path + ".wav"
+    os.makedirs(os.path.dirname(path) or ".", exist_ok=True); muto, wav = path + ".muto.mp4", path + ".wav"
     p = subprocess.Popen(["ffmpeg", "-y", "-loglevel", "error", "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", f"{VW}x{VH}", "-r", str(FPS), "-i", "-",
                           "-c:v", "libx264", "-preset", "veryfast", "-crf", "20", "-pix_fmt", "yuv420p", "-movflags", "+faststart", muto], stdin=subprocess.PIPE)
     n = 0
@@ -56,16 +56,19 @@ def encode(path, frames, umore="pop"):
 def vhandle(img, T): pill(img, HANDLE, (60, 150), font("b", 32), T["ink"], T["bg"], tag="firma")
 def label(c): return f"{c['prov']} · {c['reg'].split('/')[0]}"
 def nome(c): return c["nome"].split("/")[0]
-def scena(c, T, w, h, margine=60, fs=20):
-    """Foto del comune (Wikimedia Commons) in un riquadro arrotondato, con il credito sotto. None se non c'è."""
-    r = foto.prendi(c)
+def scena(c, T, w, h, margine=60, fs=20, soggetto=None):
+    """Foto del comune (o di un soggetto, es. un monumento) da Wikimedia Commons in un riquadro arrotondato,
+    con il credito sotto. None se non c'è."""
+    r = foto.prendi_soggetto(soggetto) if soggetto else foto.prendi(c)
     if not r: return None
     im, cr = r; strip = fs + 18; pw, ph = w - 2 * margine, h - strip
     if ph < 200 or pw < 200: return None
     out = Image.new("RGBA", (w, h), (0, 0, 0, 0)); q = foto.riquadro(im, pw, ph); out.paste(q, (margine, 0), q)
     d = ImageDraw.Draw(out); f = font("m", fs); t = foto.credito_breve(cr)
-    while d.textlength(t, font=f) > pw and len(t) > 10: t = t[:-2].rstrip() + "…" if not t.endswith("…") else t[:-3].rstrip() + "…"
-    d.text((margine, ph + 9), t, font=f, fill=T["muted"]); foto.CREDITI.append(cr)
+    while d.textlength(t, font=f) > pw - 24 and len(t) > 10: t = t[:-2].rstrip() + "…" if not t.endswith("…") else t[:-3].rstrip() + "…"
+    tw = d.textlength(t, font=f)            # il credito sta in una piccola etichetta scura: si legge su qualsiasi colore
+    d.rounded_rectangle((margine, ph + 4, margine + tw + 24, ph + 4 + fs + 12), (fs + 12) // 2, fill="#1A1446")
+    d.text((margine + 12, ph + 8), t, font=f, fill="#FFFFFF"); foto.CREDITI.append(cr)
     return out
 def city_in(img, c, T, top, bottom, maxh, seed="", con_foto=False):
     """Illustrazione (o foto, se con_foto) a tutta larghezza nello spazio libero tra top e bottom."""
@@ -203,7 +206,11 @@ def _kw(*k):
 for k, parola, domanda in [("castel", "«Castel»", "Quanti comuni hanno un castello nel nome?"), ("villa", "«Villa»", "Quanti comuni hanno «Villa» nel nome?"),
                            ("rocca", "«Rocca»", "Quanti comuni hanno «Rocca» nel nome?"), ("val", "«Val»", "Quanti comuni hanno «Val» nel nome?"),
                            ("terme|bagn", "«Terme» o «Bagni»", "Quanti comuni hanno le terme nel nome?"), ("torre", "«Torre»", "Quanti comuni hanno «Torre» nel nome?"),
-                           ("ponte", "«Ponte»", "Quanti comuni hanno «Ponte» nel nome?"), ("borgo", "«Borgo»", "Quanti comuni hanno «Borgo» nel nome?")]:
+                           ("ponte", "«Ponte»", "Quanti comuni hanno «Ponte» nel nome?"), ("borgo", "«Borgo»", "Quanti comuni hanno «Borgo» nel nome?"),
+                           ("colle", "«Colle»", "Quanti comuni hanno «Colle» nel nome?"), ("porto", "«Porto»", "Quanti comuni hanno «Porto» nel nome?"),
+                           ("poggio", "«Poggio»", "Quanti comuni hanno «Poggio» nel nome?"), ("pian", "«Piano» o «Pian»", "Quanti comuni hanno «Piano» nel nome?"),
+                           ("sasso", "«Sasso»", "Quanti comuni hanno «Sasso» nel nome?"), ("fonte|font", "«Fonte»", "Quanti comuni hanno una fonte nel nome?"),
+                           ("casal", "«Casal»", "Quanti comuni hanno «Casal» nel nome?"), ("serra", "«Serra»", "Quanti comuni hanno «Serra» nel nome?")]:
     MAPPE[k.split("|")[0]] = dict(f=_kw(*k.split("|")), testo=f"comuni hanno {parola} nel nome", domanda=domanda, cta="Il tuo è tra questi?", fonte="Fonte: ISTAT, openpolis")
 
 def reel_mappa(chiave, out):
@@ -413,6 +420,124 @@ def reel_regioni(item, out):
     cap = f"{item['didascalia_reel']}\n\nFonti: {'; '.join(item.get('fonti', []))}\n\n{hashtags(*item.get('hashtag', []))}"
     return dict(tipo="reel", file=[path], didascalia=cap)
 
+# ---------------------------------------------------------------- quiz: riconosci il comune dalla forma
+def sagoma(geom, w, h, colore):
+    """Il contorno del comune riempito di colore, centrato in un riquadro w×h."""
+    x0, y0, x1, y1 = geom.bounds; k = min((w - 20) / (x1 - x0), (h - 20) / (y1 - y0))
+    ox, oy = (w - (x1 - x0) * k) / 2, (h - (y1 - y0) * k) / 2
+    im = Image.new("RGBA", (w, h), (0, 0, 0, 0)); d = ImageDraw.Draw(im)
+    for p in getattr(geom, "geoms", [geom]):
+        pts = [(ox + (x - x0) * k, h - oy - (y - y0) * k) for x, y in p.exterior.coords]; d.polygon(pts, fill=colore)
+        for hole in p.interiors: d.polygon([(ox + (x - x0) * k, h - oy - (y - y0) * k) for x, y in hole.coords], fill=(0, 0, 0, 0))
+    return im
+def tre_opzioni(giusto, altri, seed):
+    r = random.Random(seed); ops = [giusto] + r.sample(altri, 2); r.shuffle(ops); return ops
+def quiz_frames(T, titolo, centro, opzioni, giusta, rivela, dopo_txt, durata=9.0, rivela_a=5.6):
+    """Impaginazione comune ai quiz: domanda, immagine centrale, tre risposte, conto alla rovescia, soluzione."""
+    lettere_ = "ABC"; f_op = font("k", 46)
+    for f in range(int(durata * FPS)):
+        t = f / FPS; img = canvas(T, VW, VH); vhandle(img, T); sol = t >= rivela_a
+        text_block(img, titolo, (70, 250), fit_font(img, titolo, "k", VW - 140, 2, 84), T["ink"], VW - 140, 1.02)
+        im = rivela if (sol and rivela is not None) else centro
+        place(img, im, VW // 2, 470, 860, 640, "figura")
+        for i, o in enumerate(opzioni):
+            ok = sol and o == giusta; testo = f"{lettere_[i]}   {o}" + ("  · GIUSTA!" if ok else "")
+            bg = T["acc"] if ok else ("#FFFFFF" if not sol else T["land"]); fg = "#1A1446" if not ok else "#FFFFFF"
+            pill(img, testo, (70, 1150 + i * 120), fit_font(img, testo, "k", VW - 200, 1, 46), bg, fg, tag=f"opzione{i}")
+        if not sol:
+            n = 3 - int(max(0, t - (rivela_a - 3))) if t > rivela_a - 3 else None
+            msg = str(n) if n else "Rispondi nei commenti: A, B o C"
+            txt(img, (VW // 2, 1560), msg, font("k", 120 if n else 40), T["acc2"] if n else T["ink"], "ma", "conto")
+        else:
+            text_block(img, dopo_txt, (70, 1530), fit_font(img, dopo_txt, "b", VW - 140, 2, 40), T["ink"], VW - 140)
+        yield img
+def reel_forma(seed, out):
+    comuni, _ = load(); r = random.Random(f"forma{seed}")
+    noti = [c for c in comuni if (c["pop"] or 0) >= 40000 and len(getattr(c["geom"], "geoms", [1])) <= 3]
+    c = r.choice(noti); simili = [x for x in comuni if x["reg"] == c["reg"] and (x["pop"] or 0) >= 15000 and x is not c] or [x for x in noti if x is not c]
+    ops = tre_opzioni(nome(c), [nome(x) for x in simili], seed); T = THEMES[r.choice(CYCLE)]
+    centro = sagoma(c["geom"], 860, 640, T["acc"])
+    rivela = draw_map(T, highlight=c["geom"], point=c["geom"].centroid, px=700)
+    giusta_lettera = "ABC"[ops.index(nome(c))]
+    path = encode(os.path.join(out, "reel.mp4"), quiz_frames(T, "Riconosci il comune dalla forma?", centro, ops, nome(c), rivela,
+                                                              f"È {nome(c)}, in provincia di {c['prov_nome']} ({c['reg'].split('/')[0]})."), "tensione")
+    cap = (f"Solo la forma, niente nomi: che comune è? A, B o C?\n\nScrivete la risposta nei commenti prima del conto alla rovescia, poi guardate la soluzione. "
+           f"(Era la {giusta_lettera}, ma non barate.)\n\nMandatelo a chi dice di conoscere bene la sua regione.\n{SEGUI}\n\n"
+           f"Confini: openpolis\n\n{hashtags('#quiz', tag(c['nome']), tag(c['reg']))}")
+    return dict(tipo="reel", file=[path], didascalia=cap, param=c["istat"])
+def reel_dove(seed, out):
+    comuni, _ = load(); r = random.Random(f"dove{seed}"); regs = sorted({x["reg"].split("/")[0] for x in comuni})
+    cand = [c for c in comuni if 4000 <= (c["pop"] or 0) <= 60000 and not any(w in norm(c["nome"]) for w in map(norm, regs))]
+    c = r.choice(cand); giusta = c["reg"].split("/")[0]
+    ops = tre_opzioni(giusta, [x for x in regs if x != giusta], seed); T = THEMES[r.choice(CYCLE)]
+    base = draw_map(T, px=700); rivela = draw_map(T, highlight=c["geom"], point=c["geom"].centroid, px=700)
+    titolo = f"In che regione si trova {nome(c)}?"
+    path = encode(os.path.join(out, "reel.mp4"), quiz_frames(T, titolo, base, ops, giusta, rivela,
+                                                              f"{nome(c)} è in provincia di {c['prov_nome']}."), "tensione")
+    cap = (f"{nome(c)}: in che regione si trova? A, B o C?\n\nSenza Google, scrivetelo nei commenti prima della soluzione. "
+           f"Se ci abitate, valete doppio: taggate qualcuno di lì.\n{SEGUI}\n\nFonte: ISTAT, openpolis\n\n{hashtags('#quiz', tag(c['nome']), tag(giusta))}")
+    return dict(tipo="reel", file=[path], didascalia=cap, param=c["istat"])
+
+# ---------------------------------------------------------------- storie e piatti raccontati in un Reel
+def reel_racconto(item, out, etichetta, cta, extra_tag=""):
+    """Storia o piatto in un Reel: ogni passaggio ha testo, un'immagine (foto vera o illustrazione a tema) e un'animazione."""
+    c = find(item["comune"], item.get("prov")); T0 = THEMES["indaco"]; VIS_Y, VIS_H = 900, 700
+    slides = item["slide"]; intro, passo, fine = 2.8, 3.4, 2.8
+    temi = [THEMES[CYCLE[(i + 1) % 3]] for i in range(len(slides))]
+    # immagini: si alternano illustrazioni a tema e foto vere (del soggetto e del comune)
+    foto_list = [scena(c, T0, VW, VIS_H, fs=24, soggetto=s_) for s_ in item.get("soggetti", [])]
+    foto_list = [x for x in foto_list if x is not None]
+    foto_comune = scena(c, T0, VW, VIS_H, fs=24)
+    if foto_comune is not None: foto_list.append(foto_comune)
+    def illustrazione(T, i):
+        return motivi.disegna(item.get("motivo"), T, VW, VIS_H, i) or city(c, T, VW, VIS_H)
+    copertina = foto_list[0] if foto_list else illustrazione(T0, 99)
+    visuali = []
+    for i, T in enumerate(temi):
+        usa_foto = (i % 2 == 1) and foto_list
+        visuali.append(("foto", foto_list[(i // 2) % len(foto_list)]) if usa_foto else ("disegno", illustrazione(T, i)))
+    mappa = draw_map(THEMES["giallo"], highlight=c["geom"], point=c["geom"].centroid, px=700)
+    def zoom(im, t):              # leggero zoom continuo sulle foto
+        k = 1 + .06 * t; w2, h2 = int(im.width * k), int(im.height * k)
+        big = im.resize((w2, h2), Image.LANCZOS); x, y = (w2 - im.width) // 2, (h2 - im.height) // 2
+        return big.crop((x, y, x + im.width, y + im.height))
+    def frames():
+        tot = intro + passo * len(slides) + fine
+        for f in range(int(tot * FPS)):
+            t = f / FPS
+            if t < intro:
+                T = T0; img = canvas(T, VW, VH); vhandle(img, T)
+                pill(img, etichetta, (70, 232), font("k", 28), T["acc2"], "#FFFFFF")
+                y = text_block(img, item["titolo"], (70, 330), fit_font(img, item["titolo"], "k", VW - 140, 4, 96), T["ink"], VW - 140, 1.02)
+                txt(img, (70, y + 24), f"{nome(c)} · {label(c)}", fit_font(img, f"{nome(c)} · {label(c)}", "b", VW - 140, 1, 40), T["acc"])
+                paste(img, zoom(copertina, t / intro) if foto_list else copertina, (0, VIS_Y), "immagine")
+            elif t < intro + passo * len(slides):
+                i = int((t - intro) // passo); u = (t - intro - i * passo) / passo; sl = slides[i]; T = temi[i]
+                img = canvas(T, VW, VH); vhandle(img, T)
+                txt(img, (70, 250), nome(c).upper(), fit_font(img, nome(c).upper(), "b", VW - 300, 1, 34), T["muted"])
+                pill(img, f"{i + 1}/{len(slides)}", (VW - 190, 236), font("k", 30), T["ink"], T["bg"], tag="passo")
+                y = 330
+                if sl.get("numero"): y = text_block(img, sl["numero"], (70, 320), fit_font(img, sl["numero"], "k", VW - 140, 1, 170), T["acc"], VW - 140) + 30
+                text_block(img, sl["testo"], (70, y), fit_font(img, sl["testo"], "x", VW - 140, 6 if not sl.get("numero") else 4, 58), T["ink"], VW - 140, 1.22)
+                kind, im = visuali[i]
+                if kind == "foto": paste(img, zoom(im, u), (0, VIS_Y), "immagine")
+                else:
+                    rise = ease(min(1, u / .35)); box = Image.new("RGBA", (VW, VIS_H), (0, 0, 0, 0))
+                    box.paste(im, (0, int(VIS_H * .25 * (1 - rise))), im); paste(img, box, (0, VIS_Y), "immagine")
+                d = ImageDraw.Draw(img); d.rectangle((0, VH - 14, int(VW * (i + u) / len(slides)), VH), fill=T["acc"])
+            else:
+                T = THEMES["giallo"]; img = canvas(T, VW, VH); vhandle(img, T)
+                y = text_block(img, f"{nome(c)} ({c['prov']})", (70, 250), fit_font(img, f"{nome(c)} ({c['prov']})", "k", VW - 140, 2, 84), T["ink"], VW - 140)
+                y = place(img, mappa, VW // 2, y + 40, 760, 900)
+                pill(img, cta, (70, y + 50), fit_font(img, cta, "k", VW - 200, 1, 44), T["acc"], "#FFFFFF")
+            yield img
+    path = encode(os.path.join(out, "reel.mp4"), frames(), "chill")
+    cap = (f"{item['didascalia']}\n\n{cta} Scrivetelo nei commenti, e mandatelo a chi deve conoscere questa storia.\n{SEGUI}\n\n"
+           f"Fonti: {'; '.join(item.get('fonti', []))}\n\n{hashtags(tag(c['nome']), tag(c['reg']), *extra_tag.split())}")
+    return dict(tipo="reel", file=[path], didascalia=cap)
+def reel_storia(item, out): return reel_racconto(item, out, "STORIE DI COMUNI", "Conoscevate questa storia?", "#storiaitaliana")
+def reel_cibo(item, out): return reel_racconto(item, out, "IL COMUNE E IL SUO PIATTO", "L'avete mai assaggiato?", "#cucinaitaliana")
+
 # ---------------------------------------------------------------- post di presentazione
 APP = dict(nome="Lethame", url="https://play.google.com/store/apps/details?id=com.lethame.drone")
 def _punti(img, T, voci, y, colore):
@@ -484,7 +609,10 @@ def carosello_racconto(item, out, etichetta, cta, extra_tag=""):
         y0 = 170
         if s.get("numero"): y0 = text_block(img, s["numero"], (60, 150), fit_font(img, s["numero"], "k", W - 120, 1, 170), T["acc"], W - 120) + 30
         y = text_block(img, s["testo"], (60, y0), fit_font(img, s["testo"], "x", W - 120, 7 if not s.get("numero") else 5, 62), T["ink"], W - 120, 1.25)
-        city_in(img, c, T, y + 40, BOTTOM, 300, seed=str(i))
+        hh = int(min(320, BOTTOM - y - 40))
+        mot = motivi.disegna(item.get("motivo"), T, W, hh, i) if hh >= 220 else None
+        if mot: paste(img, mot, (0, BOTTOM - hh), "illustrazione")
+        else: city_in(img, c, T, y + 40, BOTTOM, 300, seed=str(i))
         footer(img, T, i + 2, TOT, fb); files.append(save(img, out, f"{i + 2:02d}"))
     T = THEMES["giallo"]; img = canvas(T)
     pill(img, "DOVE SI TROVA", (60, 80), font("k", 28), T["acc"], "#FFFFFF")

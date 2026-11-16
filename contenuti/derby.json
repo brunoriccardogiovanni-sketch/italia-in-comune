@@ -135,5 +135,97 @@
   "chiavi_b": [
    "risotto"
   ]
+ },
+ {
+  "id": "tiramisu",
+  "a": "Veneto",
+  "b": "Friulano",
+  "reg_a": "Veneto",
+  "reg_b": "Friuli-Venezia Giulia",
+  "domanda": "Il tiramisù è veneto o friulano?",
+  "chiavi_a": [
+   "veneto",
+   "treviso"
+  ],
+  "chiavi_b": [
+   "friulano",
+   "friuli",
+   "tolmezzo"
+  ]
+ },
+ {
+  "id": "pesto",
+  "a": "Genovese",
+  "b": "Trapanese",
+  "reg_a": "Liguria",
+  "reg_b": "Sicilia",
+  "domanda": "Pesto: genovese o alla trapanese?",
+  "chiavi_a": [
+   "genovese",
+   "genova"
+  ],
+  "chiavi_b": [
+   "trapanese",
+   "trapani"
+  ]
+ },
+ {
+  "id": "cornetto",
+  "a": "Cornetto",
+  "b": "Brioche",
+  "reg_a": "Lazio",
+  "reg_b": "Lombardia",
+  "domanda": "Al bar chiedete un cornetto o una brioche?",
+  "chiavi_a": [
+   "cornetto"
+  ],
+  "chiavi_b": [
+   "brioche"
+  ]
+ },
+ {
+  "id": "piadina",
+  "a": "Piadina",
+  "b": "Crescia",
+  "reg_a": "Emilia-Romagna",
+  "reg_b": "Marche",
+  "domanda": "Piadina romagnola o crescia marchigiana?",
+  "chiavi_a": [
+   "piadina",
+   "piada"
+  ],
+  "chiavi_b": [
+   "crescia"
+  ]
+ },
+ {
+  "id": "pastiera",
+  "a": "Pastiera",
+  "b": "Cassata",
+  "reg_a": "Campania",
+  "reg_b": "Sicilia",
+  "domanda": "Dolce della festa: pastiera o cassata?",
+  "chiavi_a": [
+   "pastiera"
+  ],
+  "chiavi_b": [
+   "cassata"
+  ]
+ },
+ {
+  "id": "bagnacauda",
+  "a": "Bagna cauda",
+  "b": "Fonduta",
+  "reg_a": "Piemonte",
+  "reg_b": "Valle d'Aosta",
+  "domanda": "Serata d'inverno: bagna cauda o fonduta?",
+  "chiavi_a": [
+   "bagna",
+   "cauda",
+   "caoda"
+  ],
+  "chiavi_b": [
+   "fonduta"
+  ]
  }
 ]

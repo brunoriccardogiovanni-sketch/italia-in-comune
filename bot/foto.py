@@ -44,7 +44,7 @@ def prendi(c):
             if not meta.get("file") or not img_p.exists(): return None
         else:
             meta = {}
-            f = _file_wikidata(c)
+            f = _file_wikidata_cache.get(c["istat"]) or (None if str(c["istat"]).startswith("s_") else _file_wikidata(c))
             if f:
                 r = requests.get("https://commons.wikimedia.org/w/api.php", headers=UA, timeout=20, params=dict(
                     action="query", titles=f"File:{f}", prop="imageinfo", iiprop="url|extmetadata", iiurlwidth=1400, format="json"))
@@ -62,6 +62,23 @@ def prendi(c):
     except Exception as e:
         print(f"foto di {c['nome']} non disponibile: {e}")
         return None
+
+def prendi_soggetto(etichetta):
+    """Foto di un luogo o di un oggetto (es. «Forte di Fenestrelle») dalla sua scheda Wikidata, cercata per nome."""
+    chiave = "s_" + re.sub(r"[^a-z0-9]+", "_", etichetta.lower())
+    finto = dict(istat=chiave, nome=etichetta)
+    DIR.mkdir(parents=True, exist_ok=True); meta_p = DIR / f"{chiave}.json"
+    if not meta_p.exists():
+        try:
+            e = etichetta.replace('"', "")
+            imgs = _sparql(f'SELECT ?img WHERE {{ ?i rdfs:label "{e}"@it; wdt:P18 ?img }} LIMIT 1')
+            if not imgs: meta_p.write_text("{}"); return None
+            _file_wikidata_cache[chiave] = urllib.parse.unquote(imgs[0].rsplit("/", 1)[-1])
+        except Exception as ex:
+            print(f"foto di {etichetta} non disponibile: {ex}"); return None
+    return prendi(finto)
+
+_file_wikidata_cache = {}
 
 def credito_breve(cr): return f"Foto: {cr['autore']} · {cr['licenza']} · Wikimedia Commons"
 

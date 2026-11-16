@@ -24,7 +24,10 @@
    "Consorzio Focaccia di Recco col formaggio",
    "Gambero Rosso"
   ],
-  "didascalia": "Recco (GE) e la sua focaccia col formaggio 🧀 Dal 2015 è IGP: per chiamarsi così deve nascere a Recco."
+  "didascalia": "Recco (GE) e la sua focaccia col formaggio 🧀 Dal 2015 è IGP: per chiamarsi così deve nascere a Recco.",
+  "soggetti": [
+   "Focaccia di Recco"
+  ]
  },
  {
   "comune": "Teglio",
@@ -78,7 +81,10 @@
    "Gambero Rosso",
    "Wikipedia"
   ],
-  "didascalia": "Altamura (BA), la città del pane 🍞 Nel 2003 il suo pane è stato il primo in Europa a ottenere la DOP."
+  "didascalia": "Altamura (BA), la città del pane 🍞 Nel 2003 il suo pane è stato il primo in Europa a ottenere la DOP.",
+  "soggetti": [
+   "Pane di Altamura"
+  ]
  },
  {
   "comune": "Carrara",
@@ -133,7 +139,10 @@
    "Consorzio Pistacchio Verde di Bronte DOP",
    "LiveSicilia"
   ],
-  "didascalia": "Bronte (CT), la capitale del pistacchio 💚 L'«oro verde» dell'Etna si raccoglie a mano, solo ogni due anni."
+  "didascalia": "Bronte (CT), la capitale del pistacchio 💚 L'«oro verde» dell'Etna si raccoglie a mano, solo ogni due anni.",
+  "soggetti": [
+   "Pistacchio verde di Bronte"
+  ]
  },
  {
   "comune": "Camogli",
@@ -187,7 +196,10 @@
    "AGI",
    "L'Espresso (2026)"
   ],
-  "didascalia": "Gragnano (NA), la città costruita per la pasta 🍝 Strade pensate per il vento e, dal 2013, la prima pasta IGP d'Europa."
+  "didascalia": "Gragnano (NA), la città costruita per la pasta 🍝 Strade pensate per il vento e, dal 2013, la prima pasta IGP d'Europa.",
+  "soggetti": [
+   "Pasta di Gragnano"
+  ]
  },
  {
   "comune": "Spilinga",
@@ -241,7 +253,10 @@
    "Consorzio Cipolla Rossa di Tropea",
    "VisitItaly"
   ],
-  "didascalia": "Tropea (VV) e la sua cipolla rossa 🧅 Dolce, viola e IGP dal 2008."
+  "didascalia": "Tropea (VV) e la sua cipolla rossa 🧅 Dolce, viola e IGP dal 2008.",
+  "soggetti": [
+   "Cipolla rossa di Tropea"
+  ]
  },
  {
   "comune": "Norcia",
@@ -269,5 +284,243 @@
    "Wikipedia"
   ],
   "didascalia": "Norcia (PG), la città che ha dato il nome alla norcineria 🐖 I suoi norcini giravano tutta l'Italia."
+ },
+ {
+  "comune": "Torino",
+  "prov": "TO",
+  "titolo": "Il primo cioccolatino incartato",
+  "fonte_breve": "Fonte: Museo Torino, italia.it",
+  "slide": [
+   {
+    "numero": "1865",
+    "testo": "Al Carnevale di Torino la maschera Gianduja distribuisce un cioccolatino nuovo, a forma di barchetta rovesciata."
+   },
+   {
+    "testo": "Il cacao costava caro: i cioccolatieri torinesi lo mescolarono con le nocciole delle Langhe, e nacque la pasta gianduia."
+   },
+   {
+    "testo": "Il gianduiotto è considerato il primo cioccolatino incartato singolarmente, nella sua carta dorata."
+   },
+   {
+    "testo": "Prende il nome proprio da Gianduja, la maschera di Torino."
+   }
+  ],
+  "fonti": [
+   "Museo Torino",
+   "italia.it, Torino e il cioccolato",
+   "Gambero Rosso"
+  ],
+  "didascalia": "Il gianduiotto nasce a Torino al Carnevale del 1865: cacao e nocciole delle Langhe, e la prima carta dorata della storia dei cioccolatini.",
+  "motivo": "cioccolatini",
+  "soggetti": [
+   "Gianduiotto"
+  ]
+ },
+ {
+  "comune": "Bra",
+  "prov": "CN",
+  "titolo": "La salsiccia che si mangia cruda",
+  "fonte_breve": "Fonte: Slow Food, Consorzio",
+  "slide": [
+   {
+    "testo": "La salsiccia di Bra si fa con carne magra di vitello e un po' di pancetta di maiale, e si mangia soprattutto cruda."
+   },
+   {
+    "testo": "Secondo la tradizione nasce di vitello per la comunità ebraica della vicina Cherasco, che non poteva mangiare carne di maiale."
+   },
+   {
+    "testo": "Per chiamarsi così deve essere prodotta a Bra, dalle macellerie del paese."
+   },
+   {
+    "testo": "A Bra è nato anche Slow Food, fondato nel 1986: non è un caso che qui il cibo sia una cosa seria."
+   }
+  ],
+  "fonti": [
+   "Fondazione Slow Food, Arca del Gusto",
+   "Consorzio della salsiccia di Bra",
+   "italia.it"
+  ],
+  "didascalia": "A Bra (CN) la salsiccia è di vitello e si mangia cruda. La tradizione la lega alla comunità ebraica della vicina Cherasco.",
+  "motivo": "salsiccia",
+  "soggetti": [
+   "Salsiccia di Bra"
+  ]
+ },
+ {
+  "comune": "Alba",
+  "prov": "CN",
+  "titolo": "Il tartufo più caro d'Italia",
+  "fonte_breve": "Fonte: Fiera del Tartufo d'Alba",
+  "slide": [
+   {
+    "testo": "Il tartufo bianco d'Alba cresce sottoterra nei boschi di Langhe, Roero e Monferrato e non si può coltivare."
+   },
+   {
+    "testo": "Si trova solo con i cani, di notte, e i trifolau tengono segreti i loro posti migliori."
+   },
+   {
+    "testo": "Ogni autunno ad Alba si tiene la Fiera Internazionale del Tartufo Bianco, da quasi un secolo."
+   },
+   {
+    "testo": "All'asta mondiale benefica, i tartufi più grandi sono stati venduti per decine o centinaia di migliaia di euro."
+   }
+  ],
+  "fonti": [
+   "Fiera Internazionale del Tartufo Bianco d'Alba",
+   "Ente Turismo Langhe Monferrato Roero"
+  ],
+  "didascalia": "Il tartufo bianco d'Alba (CN) non si coltiva: lo trovano i cani, di notte, nei boschi delle Langhe. Ogni autunno Alba gli dedica una fiera internazionale.",
+  "motivo": "tartufo",
+  "soggetti": [
+   "Tuber magnatum"
+  ]
+ },
+ {
+  "comune": "Cetara",
+  "prov": "SA",
+  "titolo": "La salsa che viene dai Romani",
+  "fonte_breve": "Fonte: Commissione UE",
+  "slide": [
+   {
+    "testo": "La colatura di alici è il liquido ambrato che cola dalle alici lasciate maturare sotto sale nei barili di legno."
+   },
+   {
+    "testo": "È considerata l'erede del garum, la salsa di pesce che gli antichi Romani mettevano ovunque."
+   },
+   {
+    "numero": "DOP",
+    "testo": "Dal 2020 la Colatura di alici di Cetara è Denominazione di origine protetta: la prima per un prodotto trasformato di mare."
+   },
+   {
+    "testo": "Le alici devono essere pescate nel Golfo di Salerno. Bastano poche gocce su un piatto di spaghetti."
+   }
+  ],
+  "fonti": [
+   "Regolamento di esecuzione (UE) 2020/1529",
+   "Gambero Rosso"
+  ],
+  "didascalia": "A Cetara (SA) si fa la colatura di alici, erede del garum dei Romani. Dal 2020 è DOP, la prima per un prodotto trasformato di mare.",
+  "motivo": "alici",
+  "soggetti": [
+   "Colatura di alici"
+  ]
+ },
+ {
+  "comune": "Pachino",
+  "prov": "SR",
+  "titolo": "Il pomodorino che tutti conoscono",
+  "fonte_breve": "Fonte: Consorzio IGP",
+  "slide": [
+   {
+    "testo": "Il pomodoro di Pachino cresce nell'estremo sud-est della Sicilia, tra sole, vento e acque leggermente salmastre."
+   },
+   {
+    "numero": "IGP",
+    "testo": "È Indicazione geografica protetta: solo quello coltivato in quest'area può chiamarsi così."
+   },
+   {
+    "testo": "Non c'è solo il ciliegino: l'IGP comprende anche il costoluto, il tondo liscio e il pomodorino a grappolo."
+   },
+   {
+    "testo": "Il nome è così famoso che «pachino» è diventato quasi sinonimo di pomodorino, anche quando non viene da qui."
+   }
+  ],
+  "fonti": [
+   "Consorzio di tutela Pomodoro di Pachino IGP",
+   "Ministero dell'Agricoltura"
+  ],
+  "didascalia": "Il pomodoro di Pachino (SR) è IGP: solo quello coltivato nell'estremo sud-est della Sicilia può chiamarsi così.",
+  "motivo": "pomodori",
+  "soggetti": [
+   "Pomodoro di Pachino"
+  ]
+ },
+ {
+  "comune": "Sulmona",
+  "prov": "AQ",
+  "titolo": "La città dei confetti",
+  "fonte_breve": "Fonte: Museo dell'arte confettiera",
+  "slide": [
+   {
+    "testo": "A Sulmona i confetti si fanno da secoli: mandorla ricoperta di zucchero, senza amido né farina."
+   },
+   {
+    "testo": "Qui sono famosi anche i confetti lavorati a mano a forma di fiori, spighe e grappoli, legati con fili di seta."
+   },
+   {
+    "testo": "In città c'è un museo dedicato all'arte confettiera, nella storica fabbrica Pelino."
+   },
+   {
+    "testo": "Matrimoni, battesimi, lauree: se avete mangiato un confetto, è probabile che la sua storia passi da qui."
+   }
+  ],
+  "fonti": [
+   "Museo dell'arte e della tecnologia confettiera, Sulmona",
+   "Comune di Sulmona"
+  ],
+  "didascalia": "Sulmona (AQ) è la città dei confetti: mandorla e zucchero, e composizioni fatte a mano a forma di fiori.",
+  "motivo": "confetti",
+  "soggetti": [
+   "Confetto"
+  ]
+ },
+ {
+  "comune": "Modena",
+  "prov": "MO",
+  "titolo": "L'aceto che invecchia come un vino",
+  "fonte_breve": "Fonte: Consorzio Tutela",
+  "slide": [
+   {
+    "testo": "L'Aceto Balsamico Tradizionale di Modena DOP si fa solo con mosto d'uva cotto, senza aggiungere altro."
+   },
+   {
+    "numero": "12 anni",
+    "testo": "Il tempo minimo di invecchiamento, in batterie di botti di legni diversi. L'«extravecchio» supera i 25."
+   },
+   {
+    "testo": "Ogni anno si travasa da una botte all'altra, sempre più piccola: un lavoro che passa di generazione in generazione."
+   },
+   {
+    "testo": "Non va confuso con l'Aceto Balsamico di Modena IGP, quello più comune al supermercato: sono due prodotti diversi."
+   }
+  ],
+  "fonti": [
+   "Consorzio Tutela Aceto Balsamico Tradizionale di Modena",
+   "Ministero dell'Agricoltura"
+  ],
+  "didascalia": "L'Aceto Balsamico Tradizionale di Modena DOP invecchia almeno 12 anni in botti di legno, e nasce solo dal mosto cotto.",
+  "motivo": "botti",
+  "soggetti": [
+   "Aceto balsamico tradizionale di Modena"
+  ]
+ },
+ {
+  "comune": "Langhirano",
+  "prov": "PR",
+  "titolo": "La valle del prosciutto",
+  "fonte_breve": "Fonte: Consorzio del Prosciutto di Parma",
+  "slide": [
+   {
+    "testo": "Il Prosciutto di Parma DOP si stagiona sulle colline a sud di Parma: Langhirano ne è il cuore."
+   },
+   {
+    "testo": "Gli ingredienti sono solo due: coscia di maiale e sale marino. Il resto lo fanno l'aria e il tempo."
+   },
+   {
+    "testo": "Le finestre alte e strette dei prosciuttifici servivano a far entrare l'aria giusta della valle del Parma."
+   },
+   {
+    "testo": "A Langhirano c'è anche il Museo del Prosciutto di Parma."
+   }
+  ],
+  "fonti": [
+   "Consorzio del Prosciutto di Parma",
+   "Musei del Cibo della provincia di Parma"
+  ],
+  "didascalia": "Il Prosciutto di Parma nasce sulle colline di Langhirano (PR): coscia di maiale, sale marino e l'aria della valle.",
+  "motivo": "prosciutti",
+  "soggetti": [
+   "Prosciutto di Parma"
+  ]
  }
 ]

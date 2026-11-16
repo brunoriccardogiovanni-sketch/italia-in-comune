@@ -24,7 +24,10 @@
    "Geopop",
    "Il Giorno"
   ],
-  "didascalia": "31 abitanti: Morterone (LC) è il comune meno popoloso d'Italia 🏔️ Si trova in Valsassina, sotto il Resegone, e ha comunque sindaco, consiglio comunale ed elezioni."
+  "didascalia": "31 abitanti: Morterone (LC) è il comune meno popoloso d'Italia 🏔️ Si trova in Valsassina, sotto il Resegone, e ha comunque sindaco, consiglio comunale ed elezioni.",
+  "soggetti": [
+   "Resegone"
+  ]
  },
  {
   "comune": "Campione d'Italia",
@@ -133,7 +136,10 @@
    "Montagna.tv",
    "alto-adige.com"
   ],
-  "didascalia": "Curon Venosta (BZ) e il campanile nel lago di Resia ⛪️💧 Nel 1950 una diga sommerse il vecchio paese: è rimasto solo lui."
+  "didascalia": "Curon Venosta (BZ) e il campanile nel lago di Resia ⛪️💧 Nel 1950 una diga sommerse il vecchio paese: è rimasto solo lui.",
+  "soggetti": [
+   "Campanile di Curon"
+  ]
  },
  {
   "comune": "Vagli Sotto",
@@ -323,5 +329,312 @@
    "FAI"
   ],
   "didascalia": "Sanremo (IM) e Bussana Vecchia, il borgo rinato grazie agli artisti 🎨 Distrutto dal terremoto del 1887, oggi è un villaggio di atelier."
+ },
+ {
+  "comune": "Fenestrelle",
+  "prov": "TO",
+  "titolo": "La Grande Muraglia del Piemonte",
+  "fonte_breve": "Fonte: Progetto San Carlo",
+  "slide": [
+   {
+    "numero": "3 km",
+    "testo": "di fortificazioni lungo il fianco della montagna, in Val Chisone: è la più grande fortezza alpina d'Europa."
+   },
+   {
+    "numero": "4.000",
+    "testo": "gradini nella scala coperta che collega i forti, scavata in una galleria. È considerata la scala coperta più lunga d'Europa."
+   },
+   {
+    "testo": "I Savoia iniziarono a costruirla nel 1728 e finirono nel 1850. Oltre un secolo di cantiere per chiudere la valle verso la Francia."
+   },
+   {
+    "testo": "Oggi è visitabile: il percorso completo, dal fondovalle fino in cima, dura un'intera giornata."
+   }
+  ],
+  "fonti": [
+   "Associazione Progetto San Carlo – Forte di Fenestrelle",
+   "Touring Club Italiano",
+   "Museo Torino"
+  ],
+  "didascalia": "Fenestrelle (TO) ha una «Grande Muraglia» tutta sua: 3 chilometri di forti sulla montagna e una scala coperta di 4.000 gradini. I Savoia ci lavorarono dal 1728 al 1850.",
+  "motivo": "fortezza",
+  "soggetti": [
+   "Forte di Fenestrelle"
+  ]
+ },
+ {
+  "comune": "Ivrea",
+  "prov": "TO",
+  "titolo": "La città costruita da una fabbrica",
+  "fonte_breve": "Fonte: UNESCO",
+  "slide": [
+   {
+    "testo": "Ivrea è la città della Olivetti: macchine da scrivere, calcolatrici e uno dei primi personal computer della storia, la Programma 101 del 1965."
+   },
+   {
+    "testo": "Adriano Olivetti non costruì solo fabbriche: fece progettare case per i dipendenti, asili, biblioteche e servizi sociali ai migliori architetti del tempo."
+   },
+   {
+    "numero": "2018",
+    "testo": "L'anno in cui l'UNESCO ha riconosciuto «Ivrea, città industriale del XX secolo» come patrimonio dell'umanità."
+   },
+   {
+    "testo": "E a Carnevale c'è la Battaglia delle Arance: squadre a piedi e sui carri si sfidano a colpi di agrumi nelle piazze del centro."
+   }
+  ],
+  "fonti": [
+   "UNESCO, World Heritage List",
+   "Associazione Archivio Storico Olivetti",
+   "Storico Carnevale di Ivrea"
+  ],
+  "didascalia": "Ivrea (TO) è patrimonio UNESCO dal 2018 grazie a una fabbrica: la Olivetti di Adriano Olivetti, che insieme agli uffici costruì case, asili e biblioteche per chi ci lavorava.",
+  "motivo": "fabbrica",
+  "soggetti": [
+   "Olivetti Programma 101",
+   "Ivrea, città industriale del XX secolo"
+  ]
+ },
+ {
+  "comune": "Gubbio",
+  "prov": "PG",
+  "titolo": "L'albero di Natale più grande del mondo",
+  "fonte_breve": "Fonte: Comitato Albero di Natale di Gubbio",
+  "slide": [
+   {
+    "numero": "750 m",
+    "testo": "di altezza e 450 di base: è disegnato con le luci sulle pendici del Monte Ingino, sopra la città medievale."
+   },
+   {
+    "numero": "1991",
+    "testo": "L'anno in cui è entrato nel Guinness dei primati come albero di Natale più grande del mondo."
+   },
+   {
+    "testo": "Lo montano ogni anno dei volontari, gratis, dal 1981. Si accende la sera del 7 dicembre e resta acceso fino all'Epifania."
+   },
+   {
+    "testo": "In cima alla montagna c'è la basilica di Sant'Ubaldo, il patrono della città: l'albero nacque proprio per far alzare lo sguardo verso di lui."
+   }
+  ],
+  "fonti": [
+   "Comitato Albero di Natale più grande del mondo",
+   "Guinness World Records",
+   "La Nazione"
+  ],
+  "didascalia": "A Gubbio (PG) c'è l'albero di Natale più grande del mondo: 750 metri di luci sul Monte Ingino, nel Guinness dal 1991. Lo montano dei volontari dal 1981 e si accende il 7 dicembre.",
+  "motivo": "albero_luci",
+  "soggetti": [
+   "Monte Ingino",
+   "Basilica di Sant'Ubaldo"
+  ]
+ },
+ {
+  "comune": "Greccio",
+  "prov": "RI",
+  "titolo": "Il paese dove è nato il presepe",
+  "fonte_breve": "Fonte: Santuario di Greccio",
+  "slide": [
+   {
+    "numero": "1223",
+    "testo": "La notte di Natale di quell'anno san Francesco d'Assisi fece allestire a Greccio la prima rappresentazione della Natività."
+   },
+   {
+    "testo": "Voleva far vedere «con gli occhi del corpo» la povertà in cui era nato Gesù: una grotta, una mangiatoia, il bue e l'asinello."
+   },
+   {
+    "testo": "Da quella notte nasce la tradizione del presepe, che poi si è diffusa in tutta Italia e nel mondo."
+   },
+   {
+    "testo": "Ancora oggi, ogni anno a Natale, a Greccio si rievoca il primo presepe nei luoghi del santuario francescano."
+   }
+  ],
+  "fonti": [
+   "Santuario Francescano del Presepio di Greccio",
+   "Tommaso da Celano, Vita prima di san Francesco"
+  ],
+  "didascalia": "Il primo presepe della storia è nato a Greccio (RI), la notte di Natale del 1223, voluto da san Francesco d'Assisi.",
+  "motivo": "presepe",
+  "soggetti": [
+   "Santuario di Greccio"
+  ]
+ },
+ {
+  "comune": "Matera",
+  "prov": "MT",
+  "titolo": "Da «vergogna nazionale» a capitale europea",
+  "fonte_breve": "Fonte: UNESCO, Matera 2019",
+  "slide": [
+   {
+    "testo": "Negli anni Cinquanta migliaia di persone vivevano ancora nelle case scavate nella roccia dei Sassi, spesso insieme agli animali."
+   },
+   {
+    "testo": "Lo Stato le fece sgomberare con una legge speciale del 1952 e i Sassi rimasero quasi vuoti per anni."
+   },
+   {
+    "numero": "1993",
+    "testo": "I Sassi di Matera diventano patrimonio dell'umanità UNESCO."
+   },
+   {
+    "numero": "2019",
+    "testo": "Matera è Capitale europea della cultura. Oggi i Sassi sono pieni di case, alberghi e set cinematografici."
+   }
+  ],
+  "fonti": [
+   "UNESCO, World Heritage List",
+   "Fondazione Matera-Basilicata 2019"
+  ],
+  "didascalia": "Matera è passata da «vergogna nazionale» a patrimonio UNESCO (1993) e Capitale europea della cultura (2019). Tutto nei Sassi, le case scavate nella roccia.",
+  "motivo": "sassi",
+  "soggetti": [
+   "Sassi di Matera"
+  ]
+ },
+ {
+  "comune": "Alberobello",
+  "prov": "BA",
+  "titolo": "Le case che si potevano smontare",
+  "fonte_breve": "Fonte: UNESCO",
+  "slide": [
+   {
+    "testo": "I trulli sono costruiti a secco: pietre sovrapposte, senza malta, con il tetto a cono."
+   },
+   {
+    "testo": "Secondo la tradizione si costruivano così per poterli smontare in fretta ed evitare le tasse sulle nuove case."
+   },
+   {
+    "numero": "1996",
+    "testo": "I trulli di Alberobello sono patrimonio dell'umanità UNESCO."
+   },
+   {
+    "testo": "Molti hanno simboli dipinti di bianco sul tetto: segni religiosi, astrologici o portafortuna, ancora oggi discussi."
+   }
+  ],
+  "fonti": [
+   "UNESCO, World Heritage List",
+   "Comune di Alberobello"
+  ],
+  "didascalia": "Ad Alberobello (BA) le case sono trulli: pietre a secco, senza malta, tetto a cono. Patrimonio UNESCO dal 1996.",
+  "motivo": "trulli",
+  "soggetti": [
+   "Trulli di Alberobello"
+  ]
+ },
+ {
+  "comune": "Riace",
+  "prov": "RC",
+  "titolo": "I due guerrieri trovati in mare",
+  "fonte_breve": "Fonte: Museo Archeologico di Reggio Calabria",
+  "slide": [
+   {
+    "numero": "1972",
+    "testo": "Il 16 agosto un sub nota un braccio che spunta dalla sabbia, a pochi metri dalla costa di Riace Marina."
+   },
+   {
+    "testo": "È una delle due statue di bronzo greche del V secolo avanti Cristo, rimaste sott'acqua per oltre duemila anni."
+   },
+   {
+    "testo": "Sono i Bronzi di Riace, alti circa due metri: tra le statue greche originali in bronzo meglio conservate al mondo."
+   },
+   {
+    "testo": "Oggi sono al Museo Archeologico Nazionale di Reggio Calabria. Il paese che li ha restituiti però li porta nel nome."
+   }
+  ],
+  "fonti": [
+   "Museo Archeologico Nazionale di Reggio Calabria",
+   "Ministero della Cultura"
+  ],
+  "didascalia": "Nel 1972, nel mare di Riace (RC), un sub vide spuntare un braccio dalla sabbia: erano i Bronzi di Riace, due guerrieri greci di 2.500 anni fa.",
+  "motivo": "mare_bronzi",
+  "soggetti": [
+   "Bronzi di Riace"
+  ]
+ },
+ {
+  "comune": "Livigno",
+  "prov": "SO",
+  "titolo": "Il comune dove non si paga l'IVA",
+  "fonte_breve": "Fonte: Agenzia delle Dogane",
+  "slide": [
+   {
+    "testo": "Livigno è territorio extradoganale: fa parte dell'Italia ma resta fuori dal territorio doganale e IVA dell'Unione europea."
+   },
+   {
+    "testo": "Per questo carburante, elettronica e alcolici costano meno, con limiti precisi su quanto si può portare fuori."
+   },
+   {
+    "numero": "1.816 m",
+    "testo": "È l'altitudine del paese: uno dei comuni abitati più alti d'Europa, chiamato anche «il piccolo Tibet»."
+   },
+   {
+    "testo": "Insieme a Campione d'Italia è uno dei due casi di questo tipo in Italia."
+   }
+  ],
+  "fonti": [
+   "Agenzia delle Dogane e dei Monopoli",
+   "Comune di Livigno"
+  ],
+  "didascalia": "Livigno (SO) è in Italia ma fuori dal territorio doganale e IVA dell'Unione europea: per questo lì molte cose costano meno.",
+  "motivo": "neve",
+  "soggetti": [
+   "Lago di Livigno"
+  ]
+ },
+ {
+  "comune": "Castelmezzano",
+  "prov": "PZ",
+  "titolo": "Volare da un paese all'altro",
+  "fonte_breve": "Fonte: Volo dell'Angelo",
+  "slide": [
+   {
+    "testo": "Tra Castelmezzano e Pietrapertosa, sulle Dolomiti Lucane, c'è un cavo d'acciaio teso tra due paesi."
+   },
+   {
+    "numero": "120 km/h",
+    "testo": "La velocità massima: imbragati a pancia in giù, si attraversa la valle sospesi a centinaia di metri d'altezza."
+   },
+   {
+    "numero": "1.452 m",
+    "testo": "La lunghezza della linea che parte da Castelmezzano e arriva a Pietrapertosa."
+   },
+   {
+    "testo": "Si chiama Volo dell'Angelo: due borghi arroccati sulla roccia hanno trovato il modo di far arrivare turisti da tutta Europa."
+   }
+  ],
+  "fonti": [
+   "Volo dell'Angelo, volodellangelo.com",
+   "Touring Club Italiano"
+  ],
+  "didascalia": "Tra Castelmezzano e Pietrapertosa (PZ) si vola appesi a un cavo: il Volo dell'Angelo arriva a 120 km/h sopra le Dolomiti Lucane.",
+  "motivo": "zipline",
+  "soggetti": [
+   "Dolomiti lucane",
+   "Pietrapertosa"
+  ]
+ },
+ {
+  "comune": "Sambuca di Sicilia",
+  "prov": "AG",
+  "titolo": "Le case a 1 euro",
+  "fonte_breve": "Fonte: Comune di Sambuca di Sicilia",
+  "slide": [
+   {
+    "testo": "Nel 2019 il comune ha messo all'asta case abbandonate del centro storico partendo da 1 euro, con l'obbligo di ristrutturarle."
+   },
+   {
+    "testo": "Un servizio della CNN ha fatto il giro del mondo: le richieste sono arrivate da ogni continente."
+   },
+   {
+    "testo": "Altre aste sono seguite negli anni successivi, e molti stranieri hanno comprato anche case sul mercato privato."
+   },
+   {
+    "testo": "È diventato il caso più famoso delle «case a 1 euro», un'idea poi copiata da tanti piccoli comuni che si stanno svuotando."
+   }
+  ],
+  "fonti": [
+   "Comune di Sambuca di Sicilia",
+   "Il Post",
+   "CNN"
+  ],
+  "didascalia": "Sambuca di Sicilia (AG) ha messo all'asta case a 1 euro nel 2019: dopo un servizio della CNN sono arrivate richieste da tutto il mondo.",
+  "motivo": "casa_euro"
  }
 ]
