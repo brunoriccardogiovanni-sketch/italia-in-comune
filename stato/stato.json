@@ -53,6 +53,14 @@
    "data": "2026-11-15",
    "formato": "speciale_carosello",
    "media_id": "18365017366223749"
+  },
+  {
+   "giorno": 4,
+   "slot": "mattina",
+   "data": "2026-11-16",
+   "formato": "reel_forma",
+   "param": "015146",
+   "media_id": "18133603399697522"
   }
  ],
  "commenti_gestiti": [],
