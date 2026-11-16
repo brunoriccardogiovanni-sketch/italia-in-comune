@@ -75,6 +75,14 @@
    "formato": "carosello_classifica",
    "param": "dens_max",
    "media_id": "18127057795721490"
+  },
+  {
+   "giorno": 4,
+   "slot": "reel",
+   "data": "2026-11-16",
+   "formato": "reel_comune",
+   "param": "001022",
+   "media_id": "18110639555524132"
   }
  ],
  "commenti_gestiti": [],
