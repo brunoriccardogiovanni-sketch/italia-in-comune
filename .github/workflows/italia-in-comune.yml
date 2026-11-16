@@ -2,22 +2,25 @@ name: Italia in comune
 
 on:
   schedule:
+    - cron: '23 7 * * *'    # reel del mattino: 08:23 ora italiana (09:23 con l'ora legale)
     - cron: '23 11 * * *'   # carosello: ogni giorno alle 12:23 ora italiana (13:23 con l'ora legale)
     - cron: '23 17 * * *'   # reel: ogni giorno alle 18:23 ora italiana (19:23 con l'ora legale)
+    - cron: '23 20 * * *'   # reel della sera: 21:23 ora italiana (22:23 con l'ora legale)
     - cron: '7,37 * * * *'  # commenti e voti: ogni mezz'ora
   workflow_dispatch:
     inputs:
       azione:
         description: Cosa fare
         type: choice
-        options: [verifica, anteprima, calendario, lancio, intro, extra, carosello, reel, commenti]
-        default: verifica
+        options: [recupero, verifica, anteprima, calendario, lancio, intro, extra, mattina, carosello, reel, sera, commenti]
+        default: recupero
 
 permissions:
   contents: write
 
 concurrency:
-  group: italia-in-comune
+  # due code separate: il controllo dei commenti non può mai bloccare o cancellare una pubblicazione
+  group: italia-in-comune-${{ (github.event.schedule == '7,37 * * * *' || github.event.inputs.azione == 'commenti') && 'commenti' || 'pubblicazione' }}
   cancel-in-progress: false
 
 jobs:
@@ -50,13 +53,15 @@ jobs:
           AZIONE="${{ github.event.inputs.azione }}"
           if [ -z "$AZIONE" ]; then
             case "${{ github.event.schedule }}" in
+              "23 7 * * *") AZIONE=mattina ;;
               "23 11 * * *") AZIONE=carosello ;;
               "23 17 * * *") AZIONE=reel ;;
+              "23 20 * * *") AZIONE=sera ;;
               *) AZIONE=commenti ;;
             esac
           fi
           case "$AZIONE" in
-            carosello|reel) python -m bot.main pubblica "$AZIONE" ;;
+            mattina|carosello|reel|sera) python -m bot.main pubblica "$AZIONE" ;;
             *) python -m bot.main "$AZIONE" ;;
           esac
       - name: Salva l'anteprima
