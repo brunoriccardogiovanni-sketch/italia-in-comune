@@ -107,6 +107,14 @@
    "formato": "carosello_provincia",
    "param": "SP",
    "media_id": "18133875025691826"
+  },
+  {
+   "giorno": 5,
+   "slot": "reel",
+   "data": "2026-11-17",
+   "formato": "reel_countdown",
+   "param": "area_max",
+   "media_id": "18138917455642221"
   }
  ],
  "commenti_gestiti": [],
