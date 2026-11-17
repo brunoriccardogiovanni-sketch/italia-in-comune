@@ -99,6 +99,14 @@
    "formato": "reel_dove",
    "param": "026070",
    "media_id": "18002250813044809"
+  },
+  {
+   "giorno": 5,
+   "slot": "carosello",
+   "data": "2026-11-17",
+   "formato": "carosello_provincia",
+   "param": "SP",
+   "media_id": "18133875025691826"
   }
  ],
  "commenti_gestiti": [],
