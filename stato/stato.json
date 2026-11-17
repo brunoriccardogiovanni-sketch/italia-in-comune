@@ -115,6 +115,14 @@
    "formato": "reel_countdown",
    "param": "area_max",
    "media_id": "18138917455642221"
+  },
+  {
+   "giorno": 5,
+   "slot": "sera",
+   "data": "2026-11-17",
+   "formato": "reel_cibo",
+   "param": "Modena",
+   "media_id": "18109466821982015"
   }
  ],
  "commenti_gestiti": [],
