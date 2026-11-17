@@ -91,6 +91,14 @@
    "formato": "reel_storia",
    "param": "Castelmezzano",
    "media_id": "18654920269008086"
+  },
+  {
+   "giorno": 5,
+   "slot": "mattina",
+   "data": "2026-11-17",
+   "formato": "reel_dove",
+   "param": "026070",
+   "media_id": "18002250813044809"
   }
  ],
  "commenti_gestiti": [],
