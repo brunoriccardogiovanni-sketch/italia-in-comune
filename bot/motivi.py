@@ -278,7 +278,85 @@ def prosciutti(T, w, h, r):
         d.polygon([(x + W * .09, H * .2), (x + W * .16, H * .7), (x + W * .13, H * .78), (x + W * .1, H * .3)], fill=_hex("#FFFFFF"))
     return _fine(im, w, h)
 
-MOTIVI = dict(fortezza=fortezza, fabbrica=fabbrica, albero_luci=albero_luci, presepe=presepe, sassi=sassi, trulli=trulli,
+def gnomo(T, w, h, r):
+    im, d = _tela(w, h); W, H = w * S, h * S; rr = random.Random(r)
+    d.rectangle((0, H * .88, W, H), fill=_hex("#FFFFFF"))
+    bx = W * .62                               # la scatola regalo
+    d.rectangle((bx, H * .52, bx + W * .3, H * .88), fill=_hex(T["acc2"] if T["acc2"] != T["bg"] else "#3DDC97"))
+    d.rectangle((bx + W * .135, H * .52, bx + W * .165, H * .88), fill=_hex("#FFD23F"))
+    d.rectangle((bx - W * .01, H * .46, bx + W * .31, H * .53), fill=_hex(T["acc2"] if T["acc2"] != T["bg"] else "#3DDC97"))
+    d.ellipse((bx + W * .1, H * .38, bx + W * .15, H * .47), outline=_hex("#FFD23F"), width=6 * S)
+    d.ellipse((bx + W * .15, H * .38, bx + W * .2, H * .47), outline=_hex("#FFD23F"), width=6 * S)
+    gx = W * .3                                # lo gnomo
+    d.rounded_rectangle((gx - W * .1, H * .55, gx + W * .1, H * .86), 30 * S, fill=_hex("#2E86C1"))
+    d.ellipse((gx - W * .12, H * .83, gx - W * .02, H * .9), fill=_hex("#5A4632")); d.ellipse((gx + W * .02, H * .83, gx + W * .12, H * .9), fill=_hex("#5A4632"))
+    d.polygon([(gx - W * .11, H * .5), (gx + W * .11, H * .5), (gx, H * .62)], fill=_hex("#FFFFFF"))
+    d.polygon([(gx - W * .09, H * .5), (gx + W * .09, H * .5), (gx, H * .8)], fill=_hex("#FFFFFF"))
+    d.polygon([(gx - W * .11, H * .44), (gx + W * .11, H * .44), (gx + W * .02, H * .05)], fill=_hex("#C1121F"))
+    d.ellipse((gx - W * .03, H * .41, gx + W * .03, H * .5), fill=_hex("#FFB4A2"))
+    d.ellipse((gx - 14 * S + W * .02 - 14 * S, H * .03, gx + W * .02 + 14 * S, H * .03 + 28 * S), fill=_hex("#FFFFFF"))
+    for _ in range(30):
+        x, y, s_ = rr.uniform(0, W), rr.uniform(0, H * .4), rr.uniform(4, 9) * S
+        if abs(x - gx) > W * .13 and not (bx - 10 < x < bx + W * .32 and y > H * .36): d.ellipse((x, y, x + s_, y + s_), fill=_hex("#FFFFFF"))
+    return _fine(im, w, h)
+
+def ponte_barche(T, w, h, r):
+    im, d = _tela(w, h); W, H = w * S, h * S
+    d.rectangle((0, H * .62, W, H), fill=_hex("#2E86C1"))
+    for k in range(4): d.line((0, H * (.7 + k * .08), W, H * (.7 + k * .08)), fill=_hex("#7FC8F8"), width=3 * S)
+    x0 = W * .58; d.rectangle((x0, H * .3, x0 + W * .36, H * .62), fill=_hex("#F2E2C0"))       # la basilica
+    d.ellipse((x0 + W * .08, H * .08, x0 + W * .28, H * .42), fill=_hex("#E9D3A6"))
+    d.rectangle((x0 + W * .08, H * .25, x0 + W * .28, H * .32), fill=_hex("#F2E2C0"))
+    for k in range(4): d.rectangle((x0 + W * (.04 + k * .085), H * .4, x0 + W * (.06 + k * .085), H * .62), fill=_hex("#D6C399"))
+    for k in range(7):                                                                    # il ponte di barche
+        bx = W * (.02 + k * .08); d.ellipse((bx, H * .6, bx + W * .075, H * .68), fill=_hex("#8C6A4F"))
+    d.rectangle((0, H * .57, W * .58, H * .61), fill=_hex("#C9A46A"))
+    for k in range(8):
+        px = W * (.04 + k * .07); d.ellipse((px, H * .47, px + 16 * S, H * .47 + 16 * S), fill=_hex(VIVID[k % 5])); d.rectangle((px, H * .47 + 16 * S, px + 16 * S, H * .57), fill=_hex(VIVID[k % 5]))
+    return _fine(im, w, h)
+
+def casa_volante(T, w, h, r):
+    im, d = _tela(w, h); W, H = w * S, h * S; rr = random.Random(r)
+    for _ in range(9):                                                                    # fuochi della Venuta
+        cx, cy, R = rr.uniform(W * .05, W * .95), rr.uniform(H * .08, H * .35), rr.uniform(30, 55) * S
+        if W * .3 < cx < W * .7 and cy > H * .2: continue
+        col = rr.choice(VIVID)
+        for k in range(12):
+            a = k * math.pi / 6; d.line((cx + math.cos(a) * R * .3, cy + math.sin(a) * R * .3, cx + math.cos(a) * R, cy + math.sin(a) * R), fill=_hex(col), width=3 * S)
+    x0, x1 = W * .36, W * .64
+    d.rectangle((x0, H * .45, x1, H * .72), fill=_hex("#E9D3A6")); d.polygon([(x0 - 10 * S, H * .45), (W * .5, H * .3), (x1 + 10 * S, H * .45)], fill=_hex("#C8553D"))
+    d.rectangle((W * .47, H * .58, W * .53, H * .72), fill=_hex("#7A5C46"))
+    for k, sx in enumerate((x0 - W * .12, x1 + W * .02)):                                 # le ali
+        d.polygon([(sx, H * .5), (sx + W * .1, H * .46), (sx + W * .1, H * .56)] if k else [(sx + W * .1, H * .5), (sx, H * .46), (sx, H * .56)], fill=_hex("#FFFFFF"))
+    for k in range(3):
+        fx = W * (.25 + k * .25); d.polygon([(fx, H), (fx + W * .04, H * .8), (fx + W * .08, H)], fill=_hex("#FF8C42")); d.polygon([(fx + W * .02, H), (fx + W * .04, H * .87), (fx + W * .06, H)], fill=_hex("#FFD23F"))
+    return _fine(im, w, h)
+
+def candele(T, w, h, r):
+    im, d = _tela(w, h); W, H = w * S, h * S
+    for k in range(7):
+        x = W * (.08 + k * .125); top = H * (.35 + (k % 3) * .08)
+        d.rectangle((x, top, x + W * .06, H * .9), fill=_hex("#FFFFFF"))
+        d.ellipse((x + W * .012, top - H * .12, x + W * .048, top - H * .01), fill=_hex("#FFD23F"))
+        d.ellipse((x + W * .022, top - H * .07, x + W * .038, top - H * .02), fill=_hex("#FF8C42"))
+    d.rectangle((0, H * .9, W, H), fill=_hex(T["land"]))
+    return _fine(im, w, h)
+
+def stretto(T, w, h, r):
+    im, d = _tela(w, h); W, H = w * S, h * S
+    d.polygon([(0, H * .35), (W * .32, H * .45), (W * .3, H), (0, H)], fill=_hex(T["land"]))
+    d.polygon([(W, H * .3), (W * .7, H * .42), (W * .72, H), (W, H)], fill=_hex(T["land"]))
+    d.rectangle((W * .3, H * .5, W * .72, H), fill=_hex("#2E86C1"))
+    for k in range(5):
+        y = H * (.55 + k * .09)
+        for x in range(int(W * .3), int(W * .7), 90 * S): d.arc((x, y - 14 * S, x + 90 * S, y + 14 * S), 0, 180, fill=_hex("#7FC8F8"), width=4 * S)
+    for k in range(5):
+        x = W * (.03 + k * .05); d.rectangle((x, H * .27 + k * H * .015, x + W * .035, H * .4 + k * H * .015), fill=_hex(VIVID[k]))
+        x2 = W * (.75 + k * .045); d.rectangle((x2, H * .2 + k * H * .015, x2 + W * .03, H * .33 + k * H * .015), fill=_hex(VIVID[(k + 2) % 7]))
+    d.line((W * .08, H * .55, W * .14, H * .66, W * .1, H * .78, W * .17, H * .92), fill=_hex(T["bg"]), width=5 * S)
+    return _fine(im, w, h)
+
+MOTIVI = dict(ponte_barche=ponte_barche, casa_volante=casa_volante, candele=candele, stretto=stretto, gnomo=gnomo, fortezza=fortezza, fabbrica=fabbrica, albero_luci=albero_luci, presepe=presepe, sassi=sassi, trulli=trulli,
               mare_bronzi=mare_bronzi, neve=neve, zipline=zipline, casa_euro=casa_euro, cioccolatini=cioccolatini,
               salsiccia=salsiccia, tartufo=tartufo, alici=alici, pomodori=pomodori, confetti=confetti, botti=botti, prosciutti=prosciutti)
 

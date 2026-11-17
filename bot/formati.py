@@ -37,6 +37,47 @@ def footer(img, T, n=None, tot=None, fonte="Fonte: ISTAT, openpolis"):
     if n: txt(img, (img.width - 60, 60), f"{n}/{tot}", font("b", 28), T["muted"], "ra", "pagina")
 def save(img, out, name):
     verifica(name); os.makedirs(out, exist_ok=True); p = os.path.join(out, name + ".png"); img.convert("RGB").save(p); return p
+# ---------------------------------------------------------------- mosaico geometrico animato
+# Nella fascia bassa dei Reel, quando è libera, compare un mosaico di tessere (cerchi, quarti di cerchio,
+# triangoli, mezzelune) che si compongono una dopo l'altra e poi ogni tanto ruotano. Mai sopra altri elementi.
+MOS_Y0, MOS_Y1 = VH - 250, VH - 50
+def _tema_da_sfondo(img):
+    px = img.getpixel((4, VH // 2))[:3]
+    for T in THEMES.values():
+        if tuple(int(T["bg"][i:i + 2], 16) for i in (1, 3, 5)) == px: return T
+    return THEMES["indaco"]
+def _tessera(d, x, y, s, forma, rot, c1, c2):
+    d.rounded_rectangle((x, y, x + s, y + s), 14, fill=c1)
+    if forma == 0: d.ellipse((x + s * .18, y + s * .18, x + s * .82, y + s * .82), fill=c2)
+    elif forma == 1: d.pieslice((x - s, y - s, x + s, y + s), 0, 90, fill=c2) if rot % 4 == 0 else d.pieslice((x, y - s, x + 2 * s, y + s), 90, 180, fill=c2) if rot % 4 == 1 else d.pieslice((x, y, x + 2 * s, y + 2 * s), 180, 270, fill=c2) if rot % 4 == 2 else d.pieslice((x - s, y, x + s, y + 2 * s), 270, 360, fill=c2)
+    elif forma == 2:
+        pts = [(x, y + s), (x + s, y + s), (x + s, y)], [(x, y), (x, y + s), (x + s, y + s)], [(x, y), (x + s, y), (x, y + s)], [(x, y), (x + s, y), (x + s, y + s)]
+        d.polygon(pts[rot % 4], fill=c2)
+    elif forma == 3:
+        b = [(x, y, x + s, y + s)]; a = [(0, 180), (90, 270), (180, 360), (270, 450)][rot % 4]
+        d.pieslice((x + s * .1, y + s * .1, x + s * .9, y + s * .9), a[0], a[1], fill=c2)
+    else:
+        d.rounded_rectangle((x + s * .3, y + s * .1, x + s * .7, y + s * .9) if rot % 2 else (x + s * .1, y + s * .3, x + s * .9, y + s * .7), 8, fill=c2)
+class Mosaico:
+    def __init__(self, seme):
+        self.r = random.Random(str(seme)); self.vis = 0; self.tess = None
+    def disegna(self, img):
+        libero = all(b[3] + 6 <= MOS_Y0 or b[1] >= MOS_Y1 + 6 for b, _ in BOXES)
+        if not libero: self.vis = 0; return
+        T = _tema_da_sfondo(img); pal = [c for c in ["#FF3E7F", "#FFD23F", "#2EC4F1", "#7B61FF", "#FF8C42", "#FFFFFF", "#3DDC97", "#1A1446"] if c.lower() != T["bg"].lower()]
+        s = (MOS_Y1 - MOS_Y0 - 14) // 2; n = (VW - 120 + 14) // (s + 14); x0 = (VW - (n * (s + 14) - 14)) // 2
+        if self.tess is None:
+            self.tess = [dict(f=self.r.randrange(5), rot=self.r.randrange(4), c1=self.r.choice(pal), c2=None, ritardo=self.r.uniform(0, .5)) for _ in range(2 * n)]
+            for t in self.tess: t["c2"] = self.r.choice([c for c in pal if c != t["c1"]])
+        d = ImageDraw.Draw(img); tempo = self.vis / FPS
+        for k, t in enumerate(self.tess):
+            if self.vis % int(FPS * 1.2) == 0 and self.r.random() < .12: t["rot"] += 1
+            e = max(0.0, min(1.0, (tempo - t["ritardo"]) / .35))
+            if e <= 0: continue
+            cx, cy = x0 + (k % n) * (s + 14), MOS_Y0 + (k // n) * (s + 14); ss = max(4, int(s * (.4 + .6 * e)))
+            off = (s - ss) // 2; _tessera(d, cx + off, cy + off, ss, t["f"], t["rot"], t["c1"], t["c2"])
+        reg((x0, MOS_Y0, x0 + n * (s + 14) - 14, MOS_Y1), "mosaico"); self.vis += 1
+
 def encode(path, frames, umore="pop"):
     """Codifica i fotogrammi (controllando le sovrapposizioni di ognuno) e aggiunge una musica originale."""
     os.makedirs(os.path.dirname(path) or ".", exist_ok=True); muto, wav = path + ".muto.mp4", path + ".wav"
@@ -44,7 +85,9 @@ def encode(path, frames, umore="pop"):
                           "-c:v", "libx264", "-preset", "veryfast", "-crf", "20", "-pix_fmt", "yuv420p", "-movflags", "+faststart", muto], stdin=subprocess.PIPE)
     n = 0
     try:
+        mos = Mosaico(path)
         for i, f in enumerate(frames):
+            mos.disegna(f)
             verifica(f"{os.path.basename(os.path.dirname(path))} fotogramma {i}"); p.stdin.write(f.convert("RGB").tobytes()); n += 1
     finally:
         p.stdin.close(); p.wait()
@@ -516,9 +559,16 @@ def reel_racconto(item, out, etichetta, cta, extra_tag=""):
                 img = canvas(T, VW, VH); vhandle(img, T)
                 txt(img, (70, 250), nome(c).upper(), fit_font(img, nome(c).upper(), "b", VW - 300, 1, 34), T["muted"])
                 pill(img, f"{i + 1}/{len(slides)}", (VW - 190, 236), font("k", 30), T["ink"], T["bg"], tag="passo")
-                y = 330
-                if sl.get("numero"): y = text_block(img, sl["numero"], (70, 320), fit_font(img, sl["numero"], "k", VW - 140, 1, 170), T["acc"], VW - 140) + 30
-                text_block(img, sl["testo"], (70, y), fit_font(img, sl["testo"], "x", VW - 140, 6 if not sl.get("numero") else 4, 58), T["ink"], VW - 140, 1.22)
+                # il testo sta in una carta bianca che entra da destra
+                dx = int(VW * (1 - ease(min(1, u / .22)))); cx0, cw = 50 + dx, VW - 100; carta = Image.new("RGBA", (cw, 560), (0, 0, 0, 0))
+                cd = ImageDraw.Draw(carta); inner = cw - 80; yy = 40
+                if sl.get("numero"):
+                    fn_ = fit_font(img, sl["numero"], "k", inner, 1, 150); cd.text((40, yy - fn_.size * .1), sl["numero"], font=fn_, fill="#FF3E7F"); yy += fn_.size + 24
+                ft = fit_font(img, sl["testo"], "x", inner, 6 if not sl.get("numero") else 4, 52)
+                for riga in wrap(cd, sl["testo"], ft, inner): cd.text((40, yy), riga, font=ft, fill="#1A1446"); yy += int(ft.size * 1.24)
+                hc = min(560, yy + 30); bgc = Image.new("RGBA", (cw, hc), (0, 0, 0, 0)); ImageDraw.Draw(bgc).rounded_rectangle((0, 0, cw - 1, hc - 1), 36, fill="#FFFFFF")
+                bgc.alpha_composite(carta.crop((0, 0, cw, hc))); img.paste(bgc, (cx0, 320), bgc)
+                if dx < VW: reg((max(0, cx0), 320, min(VW, cx0 + cw), 320 + hc), "carta")
                 kind, im = visuali[i]
                 if kind == "foto": paste(img, zoom(im, u), (0, VIS_Y), "immagine")
                 else:

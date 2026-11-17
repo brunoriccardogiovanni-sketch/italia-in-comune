@@ -274,5 +274,149 @@
    "#statistiche",
    "#province"
   ]
+ },
+ {
+  "data": "2026-11-21",
+  "slot": "sera",
+  "tipo": "reel_storia",
+  "comune": "Venezia",
+  "prov": "VE",
+  "motivo": "ponte_barche",
+  "soggetti": [
+   "Basilica di Santa Maria della Salute"
+  ],
+  "titolo": "Il ponte che compare una volta l'anno",
+  "fonti": [
+   "Patriarcato di Venezia",
+   "Comune di Venezia"
+  ],
+  "slide": [
+   {
+    "testo": "Ogni 21 novembre a Venezia si costruisce un ponte di barche sul Canal Grande, dal campo di Santa Maria del Giglio alla Basilica della Salute."
+   },
+   {
+    "numero": "1630",
+    "testo": "La peste uccide migliaia di veneziani. La Repubblica fa voto alla Madonna: se l'epidemia finisce, le costruirà una chiesa."
+   },
+   {
+    "testo": "La peste finisce e nasce la Basilica della Salute, con la sua cupola che oggi è uno dei simboli della città."
+   },
+   {
+    "testo": "Da quasi quattro secoli i veneziani ci arrivano a piedi sul ponte votivo. E a pranzo si mangia la castradina, zuppa di montone affumicato."
+   }
+  ],
+  "didascalia": "Oggi, 21 novembre, a Venezia compare un ponte che non c'è mai: un ponte di barche sul Canal Grande per la Festa della Madonna della Salute, nata dopo la peste del 1630."
+ },
+ {
+  "data": "2026-12-07",
+  "slot": "sera",
+  "tipo": "reel_storia",
+  "comune": "Gubbio",
+  "titolo": "Stasera si accende l'albero più grande del mondo",
+  "didascalia": "Stasera, 7 dicembre, a Gubbio si accende l'albero di Natale più grande del mondo: 750 metri di luci sul Monte Ingino, nel Guinness dal 1991."
+ },
+ {
+  "data": "2026-12-10",
+  "slot": "sera",
+  "tipo": "reel_storia",
+  "comune": "Loreto",
+  "prov": "AN",
+  "motivo": "casa_volante",
+  "soggetti": [
+   "Basilica della Santa Casa"
+  ],
+  "titolo": "La casa arrivata in volo",
+  "fonti": [
+   "Santuario della Santa Casa di Loreto",
+   "Aeronautica Militare"
+  ],
+  "slide": [
+   {
+    "testo": "Secondo la tradizione, nella notte tra il 9 e il 10 dicembre 1294 gli angeli portarono a Loreto la casa di Maria da Nazareth."
+   },
+   {
+    "testo": "Per questo nella notte della Venuta, nelle Marche, si accendono i fuochi: falò nelle campagne per «illuminare la strada» alla Santa Casa."
+   },
+   {
+    "numero": "1920",
+    "testo": "Papa Benedetto XV proclama la Madonna di Loreto patrona di chi vola. Ancora oggi è la protettrice dell'Aeronautica."
+   },
+   {
+    "testo": "La Santa Casa è custodita dentro la basilica di Loreto, uno dei santuari mariani più visitati al mondo."
+   }
+  ],
+  "didascalia": "Oggi, 10 dicembre, a Loreto si festeggia la Venuta: secondo la tradizione nel 1294 la casa di Maria arrivò qui in volo. Per questo la Madonna di Loreto è la patrona dei piloti."
+ },
+ {
+  "data": "2026-12-12",
+  "slot": "sera",
+  "tipo": "reel_storia",
+  "comune": "Siracusa",
+  "prov": "SR",
+  "motivo": "candele",
+  "soggetti": [
+   "Santa Lucia al Sepolcro"
+  ],
+  "titolo": "La santa che porta i regali",
+  "fonti": [
+   "Arcidiocesi di Siracusa",
+   "Deputazione della Cappella di Santa Lucia"
+  ],
+  "slide": [
+   {
+    "testo": "Lucia era una giovane di Siracusa, morta martire nel 304 durante le persecuzioni dell'imperatore Diocleziano."
+   },
+   {
+    "testo": "Ogni 13 dicembre la sua città la porta in processione con un grande simulacro d'argento, tra la folla e le candele."
+   },
+   {
+    "testo": "In Sicilia oggi niente pane né pasta: si mangia la cuccìa, grano bollito, per ricordare una nave carica di grano arrivata durante una carestia."
+   },
+   {
+    "testo": "E a Bergamo, Brescia, Verona e in altre città del Nord stanotte i regali ai bambini non li porta Babbo Natale: li porta Santa Lucia."
+   }
+  ],
+  "didascalia": "Stanotte arriva Santa Lucia: a Bergamo, Brescia, Verona e in tante città del Nord porta i regali ai bambini. Domani a Siracusa, la sua città, c'è la processione e in Sicilia si mangia la cuccìa.",
+  "etichetta": "STANOTTE È SANTA LUCIA"
+ },
+ {
+  "data": "2026-12-24",
+  "slot": "sera",
+  "tipo": "reel_storia",
+  "comune": "Greccio",
+  "titolo": "Stanotte, 803 anni fa, il primo presepe",
+  "didascalia": "Nella notte di Natale del 1223, a Greccio (RI), san Francesco d'Assisi fece allestire il primo presepe della storia. Buon Natale da @italia_incomune."
+ },
+ {
+  "data": "2026-12-28",
+  "slot": "sera",
+  "tipo": "reel_storia",
+  "comune": "Messina",
+  "prov": "ME",
+  "motivo": "stretto",
+  "soggetti": [
+   "Terremoto di Messina del 1908"
+  ],
+  "titolo": "I 37 secondi che cambiarono lo Stretto",
+  "fonti": [
+   "INGV – Istituto Nazionale di Geofisica e Vulcanologia",
+   "Comune di Messina"
+  ],
+  "slide": [
+   {
+    "numero": "5:20",
+    "testo": "del 28 dicembre 1908. Un terremoto fortissimo colpisce Messina e Reggio Calabria mentre la gente dorme."
+   },
+   {
+    "testo": "Pochi minuti dopo arriva uno tsunami, con onde alte diversi metri sulle coste dello Stretto."
+   },
+   {
+    "testo": "Le vittime sono decine di migliaia: è uno dei disastri naturali più gravi della storia d'Europa. Messina è quasi rasa al suolo."
+   },
+   {
+    "testo": "La città viene ricostruita con regole antisismiche nuove per l'epoca: strade larghe e palazzi bassi, che ancora oggi si vedono."
+   }
+  ],
+  "didascalia": "28 dicembre 1908, ore 5:20: il terremoto e lo tsunami di Messina e Reggio Calabria, uno dei disastri più gravi della storia d'Europa. Messina rinacque con regole nuove."
  }
 ]

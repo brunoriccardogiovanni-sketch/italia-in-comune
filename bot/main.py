@@ -10,7 +10,7 @@ python -m bot.main commenti            -> schede in DM a chi scrive un comune, c
 """
 import os, sys, json, datetime, subprocess, shutil, time, difflib, re, random
 import requests
-from . import formati as F
+from . import formati as F, giochi as G
 from .base import load, norm, ROOT
 from .instagram import IG, rileva, APIError
 
@@ -72,11 +72,19 @@ ORD_CLASSIFICA = ["dens_max", "nome_lungo", "pezzi", "area_max", "nome_corto", "
 def piano(giorno):
     """Restituisce {"carosello": (formato, parametro), "reel": (formato, parametro)} per il giorno n (da 1)."""
     storie, cibo, derby, mappe = J("storie.json"), J("cibo.json"), J("derby.json"), list(F.MAPPE)
+    datate = {x.get("comune") for x in tutti_speciali() if x.get("tipo") == "reel_storia"}
+    storie = [x for x in storie if x["comune"] not in datate]          # Gubbio, Greccio...: escono solo nel loro giorno
     prov = F.province(); random.Random(7).shuffle(prov)
     if "TO" in prov: prov.remove("TO"); prov.insert(0, "TO")        # la Città metropolitana di Torino apre la serie
     n = dict(storia=0, cibo=0, provincia=0, classifica=0, countdown=0, mappa=0, derby=0, rstoria=0, rcibo=0)
     storie_r, cibo_r = storie[::-1], cibo[::-1]             # nei Reel le storie partono dal fondo: mai la stessa del carosello
-    out = None
+    out = None; usati = {}                                   # comune -> ultimo giorno in cui è uscito
+    def pesca(lista, chiave, g):
+        """Il prossimo elemento della lista non uscito negli ultimi 10 giorni (in nessun formato)."""
+        for _ in range(len(lista)):
+            x = lista[n[chiave] % len(lista)]; n[chiave] += 1
+            if g - usati.get(x["comune"], -99) > 10: break
+        usati[x["comune"]] = g; return x["comune"]
     for g in range(1, giorno + 1):
         k = (g - 1) % 7; sett = (g - 1) // 7
         # reel
@@ -89,16 +97,16 @@ def piano(giorno):
         # carosello
         tipo = CAR_SETT[k]
         if tipo == "alterna": tipo = "storia" if sett % 2 == 0 else "cibo"
-        if tipo == "storia" and n["storia"] < len(storie): c = ("carosello_storia", storie[n["storia"]]["comune"]); n["storia"] += 1
-        elif tipo == "cibo" and n["cibo"] < len(cibo): c = ("carosello_cibo", cibo[n["cibo"]]["comune"]); n["cibo"] += 1
+        if tipo == "storia": c = ("carosello_storia", pesca(storie, "storia", g))
+        elif tipo == "cibo": c = ("carosello_cibo", pesca(cibo, "cibo", g))
         elif tipo == "classifica" and n["classifica"] < len(ORD_CLASSIFICA): c = ("carosello_classifica", ORD_CLASSIFICA[n["classifica"]]); n["classifica"] += 1
         elif tipo == "risultati" and sett < len(derby): c = ("carosello_risultati", derby[sett]["id"])
         else: c = ("carosello_provincia", prov[n["provincia"] % len(prov)]); n["provincia"] += 1
         # Reel del mattino e della sera
         tipo = REEL_MATTINA[k]; mt = (f"reel_{tipo}", f"m{g}")
         tipo = REEL_SERA[k]
-        if tipo == "storia": se = ("reel_storia", storie_r[n["rstoria"] % len(storie_r)]["comune"]); n["rstoria"] += 1
-        elif tipo == "cibo": se = ("reel_cibo", cibo_r[n["rcibo"] % len(cibo_r)]["comune"]); n["rcibo"] += 1
+        if tipo == "storia": se = ("reel_storia", pesca(storie_r, "rstoria", g))
+        elif tipo == "cibo": se = ("reel_cibo", pesca(cibo_r, "rcibo", g))
         else: se = (f"reel_{tipo}", f"s{g}")
         out = {"carosello": c, "reel": r, "mattina": mt, "sera": se}
     return out
@@ -143,6 +151,11 @@ def genera_speciale(sp, out):
     elif tipo in ("storia", "cibo"): res = getattr(F, f"carosello_{tipo}")(sp, out)
     elif tipo == "sfida": a, b = F.find(sp["a"]), F.find(sp["b"]); res = F.reel_sfida(a, b, out, sp.get("domanda", "area"))
     elif tipo == "mappa": res = F.reel_mappa(sp["mappa"], out)
+    elif tipo == "reel_storia":           # «Accadde oggi»: una storia legata alla data esatta
+        item = sp if sp.get("slide") else next(x for x in J("storie.json") if x["comune"] == sp["comune"])
+        item = dict(item, **{k: v for k, v in sp.items() if k in ("didascalia", "titolo")})
+        d = datetime.date.fromisoformat(sp["data"]); mesi = "gennaio febbraio marzo aprile maggio giugno luglio agosto settembre ottobre novembre dicembre".split()
+        res = F.reel_racconto(item, out, sp.get("etichetta") or f"ACCADDE OGGI · {d.day} {mesi[d.month - 1].upper()}", "Lo sapevate?", "#accaddeoggi")
     else: raise ValueError(f"Tipo di speciale sconosciuto: {tipo}")
     res["formato"], res["param"] = f"speciale_{tipo}", sp["data"]
     return res
@@ -151,6 +164,10 @@ def _genera(giorno, slot, s, out):
     os.makedirs(out, exist_ok=True); comuni, _ = load()
     sp = speciale(s, giorno, slot)
     if sp: return genera_speciale(sp, out)
+    ov = G.override(data_di(s, giorno), slot)          # i giochi hanno la precedenza sul calendario normale
+    if ov:
+        formato, par = ov; res = G.genera(formato, par, out, s, stato_commenti())
+        res["formato"] = formato; res.setdefault("param", par); return res
     formato, par = piano(giorno_piano(s, giorno, slot))[slot]
     if formato == "reel_comune":
         fatti = {p.get("param") for p in s["pubblicati"]}
@@ -208,8 +225,8 @@ def cmd_calendario():
     for g in range(1, int(os.environ.get("GIORNI", "60")) + 1):
         riga = [f"giorno {g:2d} ({data_di(s, g):%d/%m})"]
         for slot in SLOT:
-            sp = speciale(s, g, slot)
-            f, p = (f"SPECIALE {sp.get('tipo', 'carosello')}", sp.get("titolo", "")[:30]) if sp else piano(giorno_piano(s, g, slot))[slot]
+            sp = speciale(s, g, slot); ov = G.override(data_di(s, g), slot)
+            f, p = (f"SPECIALE {sp.get('tipo', 'carosello')}", sp.get("titolo", "")[:30]) if sp else (ov or piano(giorno_piano(s, g, slot))[slot])
             riga.append(f"{slot}: {f} {p}")
         print("  ".join(riga))
 
@@ -287,7 +304,33 @@ def cmd_pubblica(slot):
     s = stato()
     if not s.get("inizio"): s["inizio"] = OGGI.isoformat(); salva(s)
     da_fare = [x for x in SLOT if x in scaduti() or x == slot]
-    recupera(s, client(s), da_fare)
+    ig = client(s); recupera(s, ig, da_fare)
+    if slot == "sera" and OGGI.weekday() == 6:
+        try: report(s, ig)
+        except Exception as e: print("Resoconto non riuscito:", e)
+
+def report(s, ig):
+    """Resoconto settimanale in stato/report.md: per ogni post, copertura, visualizzazioni, interazioni e (se disponibili) follower portati."""
+    righe = ["| data | formato | copertura | visualizz. | like | commenti | condivisioni | salvataggi | follower | visite profilo |", "|" + "---|" * 10]
+    limite = (OGGI - datetime.timedelta(days=14)).isoformat()
+    for p in sorted(s["pubblicati"], key=lambda p: p.get("data", "")):
+        if p.get("data", "") < limite or not p.get("media_id"): continue
+        val = {}
+        for metriche in ("reach,views,likes,comments,shares,saved,follows,profile_visits", "reach,views,likes,comments,shares,saved", "reach,likes,comments,saved"):
+            try:
+                for x in ig.get(f"{p['media_id']}/insights", metric=metriche).get("data", []):
+                    val[x["name"]] = x.get("values", [{}])[0].get("value", x.get("total_value", {}).get("value"))
+                break
+            except Exception: continue
+        righe.append("| " + " | ".join(str(v) for v in [p.get("data"), p.get("formato"), *(val.get(k, "–") for k in
+                     ("reach", "views", "likes", "comments", "shares", "saved", "follows", "profile_visits"))]) + " |")
+    (ROOT / "stato" / "report.md").write_text(f"# Resoconto al {OGGI:%d/%m/%Y}\n\nUltime due settimane. «–» = dato non disponibile "
+                                              f"(serve il permesso instagram_manage_insights).\n\n" + "\n".join(righe) + "\n")
+    git_push("resoconto settimanale")
+
+def cmd_report():
+    if senza_token(): return
+    s = stato(); report(s, client(s))
 
 def cmd_recupero():
     """A mano: fa uscire subito tutto quello che oggi doveva già essere uscito, più gli extra in sospeso."""
@@ -355,41 +398,44 @@ def cmd_commenti():
     derby_di = {p["media_id"]: p["param"] for p in s["pubblicati"] if p.get("formato") == "reel_derby" and p.get("media_id")}
     derby = {d["id"]: d for d in J("derby.json")}
     limite = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(days=6)
-    try: recenti = ig.media_recenti(15)
+    try: recenti = ig.media_recenti(30)
     except Exception as e: return print("Non riesco a leggere i post recenti:", e)
+    post_di = {p["media_id"]: p for p in s["pubblicati"] if p.get("media_id")}
     for m in recenti:
-        dz = derby.get(derby_di.get(m["id"]))
+        dz = derby.get(derby_di.get(m["id"])); post = post_di.get(m["id"])
         try: commenti = ig.commenti(m["id"])
         except Exception as e:
             print(f"Commenti del post {m['id']} non leggibili:", e); continue
         for cm in commenti:
-            if cm["id"] in gestiti or fatti >= 25: continue
+            if cm["id"] in gestiti: continue
             gestiti.add(cm["id"]); user = (cm.get("username") or (cm.get("from") or {}).get("username") or cm["id"])
             if user.lower() == (s.get("username") or "").lower(): continue
             try:
-                if datetime.datetime.fromisoformat(cm["timestamp"].replace("+0000", "+00:00")) < limite: continue
-            except Exception: pass
+                quando_utc = datetime.datetime.fromisoformat(cm["timestamp"].replace("+0000", "+00:00"))
+                if quando_utc < limite: continue
+                quando = quando_utc.astimezone().replace(tzinfo=None)          # ora italiana (TZ del workflow)
+            except Exception: quando = datetime.datetime.now()
             testo = cm.get("text", ""); c = trova_comune(testo); msg = None
+            try: gioco = G.registra(cs, post, user, testo, c, quando, G.voto_sfida)
+            except Exception as e: print("Gioco non registrato:", e); gioco = False
             if dz:
                 v = voto(testo, dz)
                 if v:
                     cs["voti"].setdefault(dz["id"], {})[user] = dict(v=v, reg=c["reg"] if c else None)
                     continue                     # il voto si conta in silenzio, senza rispondere
-            if not c: continue
+            if not c or gioco or fatti >= 10: continue          # niente messaggi privati per le risposte ai giochi
             try:
                 path = ROOT / "media" / "schede" / f"{c['istat']}.png"
                 if not path.exists():
                     path.parent.mkdir(parents=True, exist_ok=True); F.scheda(c, str(path)); git_push(f"scheda {c['nome']}")
                 url = url_pubblico(str(path)); attendi_url(url)
                 righe = "\n".join(f"• {v} {k}" for v, k in F.stats(c))
-                msg = f"Ciao! Ecco la scheda di {F.nome(c)} ({c['prov']}) 📍\n{righe}\n\nLa scheda illustrata: {url}\n\nGrazie per aver commentato 🇮🇹"
+                msg = f"Ciao! Ecco la scheda di {F.nome(c)} ({c['prov']}) 📍\n{righe}\n\nLa scheda illustrata: {url}\n\nIl tuo comune ora è acceso sulla nostra mappa d'Italia 🇮🇹"
             except Exception as e:
                 print(f"Scheda di {c['nome']} non pronta:", e); continue
             try: ig.risposta_privata(cm["id"], msg)
             except Exception as e:
-                print("DM non riuscito, rispondo nel post:", e)
-                try: ig.risposta_pubblica(cm["id"], msg.split("\n")[0])
-                except Exception as e2: print("Anche la risposta pubblica non è riuscita:", e2)
+                print("DM non riuscito:", e)
             fatti += 1
     cs["commenti_gestiti"] = list(gestiti)[-5000:]; salva_commenti(cs); git_push("commenti e voti"); print("risposte inviate:", fatti)
 
@@ -406,6 +452,6 @@ if __name__ == "__main__":
     a = sys.argv[1]
     try:
         if a == "pubblica": cmd_pubblica(sys.argv[2] if len(sys.argv) > 2 else os.environ.get("SLOT", "reel"))
-        else: {"lancio": cmd_lancio, "verifica": cmd_verifica, "anteprima": cmd_anteprima, "calendario": cmd_calendario, "commenti": cmd_commenti, "intro": cmd_intro, "extra": cmd_extra, "recupero": cmd_recupero}[a]()
+        else: {"lancio": cmd_lancio, "verifica": cmd_verifica, "anteprima": cmd_anteprima, "calendario": cmd_calendario, "commenti": cmd_commenti, "intro": cmd_intro, "extra": cmd_extra, "recupero": cmd_recupero, "report": cmd_report}[a]()
     except Exception:
         registra_errore(" ".join(sys.argv[1:])); raise
