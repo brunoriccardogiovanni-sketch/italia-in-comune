@@ -131,6 +131,14 @@
    "formato": "reel_misterioso",
    "param": "022123",
    "media_id": "17890758045689850"
+  },
+  {
+   "giorno": 6,
+   "slot": "carosello",
+   "data": "2026-11-18",
+   "formato": "carosello_gnomo",
+   "param": "0",
+   "media_id": "18117225800608970"
   }
  ],
  "commenti_gestiti": [],
