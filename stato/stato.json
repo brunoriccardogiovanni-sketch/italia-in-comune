@@ -123,6 +123,14 @@
    "formato": "reel_cibo",
    "param": "Modena",
    "media_id": "18109466821982015"
+  },
+  {
+   "giorno": 6,
+   "slot": "mattina",
+   "data": "2026-11-18",
+   "formato": "reel_misterioso",
+   "param": "022123",
+   "media_id": "17890758045689850"
   }
  ],
  "commenti_gestiti": [],
