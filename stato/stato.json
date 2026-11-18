@@ -147,6 +147,14 @@
    "formato": "reel_torneo_candidature",
    "param": "1",
    "media_id": "18135718249669169"
+  },
+  {
+   "giorno": 6,
+   "slot": "sera",
+   "data": "2026-11-18",
+   "formato": "reel_dove",
+   "param": "069046",
+   "media_id": "18100783754402569"
   }
  ],
  "commenti_gestiti": [],
