@@ -139,6 +139,14 @@
    "formato": "carosello_gnomo",
    "param": "0",
    "media_id": "18117225800608970"
+  },
+  {
+   "giorno": 6,
+   "slot": "reel",
+   "data": "2026-11-18",
+   "formato": "reel_torneo_candidature",
+   "param": "1",
+   "media_id": "18135718249669169"
   }
  ],
  "commenti_gestiti": [],
