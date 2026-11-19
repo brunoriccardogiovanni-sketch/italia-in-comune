@@ -163,6 +163,14 @@
    "formato": "reel_misterioso",
    "param": "062070",
    "media_id": "18120566233807910"
+  },
+  {
+   "giorno": 7,
+   "slot": "carosello",
+   "data": "2026-11-19",
+   "formato": "speciale_carosello",
+   "param": "2026-11-19",
+   "media_id": "18222716104346605"
   }
  ],
  "commenti_gestiti": [],
