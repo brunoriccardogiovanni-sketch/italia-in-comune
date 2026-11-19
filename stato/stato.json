@@ -179,6 +179,14 @@
    "formato": "reel_torneo_candidature",
    "param": "2",
    "media_id": "18133060462842521"
+  },
+  {
+   "giorno": 7,
+   "slot": "sera",
+   "data": "2026-11-19",
+   "formato": "reel_storia",
+   "param": "Livigno",
+   "media_id": "17948868834371891"
   }
  ],
  "commenti_gestiti": [],
