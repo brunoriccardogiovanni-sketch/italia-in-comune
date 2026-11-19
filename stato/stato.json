@@ -171,6 +171,14 @@
    "formato": "speciale_carosello",
    "param": "2026-11-19",
    "media_id": "18222716104346605"
+  },
+  {
+   "giorno": 7,
+   "slot": "reel",
+   "data": "2026-11-19",
+   "formato": "reel_torneo_candidature",
+   "param": "2",
+   "media_id": "18133060462842521"
   }
  ],
  "commenti_gestiti": [],
