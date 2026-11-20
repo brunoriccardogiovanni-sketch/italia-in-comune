@@ -203,6 +203,14 @@
    "formato": "carosello_storia",
    "param": "Campione d'Italia",
    "media_id": "18057136682590931"
+  },
+  {
+   "giorno": 8,
+   "slot": "reel",
+   "data": "2026-11-20",
+   "formato": "reel_torneo_candidature",
+   "param": "3",
+   "media_id": "18131263975886277"
   }
  ],
  "commenti_gestiti": [],
