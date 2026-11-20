@@ -211,6 +211,14 @@
    "formato": "reel_torneo_candidature",
    "param": "3",
    "media_id": "18131263975886277"
+  },
+  {
+   "giorno": 8,
+   "slot": "sera",
+   "data": "2026-11-20",
+   "formato": "reel_storia",
+   "param": "Riace",
+   "media_id": "17899721874418210"
   }
  ],
  "commenti_gestiti": [],
