@@ -195,6 +195,14 @@
    "formato": "reel_misterioso",
    "param": "050022",
    "media_id": "18104158226644132"
+  },
+  {
+   "giorno": 8,
+   "slot": "carosello",
+   "data": "2026-11-20",
+   "formato": "carosello_storia",
+   "param": "Campione d'Italia",
+   "media_id": "18057136682590931"
   }
  ],
  "commenti_gestiti": [],
