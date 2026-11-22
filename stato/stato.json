@@ -243,6 +243,14 @@
    "formato": "speciale_reel_storia",
    "param": "2026-11-21",
    "media_id": "18000981330045777"
+  },
+  {
+   "giorno": 10,
+   "slot": "mattina",
+   "data": "2026-11-22",
+   "formato": "reel_misterioso",
+   "param": "075048",
+   "media_id": "17918818995542729"
   }
  ],
  "commenti_gestiti": [],
