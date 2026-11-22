@@ -259,6 +259,14 @@
    "formato": "reel_torneo_sfida",
    "param": "1:073027-017029",
    "media_id": "18134935630767803"
+  },
+  {
+   "giorno": 10,
+   "slot": "sera",
+   "data": "2026-11-22",
+   "formato": "reel_accendiamo",
+   "param": "2026-11-22",
+   "media_id": "17878851579585036"
   }
  ],
  "commenti_gestiti": [],
