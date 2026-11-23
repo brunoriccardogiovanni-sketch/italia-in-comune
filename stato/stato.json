@@ -275,6 +275,14 @@
    "formato": "reel_misterioso",
    "param": "058082",
    "media_id": "18101931824533839"
+  },
+  {
+   "giorno": 11,
+   "slot": "reel",
+   "data": "2026-11-23",
+   "formato": "reel_torneo_sfida",
+   "param": "2:048017-039014",
+   "media_id": "17912824671575475"
   }
  ],
  "commenti_gestiti": [],
@@ -365,7 +373,22 @@
     "va": 0,
     "vb": 0,
     "v": "059011"
+   },
+   "1": {
+    "a": "073027",
+    "b": "017029",
+    "va": 0,
+    "vb": 0,
+    "v": "017029"
    }
+  }
+ },
+ "gnomo_vincitori": {
+  "0": {
+   "istat": "058059",
+   "nome": "Mentana",
+   "prov": "RM",
+   "voti": 1
   }
  }
 }
