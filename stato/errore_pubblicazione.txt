@@ -1,13 +1,22 @@
-2026-11-23 22:09 · azione: pubblica sera
+2026-11-24 13:18 · azione: pubblica carosello
 
 Traceback (most recent call last):
-  File "/home/runner/work/italia-in-comune/italia-in-comune/bot/main.py", line 454, in <module>
-    if a == "pubblica": cmd_pubblica(sys.argv[2] if len(sys.argv) > 2 else os.environ.get("SLOT", "reel"))
-                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/runner/work/italia-in-comune/italia-in-comune/bot/main.py", line 307, in cmd_pubblica
-    ig = client(s); recupera(s, ig, da_fare)
-                    ^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/runner/work/italia-in-comune/italia-in-comune/bot/main.py", line 299, in recupera
-    if errori: raise RuntimeError("Alcuni contenuti non sono usciti: " + " | ".join(errori))
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-RuntimeError: Alcuni contenuti non sono usciti: carosello: POST 17841434997874637/media_publish: Application request limit reached (code 4)
+  File "/home/runner/work/italia-in-comune/italia-in-comune/bot/main.py", line 294, in recupera
+    try: pubblica(s, ig, g, slot)
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/italia-in-comune/italia-in-comune/bot/main.py", line 255, in pubblica
+    mid = ig.carosello(urls, res["didascalia"]) if len(urls) > 1 else ig.immagine(urls[0], res["didascalia"])
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/italia-in-comune/italia-in-comune/bot/instagram.py", line 44, in carosello
+    return self._publish(cid)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/italia-in-comune/italia-in-comune/bot/instagram.py", line 35, in _publish
+    self._wait(cid); return self.post(f"{self.id}/media_publish", creation_id=cid)["id"]
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/italia-in-comune/italia-in-comune/bot/instagram.py", line 24, in post
+    def post(self, path, **data): return self._r("POST", path, data=data)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/italia-in-comune/italia-in-comune/bot/instagram.py", line 21, in _r
+    err = j.get("error", j); raise APIError(f"{method} {path}: {err.get('message', err)} (code {err.get('code')})")
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+bot.instagram.APIError: POST 17841434997874637/media_publish: Application request limit reached (code 4)
