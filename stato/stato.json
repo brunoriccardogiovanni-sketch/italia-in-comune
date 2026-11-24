@@ -291,6 +291,14 @@
    "formato": "reel_forma",
    "param": "001265",
    "media_id": "18117948626036443"
+  },
+  {
+   "giorno": 12,
+   "slot": "mattina",
+   "data": "2026-11-24",
+   "formato": "reel_misterioso",
+   "param": "058013",
+   "media_id": "18121787032959432"
   }
  ],
  "commenti_gestiti": [],
