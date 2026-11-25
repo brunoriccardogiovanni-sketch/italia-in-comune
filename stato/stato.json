@@ -331,6 +331,14 @@
    "formato": "reel_torneo_sfida",
    "param": "4:001272-038008",
    "media_id": "17937793377147427"
+  },
+  {
+   "giorno": 13,
+   "slot": "sera",
+   "data": "2026-11-25",
+   "formato": "reel_cibo",
+   "param": "Pachino",
+   "media_id": "17976334143189909"
   }
  ],
  "commenti_gestiti": [],
