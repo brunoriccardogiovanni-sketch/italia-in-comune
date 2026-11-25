@@ -315,6 +315,14 @@
    "formato": "reel_storia",
    "param": "Alberobello",
    "media_id": "17917838439490740"
+  },
+  {
+   "giorno": 13,
+   "slot": "mattina",
+   "data": "2026-11-25",
+   "formato": "reel_misterioso",
+   "param": "048036",
+   "media_id": "18222282787352436"
   }
  ],
  "commenti_gestiti": [],
