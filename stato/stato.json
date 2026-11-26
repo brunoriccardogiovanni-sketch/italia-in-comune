@@ -339,6 +339,14 @@
    "formato": "reel_cibo",
    "param": "Pachino",
    "media_id": "17976334143189909"
+  },
+  {
+   "giorno": 14,
+   "slot": "mattina",
+   "data": "2026-11-26",
+   "formato": "reel_misterioso",
+   "param": "019025",
+   "media_id": "18124058647963579"
   }
  ],
  "commenti_gestiti": [],
