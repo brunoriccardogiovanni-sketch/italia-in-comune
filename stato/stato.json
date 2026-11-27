@@ -363,6 +363,14 @@
    "formato": "reel_dove",
    "param": "055023",
    "media_id": "18134488498763358"
+  },
+  {
+   "giorno": 15,
+   "slot": "mattina",
+   "data": "2026-11-27",
+   "formato": "reel_misterioso",
+   "param": "036019",
+   "media_id": "17948701206365441"
   }
  ],
  "commenti_gestiti": [],
