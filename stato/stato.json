@@ -379,6 +379,14 @@
    "formato": "reel_torneo_sfida",
    "param": "6:082053-065116",
    "media_id": "17961654597293659"
+  },
+  {
+   "giorno": 15,
+   "slot": "sera",
+   "data": "2026-11-27",
+   "formato": "reel_storia",
+   "param": "Matera",
+   "media_id": "17920431018262447"
   }
  ],
  "commenti_gestiti": [],
