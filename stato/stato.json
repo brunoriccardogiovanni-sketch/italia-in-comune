@@ -387,6 +387,14 @@
    "formato": "reel_storia",
    "param": "Matera",
    "media_id": "17920431018262447"
+  },
+  {
+   "giorno": 16,
+   "slot": "mattina",
+   "data": "2026-11-28",
+   "formato": "reel_misterioso",
+   "param": "005017",
+   "media_id": "18024772280940954"
   }
  ],
  "commenti_gestiti": [],
